@@ -3,9 +3,14 @@
 
 :root {
     --primary: #fd7c4b;
+    --header-height: 80px;
+    --width-content: 1150px;
+    --text-color: #333;
 }
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 html {
     font-size: 62.5%;
@@ -16,4 +21,13 @@ body {
     font-size: 1.6rem;
     line-height: 1.5;
     text-rendering: optimizespeed;
+}
+button,
+input {
+    outline: none;
+    border: none;
+}
+
+a[href] {
+    text-decoration: none;
 }

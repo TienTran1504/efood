@@ -11,19 +11,18 @@
 
 .inner {
     height: 100%;
-    width: var(--width-content);
-    // background-color: #ccc;
+    width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
 }
 
 .label {
-    /* position: absolute; */
     display: flex;
     color: #fff;
     font-weight: 600;
+    user-select: none;
 }
 
 .active {
@@ -36,7 +35,7 @@
     width: var(--search-width);
     align-items: center;
     height: var(--search-height);
-    background-color: gray;
+    background-color: #fff;
     border-radius: var(--search-border-radius);
     padding-left: 16px;
     border: 1.5px solid transparent;
@@ -77,6 +76,7 @@
     font-size: 1.4rem;
     font-weight: 600;
     padding: 5px 12px;
+    user-select: none;
 }
 .search-btn {
     width: 52px;
@@ -87,7 +87,7 @@
     border-bottom-right-radius: var(--search-border-radius);
     font-size: 1.8rem;
     color: rgba(22, 24, 35, 0.75);
-    background-color: gray;
+    background-color: #fff;
 
     &:hover {
         opacity: 0.6;
@@ -109,8 +109,13 @@
 }
 
 .actions {
+    display: flex;
 }
-
+.menu-list {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
 .menu-item {
     display: inline-block;
     padding: 0 12px;
@@ -126,5 +131,23 @@
 }
 .cart {
     color: #fff;
+    cursor: pointer;
+}
+
+// more-btn để sau này responsive sẽ đổi thành menu
+.more-btn {
+    font-size: 2rem;
+    margin-left: 24px;
+    color: #fff;
+    padding: 4px 8px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
     cursor: pointer;
 }

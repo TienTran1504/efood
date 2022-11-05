@@ -1,19 +1,18 @@
 import classes from './Header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faCartShopping, faCircleQuestion, faCircleXmark, faCloudArrowUp, faCoins, faEllipsisVertical, faMagnifyingGlass, faSignIn, faSignOut, faSpinner, faUser } from '@fortawesome/free-solid-svg-icons';
-import Tippy from '@tippyjs/react/headless';
-import { useEffect, useState } from 'react';
-import { Wrapper as PopperWrapper } from '~/components/Popper';
+import { faCartShopping, faCircleQuestion, faCloudArrowUp, faCoins, faSignIn, faSignOut, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom'
-import FoodItem from '~/components/FoodItem';
+import { useEffect, useState } from 'react';
 import Button from '~/components/Button';
 import Menu from '~/components/Popper/Menu';
 import Image from '~/components/Image';
+import Search from './Search';
 
 const USER_ITEMS = [
     {
         icon: <FontAwesomeIcon icon={faUser} />,
         title: 'View profile',
+        to: '/profile'
     },
     {
         icon: <FontAwesomeIcon icon={faCircleQuestion} />,
@@ -29,6 +28,7 @@ const USER_ITEMS = [
     {
         icon: <FontAwesomeIcon icon={faCartShopping} />,
         title: 'Shopping cart',
+        to: '/cart',
     },
     {
         icon: <FontAwesomeIcon icon={faSignOut} />,
@@ -44,14 +44,7 @@ const USER_ITEMS = [
 
 ]
 function Header() {
-    const [searchResult, setSearchResult] = useState([]);
-
-    useEffect(() => {
-        setTimeout(() => {
-            setSearchResult([]);
-        }, 0)
-    }, [])
-    const currentUser = true;
+    const [currentUser, setCurrentUser] = useState(false);
 
     return (
         <div className={classes.wrapper}>
@@ -62,35 +55,7 @@ function Header() {
                 </div>
 
                 <span>
-                    <Tippy
-                        interactive
-                        visible={searchResult.length > 0}
-                        render={attrs => (
-                            <div className={classes['search-result']} tabIndex="-1" {...attrs}>
-                                <PopperWrapper>
-                                    <h4 className={classes['search-title']}>FOOD</h4>
-                                    <FoodItem />
-                                    <FoodItem />
-                                    <FoodItem />
-                                    <FoodItem />
-                                </PopperWrapper>
-                            </div>
-                        )}
-                    >
-                        <div className={classes.search}>
-                            <input placeholder="Search dishes..." spellCheck={false} />
-                            <button className={classes.clear}>
-                                <FontAwesomeIcon icon={faCircleXmark} />
-
-                            </button>
-                            <FontAwesomeIcon className={classes.loading} icon={faSpinner} />
-
-
-                            <button className={classes['search-btn']}>
-                                <FontAwesomeIcon icon={faMagnifyingGlass} />
-                            </button>
-                        </div>
-                    </Tippy>
+                    <Search />
                 </span>
 
                 <div className={classes.actions}>
@@ -124,7 +89,7 @@ function Header() {
                             rightIcon={<FontAwesomeIcon icon={faSignIn} />}
                             medium
                             to='/login'
-                            onClick={() => alert('Hiện khung đăng nhập')}>
+                            onClick={() => setCurrentUser(true)}>
                             Sign in
                         </Button>
                     )}

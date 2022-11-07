@@ -11,8 +11,8 @@ import FoodProfile from '~/pages/FoodProfile';
 const publicRoutes = [
     { path: '/', component: Home },
     { path: '/menu', component: Menu },
-    { path: '/service', component: Service },
     { path: '/contact', component: Contact },
+    { path: '/service', component: Service },
     { path: '/login', component: Login },
     { path: '/upload', component: Upload },
     { path: '/profile', component: Profile },

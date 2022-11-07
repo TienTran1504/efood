@@ -48,6 +48,7 @@ const USER_ITEMS = [
 ]
 function Header() {
     const [currentUser, setCurrentUser] = useState(false);
+    JSON.stringify(localStorage.setItem('user-state', currentUser))
 
     const handleLogOut = () => {
         setCurrentUser(!currentUser);
@@ -56,9 +57,9 @@ function Header() {
         <div className={classes.wrapper}>
 
             <div className={classes.inner}>
-                <div className={classes.label}>
+                <Link to="/" className={classes.label}>
                     <div className={classes.active}>E</div>FOOD
-                </div>
+                </Link>
 
                 <span>
                     <Search />

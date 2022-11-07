@@ -6,7 +6,7 @@ import Upload from '~/pages/Upload';
 import Login from '~/pages/Login';
 import Profile from '~/pages/Profile';
 import Cart from '~/pages/Cart';
-import foodProfile from '~/pages/foodProfile';
+import FoodProfile from '~/pages/FoodProfile';
 
 const publicRoutes = [
     { path: '/', component: Home },
@@ -17,7 +17,7 @@ const publicRoutes = [
     { path: '/upload', component: Upload },
     { path: '/profile', component: Profile },
     { path: '/cart', component: Cart },
-    { path: '/@:nickname', component: foodProfile }, // sau này chỉnh sửa lại thông tin của food profile
+    { path: '/@:nickname', component: FoodProfile }, // sau này chỉnh sửa lại thông tin của food profile
 ]
 
 const privateRoutes = [

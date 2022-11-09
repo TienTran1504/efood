@@ -1,0 +1,77 @@
+.wrapper {
+    --search-border-radius: 96px;
+    --search-height: 48px;
+    --search-top-spacer: 6px;
+    --search-width: 350px;
+    height: var(--header-height);
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+}
+
+.inner {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 1.6rem;
+}
+
+.label {
+    display: flex;
+    color: #fff;
+    font-weight: 600;
+}
+.logo {
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+}
+.active {
+    color: var(--primary) !important;
+}
+
+.actions {
+    display: flex;
+}
+.menu-list {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+.menu-item {
+    display: inline-block;
+    padding: 0 12px;
+
+    & a {
+        color: #fff;
+        text-decoration: none;
+    }
+    & a:hover {
+        opacity: 0.6;
+    }
+    font-weight: 500;
+}
+.cart {
+    color: #fff;
+    cursor: pointer;
+}
+
+// more-btn để sau này responsive sẽ đổi thành menu
+.more-btn {
+    font-size: 2rem;
+    margin-left: 24px;
+    color: #fff;
+    padding: 4px 8px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    cursor: pointer;
+}

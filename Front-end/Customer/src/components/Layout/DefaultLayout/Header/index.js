@@ -1,7 +1,14 @@
 import classes from './Header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping, faCircleQuestion, faCoins, faSignIn, faSignOut, faUser } from '@fortawesome/free-solid-svg-icons';
-import { Link, useLocation } from 'react-router-dom'
+import {
+    faCartShopping,
+    faCircleQuestion,
+    faCoins,
+    faSignIn,
+    faSignOut,
+    faUser,
+} from '@fortawesome/free-solid-svg-icons';
+import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import Button from '~/components/Layout/DefaultLayout/Header/Button';
 import Menu from '~/components/Layout/DefaultLayout/Header/Popper/Menu';
@@ -11,7 +18,7 @@ const USER_ITEMS = [
     {
         icon: <FontAwesomeIcon icon={faUser} />,
         title: 'View profile',
-        to: '/profile'
+        to: '/profile',
     },
     {
         icon: <FontAwesomeIcon icon={faCircleQuestion} />,
@@ -33,16 +40,14 @@ const USER_ITEMS = [
         icon: <FontAwesomeIcon icon={faCoins} />,
         title: 'Bonus point: 100',
         disabled: true,
-    }
-
-
-]
+    },
+];
 function Header() {
     const [currentUser, setCurrentUser] = useState(() => {
         const storageUserState = JSON.parse(localStorage.getItem('user-state'));
         return storageUserState;
     });
-    const path = useLocation()
+    const path = useLocation();
 
     const handleLogOut = () => {
         const jsonUser = JSON.stringify(!currentUser);
@@ -50,10 +55,9 @@ function Header() {
         localStorage.setItem('user-state', jsonUser);
         const state = setCurrentUser(!currentUser);
         return state;
-    }
+    };
     return (
         <div className={classes.wrapper}>
-
             <div className={classes.inner}>
                 <Link to="/" className={classes.label}>
                     <div className={classes.active}>E</div>FOOD
@@ -65,19 +69,36 @@ function Header() {
 
                 <div className={classes.actions}>
                     <ul className={classes['menu-list']}>
-                        <li className={classes['menu-item']}><Link to="/" className={`${path.pathname === ('/') ? classes.active : ''}`}>Home</Link></li>
-                        <li className={classes['menu-item']}><Link to="/menu" className={`${path.pathname.includes('/menu') ? classes.active : ''}`}>Menu</Link></li>
-                        <li className={classes['menu-item']}><Link to="/service" className={`${path.pathname.includes('/service') ? classes.active : ''}`}>Service</Link></li>
-                        <li className={classes['menu-item']}><Link to="/contact" className={`${path.pathname.includes('/contact') ? classes.active : ''}`}>Contact</Link></li>
+                        <li className={classes['menu-item']}>
+                            <Link to="/" className={`${path.pathname === '/' ? classes.active : ''}`}>
+                                Home
+                            </Link>
+                        </li>
+                        <li className={classes['menu-item']}>
+                            <Link to="/menu" className={`${path.pathname.includes('/menu') ? classes.active : ''}`}>
+                                Menu
+                            </Link>
+                        </li>
+                        <li className={classes['menu-item']}>
+                            <Link
+                                to="/service"
+                                className={`${path.pathname.includes('/service') ? classes.active : ''}`}
+                            >
+                                Service
+                            </Link>
+                        </li>
+                        <li className={classes['menu-item']}>
+                            <Link
+                                to="/contact"
+                                className={`${path.pathname.includes('/contact') ? classes.active : ''}`}
+                            >
+                                Contact
+                            </Link>
+                        </li>
                     </ul>
 
-
-
                     {currentUser ? (
-                        <Menu
-                            items={USER_ITEMS}
-                            handleLogOut={handleLogOut}
-                        >
+                        <Menu items={USER_ITEMS} handleLogOut={handleLogOut}>
                             {/* <button className={classes['more-btn']}>
                                 <FontAwesomeIcon icon={faBars} />
                             </button> */}
@@ -91,23 +112,13 @@ function Header() {
                             </div>
                         </Menu>
                     ) : (
-                        <Button
-                            primary
-                            rightIcon={<FontAwesomeIcon icon={faSignIn} />}
-                            medium
-                            // to='/login'
-                            onClick={handleLogOut}
-                        >
+                        <Button primary rightIcon={<FontAwesomeIcon icon={faSignIn} />} medium to="/login">
                             Sign in
                         </Button>
                     )}
-
-
-
                 </div>
             </div>
         </div>
-
     );
 }
 

@@ -1,54 +1,41 @@
 import React from 'react';
 import HeroSlider, { Slide } from 'hero-slider';
+import classes from './Slider.module.scss';
 
-const img1 = 'https://i.imgur.com/j7YxcrK.jpeg';
-const img2 = 'https://i.imgur.com/Gu5Cznz.jpg';
-const img3 = 'https://i.imgur.com/fcsJk7e.jpeg';
-const img4 = 'https://i.imgur.com/CUG0Aof.jpeg';
-const img5 = 'https://i.imgur.com/mjicxPK.jpeg';
-
-const Slider = () => {
+const Slider = (props) => {
     return (
-        <HeroSlider
-            height={'60vh'}
-            autoplay
-            controller={{
-                initialSlide: 1,
-                slidingDuration: 250,
-                slidingDelay: 100,
-            }}
-        >
-            <Slide
-                background={{
-                    backgroundImageSrc: img1,
-                    backgroundAttachment: 'fixed',
+        <React.Fragment>
+            {/* <div className="slogan__content">
+                <h2>Slide slogan</h2>
+                <p>Describe</p>
+                <hr />
+            </div> */}
+            <HeroSlider
+                height={props.height}
+                autoplay={{
+                    autoplayDuration: 3000,
                 }}
-            />
-            <Slide
-                background={{
-                    backgroundImageSrc: img2,
-                    backgroundAttachment: 'fixed',
+                controller={{
+                    slidingDuration: 500,
+                    slidingDelay: 200,
                 }}
-            />
-            <Slide
-                background={{
-                    backgroundImageSrc: img3,
-                    backgroundAttachment: 'fixed',
-                }}
-            />
-            <Slide
-                background={{
-                    backgroundImageSrc: img4,
-                    backgroundAttachment: 'fixed',
-                }}
-            />
-            <Slide
-                background={{
-                    backgroundImageSrc: img5,
-                    backgroundAttachment: 'fixed',
-                }}
-            />
-        </HeroSlider>
+            >
+                {props.sliderPage.map((slide, index) => {
+                    return (
+                        <Slide
+                            key={index}
+                            background={{
+                                backgroundImageSrc: slide.image,
+                                backgroundAttachment: 'fixed',
+                            }}
+                        />
+                    );
+                })}
+            </HeroSlider>
+            <div id={classes.box__content}>
+                <h2>NO GOOD NO PAY</h2>
+            </div>
+        </React.Fragment>
     );
 };
 

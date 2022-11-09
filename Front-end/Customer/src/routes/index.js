@@ -14,10 +14,10 @@ const publicRoutes = [
     { path: '/contact', component: Contact },
     { path: '/service', component: Service },
     { path: '/login', component: Login },
-    { path: '/upload', component: Upload },
-    { path: '/profile', component: Profile },
-    { path: '/cart', component: Cart },
     { path: '/@:nickname', component: FoodProfile }, // sau này chỉnh sửa lại thông tin của food profile
+    { path: '/upload', component: Upload }, // admin
+    { path: '/profile', component: Profile },// customer sau này sẽ thêm viewcustomer page vào dành cho admin
+    { path: '/cart', component: Cart },//customer
 ]
 
 const privateRoutes = [

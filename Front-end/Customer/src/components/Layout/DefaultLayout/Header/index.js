@@ -1,14 +1,13 @@
 import classes from './Header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faCircleQuestion, faCloudArrowUp, faCoins, faSignIn, faSignOut, faUser } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useState } from 'react';
-import Button from '~/components/Button';
-import Menu from '~/components/Popper/Menu';
+import Button from '~/components/Layout/DefaultLayout/Header/Button';
+import Menu from '~/components/Layout/DefaultLayout/Header/Popper/Menu';
 import Image from '~/components/Image';
+import images from '~/assets/images'
 import Search from './Search';
-
-
 const USER_ITEMS = [
     {
         icon: <FontAwesomeIcon icon={faUser} />,
@@ -35,7 +34,6 @@ const USER_ITEMS = [
         icon: <FontAwesomeIcon icon={faSignOut} />,
         title: 'Sign out',
         separate: true,
-        to: '/',
         logOut: true,
     },
     {
@@ -47,11 +45,18 @@ const USER_ITEMS = [
 
 ]
 function Header() {
-    const [currentUser, setCurrentUser] = useState(false);
-    JSON.stringify(localStorage.setItem('user-state', currentUser))
+    const [currentUser, setCurrentUser] = useState(() => {
+        const storageUserState = JSON.parse(localStorage.getItem('user-state'));
+        return storageUserState;
+    });
+    const path = useLocation()
 
     const handleLogOut = () => {
-        setCurrentUser(!currentUser);
+        const jsonUser = JSON.stringify(!currentUser);
+        console.log(jsonUser);
+        localStorage.setItem('user-state', jsonUser);
+        const state = setCurrentUser(!currentUser);
+        return state;
     }
     return (
         <div className={classes.wrapper}>
@@ -59,6 +64,7 @@ function Header() {
             <div className={classes.inner}>
                 <Link to="/" className={classes.label}>
                     <div className={classes.active}>E</div>FOOD
+                    {/* <img src={images.logoImage} alt="logo" className={classes['logo']} /> */}
                 </Link>
 
                 <span>
@@ -67,10 +73,10 @@ function Header() {
 
                 <div className={classes.actions}>
                     <ul className={classes['menu-list']}>
-                        <li className={classes['menu-item']}><Link to="/" className={classes.active}>Home</Link></li>
-                        <li className={classes['menu-item']}><Link to="/menu">Menu</Link></li>
-                        <li className={classes['menu-item']}><Link to="/service">Service</Link></li>
-                        <li className={classes['menu-item']}><Link to="/contact">Contact</Link></li>
+                        <li className={classes['menu-item']}><Link to="/" className={`${path.pathname === ('/') ? classes.active : ''}`}>Home</Link></li>
+                        <li className={classes['menu-item']}><Link to="/menu" className={`${path.pathname.includes('/menu') ? classes.active : ''}`}>Menu</Link></li>
+                        <li className={classes['menu-item']}><Link to="/service" className={`${path.pathname.includes('/service') ? classes.active : ''}`}>Service</Link></li>
+                        <li className={classes['menu-item']}><Link to="/contact" className={`${path.pathname.includes('/contact') ? classes.active : ''}`}>Contact</Link></li>
                     </ul>
 
 
@@ -78,7 +84,7 @@ function Header() {
                     {currentUser ? (
                         <Menu
                             items={USER_ITEMS}
-                            handleLogOut
+                            handleLogOut={handleLogOut}
                         >
                             {/* <button className={classes['more-btn']}>
                                 <FontAwesomeIcon icon={faBars} />
@@ -98,7 +104,8 @@ function Header() {
                             rightIcon={<FontAwesomeIcon icon={faSignIn} />}
                             medium
                             // to='/login'
-                            onClick={handleLogOut}>
+                            onClick={handleLogOut}
+                        >
                             Sign in
                         </Button>
                     )}

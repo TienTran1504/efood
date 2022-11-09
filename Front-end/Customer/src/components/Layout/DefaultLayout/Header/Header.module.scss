@@ -2,7 +2,7 @@
     --search-border-radius: 96px;
     --search-height: 48px;
     --search-top-spacer: 6px;
-    --search-width: 400px;
+    --search-width: 350px;
     height: var(--header-height);
     background-color: #000;
     display: flex;
@@ -23,7 +23,11 @@
     color: #fff;
     font-weight: 600;
 }
-
+.logo {
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+}
 .active {
     color: var(--primary) !important;
 }

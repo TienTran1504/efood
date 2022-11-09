@@ -3,9 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark, faMagnifyingGlass, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Tippy from '@tippyjs/react/headless';
 import { useEffect, useState, useRef } from 'react';
-import { Wrapper as PopperWrapper } from '~/components/Popper';
+import { Wrapper as PopperWrapper } from '~/components/Layout/DefaultLayout/Header/Popper';
 
-import FoodItem from '~/components/FoodItem';
+import FoodItem from '~/components/Layout/DefaultLayout/Header/FoodItem';
 
 function Search() {
     const [searchValue, setSearchValue] = useState('');

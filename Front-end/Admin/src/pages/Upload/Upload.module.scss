@@ -81,8 +81,8 @@
 //form
 .product-list {
     border: 2px solid #d9d9d9;
-    // width: 80%;
-    // margin: auto;
+    width: 80%;
+    margin: auto;
 }
 .product-list-content {
     padding-top: 12px;
@@ -131,7 +131,9 @@ form * {
     background-color: transparent;
     margin-left: 16px;
 }
-
+.input-edit {
+    width: 116px;
+}
 .adding input {
     display: inline-block;
     height: 50px;

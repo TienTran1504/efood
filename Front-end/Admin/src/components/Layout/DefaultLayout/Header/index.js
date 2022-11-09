@@ -1,6 +1,6 @@
 import classes from './Header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping, faCircleQuestion, faCoins, faSignIn, faSignOut, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faCircleQuestion, faCloudArrowUp, faSignIn, faSignOut, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom'
 import { useState } from 'react';
 import Button from '~/components/Layout/DefaultLayout/Header/Button';
@@ -18,10 +18,11 @@ const USER_ITEMS = [
         title: 'Help',
         to: '/service',
     },
+
     {
-        icon: <FontAwesomeIcon icon={faCartShopping} />,
-        title: 'Shopping cart',
-        to: '/cart',
+        icon: <FontAwesomeIcon icon={faCloudArrowUp} />,
+        title: 'Upload',
+        to: '/upload',
     },
     {
         icon: <FontAwesomeIcon icon={faSignOut} />,
@@ -29,12 +30,6 @@ const USER_ITEMS = [
         separate: true,
         logOut: true,
     },
-    {
-        icon: <FontAwesomeIcon icon={faCoins} />,
-        title: 'Bonus point: 100',
-        disabled: true,
-    }
-
 
 ]
 function Header() {
@@ -57,6 +52,7 @@ function Header() {
             <div className={classes.inner}>
                 <Link to="/" className={classes.label}>
                     <div className={classes.active}>E</div>FOOD
+                    {/* <img src={images.logoImage} alt="logo" className={classes['logo']} /> */}
                 </Link>
 
                 <span>
@@ -68,7 +64,7 @@ function Header() {
                         <li className={classes['menu-item']}><Link to="/" className={`${path.pathname === ('/') ? classes.active : ''}`}>Home</Link></li>
                         <li className={classes['menu-item']}><Link to="/menu" className={`${path.pathname.includes('/menu') ? classes.active : ''}`}>Menu</Link></li>
                         <li className={classes['menu-item']}><Link to="/service" className={`${path.pathname.includes('/service') ? classes.active : ''}`}>Service</Link></li>
-                        <li className={classes['menu-item']}><Link to="/contact" className={`${path.pathname.includes('/contact') ? classes.active : ''}`}>Contact</Link></li>
+                        {currentUser && (<li className={classes['menu-item']}><Link to="/upload" className={`${path.pathname.includes('/upload') ? classes.active : ''}`}>Upload</Link></li>)}
                     </ul>
 
 

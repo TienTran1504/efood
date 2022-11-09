@@ -81,7 +81,7 @@
 //form
 .product-list {
     border: 2px solid #d9d9d9;
-    width: 80%;
+    width: 70%;
     margin: auto;
 }
 .product-list-content {
@@ -95,6 +95,10 @@
 }
 .product-list-btn {
     padding: 8px 24px;
+
+    &:active {
+        opacity: 0.6;
+    }
 }
 table {
     border-collapse: collapse;
@@ -116,6 +120,10 @@ th {
 td {
     background-color: #fff;
     font-weight: 700;
+    img {
+        width: 50px;
+        height: 50px;
+    }
 }
 
 form {
@@ -134,8 +142,13 @@ form * {
 .input-edit {
     width: 116px;
 }
-.adding input {
-    display: inline-block;
-    height: 50px;
-    border: 1px solid #ccc;
+
+.openModalBtn {
+    width: 200px;
+    height: 40px;
+    border: none;
+    border-radius: 6px;
+    background-color: cornflowerblue;
+    color: white;
+    cursor: pointer;
 }

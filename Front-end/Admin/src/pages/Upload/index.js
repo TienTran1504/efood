@@ -4,17 +4,10 @@ import { faBowlFood, faBowlRice, faBurger, faIceCream, faMugHot } from '@fortawe
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, Fragment } from "react";
 import data from './mock-data.json'
-import { nanoid } from "nanoid";
 import ReadOnlyRow from "./components/ReadOnlyRow";
 import EditableRow from "./components/EditableRow";
 import Button from '~/components/Layout/DefaultLayout/Header/Button';
-const TYPE_ITEMS = [
-    {
-        icon: <FontAwesomeIcon icon={faBowlRice} />,
-        type_food: 'Cơm'
-    },
-
-]
+import Modal from './components/Modal';
 function Upload() {
     const [foods, setFoods] = useState(data);
     const [addFormData, setAddFormData] = useState({
@@ -120,8 +113,13 @@ function Upload() {
 
         setFoods(newFoods);
     };
+    const [modalOpen, setModalOpen] = useState(false);
     return (
+        // < div className={`${modalOpen ? classes['wrapper-opacity'] : classes.wrapper}`}>
         <div className={classes.wrapper}>
+
+            {modalOpen && <Modal setOpenModal={setModalOpen} handleAddFormChange={handleAddFormChange} handleAddFormSubmit={handleAddFormSubmit} />}
+
             <div className={classes.title}>
                 <p className={classes['title-name']}>PRODUCT MANAGEMENT</p>
                 <img src={images.logoImage} alt="logo" className={classes['title-logo']} />
@@ -164,7 +162,10 @@ function Upload() {
             <div className={classes['product-list']}>
                 <div className={classes['product-list-content']}>
                     <h4 className={classes['product-list-title']}>Product List</h4>
-                    <Button primary type="submit" className={classes['product-list-btn']}>Add new</Button>
+                    <Button primary type="submit" className={classes['product-list-btn']} onClick={() => {
+                        setModalOpen(true);
+                    }}>Add new</Button>
+
                 </div>
                 <form className={classes['menu-form']} onSubmit={handleEditFormSubmit}>
                     <table>
@@ -202,42 +203,11 @@ function Upload() {
                     </table>
                 </form>
 
-                <h2>Add dishes</h2>
-                <form onSubmit={handleAddFormSubmit}>
-                    <div className={classes.adding}>
-                        <input
-                            type="text"
-                            required="required"
-                            placeholder="Choose foodimgage "
-                            name="image"
-                            onChange={handleAddFormChange}
-                        />
-                        <input
-                            type="text"
-                            required="required"
-                            placeholder="Enter a name..."
-                            name="fullName"
-                            onChange={handleAddFormChange}
-                        />
-                        <input
-                            type="text"
-                            required="required"
-                            placeholder="Enter type of food"
-                            name="type"
-                            onChange={handleAddFormChange}
-                        />
-                        <input
-                            type="text"
-                            required="required"
-                            placeholder="Enter price of food"
-                            name="price"
-                            onChange={handleAddFormChange}
-                        />
-                    </div>
-                    <Button primary type="submit">Add</Button>
-                </form>
+
             </div>
+
         </div>
+
     );
 }
 

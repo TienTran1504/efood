@@ -1,9 +1,10 @@
-import Slider from '~/components/Layout/DefaultLayout/Slider'
+import Slider from '~/components/Layout/DefaultLayout/Slider/index.js';
+import { sliderHomeItems } from '~/components/Layout/DefaultLayout/Slider/SliderData';
+
 function Home() {
     return (
         <div>
-            <Slider />
-            <h2>Home page</h2>
+            <Slider sliderPage={sliderHomeItems.sliderImage} height={sliderHomeItems.height} />
         </div>
     );
 }

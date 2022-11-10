@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Images from '~/assets/images';
-import classes from './Login.module.scss';
+import classes from '../Login/Login.module.scss';
 
-export default function LoginPage() {
+export default function SignUpPage() {
     return (
         <div className={classes.wrapper}>
             <div className={classes.wrapper__logo}>
@@ -17,20 +17,19 @@ export default function LoginPage() {
                     </p>
                     <p>
                         <input type="text" name="password" placeholder="Nhập mật khẩu của bạn" />
-                        <br /> <br />
-                        <Link to="/forgot">
-                            <label className="right-label">Quên mật khẩu?</label>
-                        </Link>
+                    </p>
+                    <p>
+                        <input type="text" name="password" placeholder="Xác nhận mật khẩu" />
                     </p>
                     <p>
                         <button id={classes.sub__btn} type="submit">
-                            Đăng nhập
+                            Đăng ký
                         </button>
                     </p>
                 </form>
                 <footer>
                     <p>
-                        Bạn chưa có tài khoản? <Link to="/register">Đăng ký ngay</Link>
+                        Bạn đã có tài khoản? <Link to="/login">Đăng nhập</Link>
                     </p>
                 </footer>
             </div>

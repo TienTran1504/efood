@@ -19,7 +19,7 @@ function Modal({ setOpenModal, handleAddFormChange, handleAddFormSubmit }) {
                         </button>
                     </div>
                 </div>
-                <form onSubmit={handleAddFormSubmit}>
+                <form className={classes['modal-form']} onSubmit={handleAddFormSubmit}>
                     <div className={classes.body}>
                         <div className={classes.adding}>
 

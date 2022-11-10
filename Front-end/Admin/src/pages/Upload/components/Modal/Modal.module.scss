@@ -46,6 +46,12 @@
     border: none;
     cursor: pointer;
     font-size: 2.8rem;
+    &:hover {
+        opacity: 0.6;
+    }
+    &:active {
+        opacity: 0.9;
+    }
 }
 
 .modalContainer .body {
@@ -67,11 +73,11 @@
 .modalContainer .footer button {
     margin-left: 20px;
     padding: 16 32px;
+    &:active {
+        opacity: 0.9;
+    }
 }
 
-.cancelBtn {
-    background-color: crimson;
-}
 .adding {
     display: block;
 
@@ -103,6 +109,6 @@
 .productImage {
     padding-left: 20px;
 }
-form {
+.modal-form {
     display: block;
 }

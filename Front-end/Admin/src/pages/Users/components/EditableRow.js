@@ -1,6 +1,6 @@
 import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import classes from "../Upload.module.scss"
+import classes from "../Users.module.scss"
 
 function EditableRow({ editUserId, editFormData, handleEditFormChange, handleCancelClick }) {
 

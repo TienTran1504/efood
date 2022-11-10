@@ -1,12 +1,15 @@
 import Footer from "./Footer";
 import Header from "./Header"
+import Sidebar from "./Sidebar";
+import classes from './DefaultLayout.module.scss'
 
 function DefaultLayout({ children }) {
     return (
-        <div>
+        <div className={classes.wrapper}>
             <Header />
-            <div className="container">
-                <div className="content">{children}</div>
+            <div className={classes.container}>
+                <Sidebar />
+                <div className={classes.content}>{children}</div>
             </div>
             <Footer />
 

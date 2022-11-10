@@ -38,18 +38,20 @@
 }
 .filter {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     margin-bottom: 100px;
 }
 
-.type-food {
-    width: 15%;
-    height: 50px;
+.type-user {
+    width: 20%;
+    height: 70px;
     position: relative;
     display: block;
     color: #fff;
-    border-radius: 8px;
+    margin: 5px 16px;
+    border-radius: 4px;
     cursor: pointer;
+    font-weight: 700;
 
     &:hover {
         opacity: 0.8;

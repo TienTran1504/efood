@@ -5,8 +5,8 @@
     z-index: 1;
     position: fixed;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .modalContainer {
@@ -89,7 +89,7 @@
 .productType,
 .productPrice {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
 
     p {
         display: flex;
@@ -99,6 +99,7 @@
         font-weight: 500;
     }
 }
+
 .productImage {
     padding-left: 20px;
 }

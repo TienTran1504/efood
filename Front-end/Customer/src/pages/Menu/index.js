@@ -1,15 +1,16 @@
 import Slider from '~/components/Layout/DefaultLayout/Slider';
+import { sliderMenuItems } from '~/components/Layout/DefaultLayout/Slider/SliderData';
 // import { Fontawesome } from '@fortawesome/react-fontawesome';
 // import axios from 'axios';
 import react, { useState } from 'react';
-import items, { images } from './data';
+import items  from './data';
 import Categories from './Categories';
 import './product_style.css';
 
 const allCategories = ['all', ...new Set(items.map((item) => item.category))];
 
 const MenuList = ({ items }) => {
-    console.log('images', images);
+    // console.log('images', images);
     return (
         <div className="section-center">
             {items.map((item) => {
@@ -46,7 +47,7 @@ function Menu() {
     };
     return (
         <div>
-            <Slider />
+            <Slider sliderPage={sliderMenuItems.sliderImage} height={sliderMenuItems.height} />
             {/* <h2>Menu page</h2> */}
             <div className="body__container">
                 <Categories categories={categories} activeCategory={activeCategory} filterItems={filterItems} />

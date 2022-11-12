@@ -30,10 +30,27 @@
                     border-radius: 10px;
                     background-color: rgb(217, 217, 217);
                 }
+                .unrequired {
+                    border: 1px solid red;
+                }
                 label {
                     padding-left: 30rem;
                     color: #e85d31;
                     font-weight: bold;
+                }
+
+                #req__gmail,
+                #req__pass {
+                    font-size: 13px;
+                    color: red;
+                }
+
+                #req__gmail {
+                    padding-right: 31rem;
+                }
+
+                #req__pass {
+                    padding-right: 29rem;
                 }
 
                 #sub__btn {

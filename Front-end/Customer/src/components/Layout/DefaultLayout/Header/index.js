@@ -95,6 +95,11 @@ function Header() {
                                 Contact
                             </Link>
                         </li>
+                        <li className={classes['menu-item']}>
+                            <Link to="/cart" className={`${path.pathname.includes('/cart') ? classes.active : ''}`}>
+                                <FontAwesomeIcon icon={faCartShopping} />
+                            </Link>
+                        </li>
                     </ul>
 
                     {currentUser ? (

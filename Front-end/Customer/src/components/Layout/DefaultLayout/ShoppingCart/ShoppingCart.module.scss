@@ -1,0 +1,142 @@
+.cart-container {
+    display: flex;
+    justify-content: center;
+}
+
+.cart-container--item {
+    margin: 15px 50px;
+}
+
+.cart-btn {
+    text-decoration: none;
+    background-color: transparent;
+    border: 2px solid #ff0000;
+    padding: 12px 120px;
+    border-radius: 50px;
+    margin-top: 15px;
+    width: 100%;
+    font-weight: bold;
+    transition: filter 0.2s;
+}
+
+.cart-btn:hover {
+    cursor: pointer;
+    filter: brightness(85%);
+}
+
+.cart-btn--active {
+    color: white;
+    background-color: #ff0000;
+}
+
+.cart-btn--inactive {
+    color: #ff0000;
+    background-color: white;
+}
+
+.cart-table {
+    border: 1px solid black;
+    margin-top: 30px;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.cart-row {
+    border-bottom: 1px solid black;
+    padding-left: 50px;
+}
+
+.cart-row--header {
+    color: white;
+    background-color: black;
+    font-weight: bold;
+}
+
+.cart-col {
+    height: 35px;
+    vertical-align: middle;
+    padding: 10px;
+    border: none;
+}
+
+.cart-textarea {
+    border-style: none;
+    border-color: Transparent;
+    overflow: auto;
+    border: none;
+    outline: none;
+    resize: none;
+    margin-top: 5px;
+}
+
+#table-wrapper {
+    position: relative;
+}
+#table-scroll {
+    height: 285px;
+    overflow: auto;
+    border: 1px solid black;
+}
+#table-wrapper #table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#table-wrapper .text {
+    position: absolute;
+    top: -20px;
+    z-index: 2;
+    height: 20px;
+    width: 35%;
+    border: 1px solid red;
+}
+
+.item-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+}
+
+.item-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.item-icon {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.item-cost {
+    color: #ff0000;
+}
+
+.item-quantity {
+    display: flex;
+    align-items: center;
+}
+
+#current-quantity {
+    margin: 0 10px;
+}
+
+#btn--add,
+#btn--remove {
+    text-decoration: none;
+    background-color: transparent;
+    transition: color 0.2s;
+    font-size: 20px;
+}
+
+#btn--add:hover,
+#btn--remove:hover {
+    cursor: pointer;
+    color: #fd7c4b;
+}

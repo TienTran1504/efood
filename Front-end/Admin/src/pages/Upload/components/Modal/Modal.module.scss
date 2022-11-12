@@ -1,0 +1,114 @@
+.modalBackground {
+    width: 100vw;
+    height: 100vh;
+    background-color: transparent;
+    z-index: 1;
+    position: fixed;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.modalContainer {
+    width: 60%;
+    height: 400px;
+    border-radius: 12px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    animation: slide 0.3s linear;
+}
+@keyframes slide {
+    from {
+        transform: translateY(300px);
+    }
+    to {
+        transform: translateX(0px);
+    }
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    font-size: 2.5rem;
+    padding-bottom: 25px;
+    font-weight: 700;
+}
+.titleCloseBtn {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.titleCloseBtn button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 2.8rem;
+    &:hover {
+        opacity: 0.6;
+    }
+    &:active {
+        opacity: 0.9;
+    }
+}
+
+.modalContainer .body {
+    flex: 1;
+    display: flex;
+    max-width: 100%;
+    align-items: center;
+    font-size: 1.7rem;
+    text-align: center;
+}
+
+.modalContainer .footer {
+    flex: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalContainer .footer button {
+    margin-left: 20px;
+    padding: 16 32px;
+    &:active {
+        opacity: 0.9;
+    }
+}
+
+.adding {
+    display: block;
+
+    div {
+        padding-bottom: 30px;
+    }
+    input {
+        border: 1px solid #ccc;
+        padding: 6px 12px;
+        width: 290px;
+    }
+}
+
+.productName,
+.productType,
+.productPrice {
+    display: flex;
+    justify-content: flex-start;
+
+    p {
+        display: flex;
+        justify-content: flex-start;
+        width: 200px;
+        padding-right: 60px;
+        font-weight: 500;
+    }
+}
+
+.productImage {
+    padding-left: 20px;
+}
+.modal-form {
+    display: block;
+}

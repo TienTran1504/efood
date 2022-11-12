@@ -34,13 +34,13 @@ const MenuList = ({ items }) => {
 
 function Menu() {
     const [menuItems, setMenuItems] = useState(items);
-    const [activeCategory, setActiveCategory] = useState("");
+    const [activeCategory, setActiveCategory] = useState('');
     const [categories, setCategories] = useState(allCategories);
     const filterItems = (category) => {
         setActiveCategory(category);
-        if (category === "all") {
-          setMenuItems(items);
-          return;
+        if (category === 'all') {
+            setMenuItems(items);
+            return;
         }
         const newItems = items.filter((item) => item.category === category);
         setMenuItems(newItems);
@@ -49,12 +49,10 @@ function Menu() {
         <div>
             <Slider />
             {/* <h2>Menu page</h2> */}
-            <Categories
-                categories={categories}
-                activeCategory={activeCategory}
-                filterItems={filterItems}
-            />
-            <MenuList items={menuItems} />
+            <div className="body__container">
+                <Categories categories={categories} activeCategory={activeCategory} filterItems={filterItems} />
+                <MenuList items={menuItems} />
+            </div>
         </div>
     );
 }

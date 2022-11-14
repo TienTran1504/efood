@@ -3,9 +3,14 @@ import { sliderHomeItems } from '~/components/Layout/DefaultLayout/Slider/Slider
 
 function Home() {
     return (
-        <div>
-            <Slider sliderPage={sliderHomeItems.sliderImage} height={sliderHomeItems.height} />
-        </div>
+        <>
+            <Slider
+                sliderPage={sliderHomeItems.sliderImage}
+                height={sliderHomeItems.height}
+                slogan={sliderHomeItems.slogan}
+                link={sliderHomeItems.link}
+            />
+        </>
     );
 }
 

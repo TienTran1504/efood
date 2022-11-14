@@ -3,7 +3,7 @@ import { sliderMenuItems } from '~/components/Layout/DefaultLayout/Slider/Slider
 // import { Fontawesome } from '@fortawesome/react-fontawesome';
 // import axios from 'axios';
 import react, { useState } from 'react';
-import items  from './data';
+import items from './data';
 import Categories from './Categories';
 import './product_style.css';
 

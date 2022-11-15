@@ -142,8 +142,23 @@ form * {
     background-color: transparent;
     margin-left: 16px;
 }
-.input-edit {
-    width: 116px;
+.input-edit-id {
+    width: 20px;
+}
+.input-edit-name {
+    width: 150px;
+}
+.input-edit-email {
+    width: 120px;
+}
+.input-edit-gender {
+    width: 50px;
+}
+label {
+    margin-right: 16px;
+}
+.input-edit-role {
+    width: 20px;
 }
 
 .openModalBtn {

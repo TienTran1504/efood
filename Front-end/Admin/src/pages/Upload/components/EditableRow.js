@@ -13,7 +13,7 @@ function EditableRow({ editFoodId, editFormData, handleEditFormChange, handleCan
                     placeholder="Enter id"
                     name="id"
                     defaultValue={editFoodId}
-                    className={classes['input-edit']}
+                    className={classes['input-edit-id']}
                 >
                 </input>
 
@@ -26,7 +26,7 @@ function EditableRow({ editFoodId, editFormData, handleEditFormChange, handleCan
                     name="image"
                     onChange={handleEditFormChange}
                     accept="image/jpeg, imge/png, image/jpg"
-                    className={classes['input-edit']}
+                    className={classes['input-edit-img']}
                 >
                 </input>
             </td>
@@ -38,7 +38,7 @@ function EditableRow({ editFoodId, editFormData, handleEditFormChange, handleCan
                     name="fullName"
                     value={editFormData.fullName}
                     onChange={handleEditFormChange}
-                    className={classes['input-edit']}
+                    className={classes['input-edit-name']}
                 ></input>
             </td>
             <td>
@@ -49,7 +49,7 @@ function EditableRow({ editFoodId, editFormData, handleEditFormChange, handleCan
                     name="type"
                     value={editFormData.type}
                     onChange={handleEditFormChange}
-                    className={classes['input-edit']}
+                    className={classes['input-edit-food']}
                 ></input>
             </td>
             <td>
@@ -60,7 +60,7 @@ function EditableRow({ editFoodId, editFormData, handleEditFormChange, handleCan
                     name="price"
                     value={editFormData.price}
                     onChange={handleEditFormChange}
-                    className={classes['input-edit']}
+                    className={classes['input-edit-price']}
                 ></input>
             </td>
             <td>

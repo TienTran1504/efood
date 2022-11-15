@@ -140,8 +140,21 @@ form * {
     background-color: transparent;
     margin-left: 16px;
 }
-.input-edit {
-    width: 116px;
+
+.input-edit-id {
+    width: 20px;
+}
+.input-edit-img {
+    width: 200px;
+}
+.input-edit-name {
+    width: 120px;
+}
+.input-edit-food {
+    width: 100px;
+}
+.input-edit-price {
+    width: 80px;
 }
 
 .openModalBtn {

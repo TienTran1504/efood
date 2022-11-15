@@ -1,6 +1,10 @@
 import Slider from '~/components/Layout/DefaultLayout/Slider';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { sliderMenuItems } from '~/components/Layout/DefaultLayout/Slider/SliderData';
-// import { Fontawesome } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+
+
 // import axios from 'axios';
 import react, { useState } from 'react';
 import items  from './data';
@@ -17,13 +21,21 @@ const MenuList = ({ items }) => {
                 const { id, title, img, desc, price } = item;
                 return (
                     <article key={id} className="menu-item">
+                       
                         <img src={img} alt={title} className="photo" />
-                        <div className="item-info">
-                            <header>
+                        <div className='item-hover'>
+                            <FontAwesomeIcon icon={faShoppingCart} className = "_icon" />
+        
+                            <h4 className="price">{price} VND</h4>
+                        </div>
+                        <div className='item-info'>
+                            {/* <h4>{title}  </h4> */}
+                            <div>
                                 <h4>{title}</h4>
-                                <h4 className="price">${price}</h4>
-                            </header>
-                            <p className="item-text">{desc}</p>
+                            </div>
+                            <div>
+                            <p>{desc}<FontAwesomeIcon icon={faStar} style={{color: 'orange'}} /></p>
+                            </div>
                         </div>
                     </article>
                 );
@@ -47,8 +59,9 @@ function Menu() {
     };
     return (
         <div>
-            <Slider sliderPage={sliderMenuItems.sliderImage} height={sliderMenuItems.height} />
-            {/* <h2>Menu page</h2> */}
+            <Slider  sliderPage={sliderMenuItems.sliderImage} height={sliderMenuItems.height} slogan={sliderMenuItems.slogan}
+                link={sliderMenuItems.link} />
+                
             <div className="body__container">
                 <Categories categories={categories} activeCategory={activeCategory} filterItems={filterItems} />
                 <MenuList items={menuItems} />

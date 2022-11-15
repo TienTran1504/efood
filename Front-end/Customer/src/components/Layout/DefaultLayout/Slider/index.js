@@ -1,15 +1,25 @@
 import React from 'react';
 import HeroSlider, { Slide } from 'hero-slider';
 import classes from './Slider.module.scss';
+import { Link } from 'react-router-dom';
 
 const Slider = (props) => {
+    console.log();
     return (
-        <React.Fragment>
-            {/* <div className="slogan__content">
-                <h2>Slide slogan</h2>
-                <p>Describe</p>
-                <hr />
-            </div> */}
+        <div className={classes.container__slider}>
+            <div className={classes.container__slogan}>
+                <div id={classes.box__content}>
+                    <h2>{props.slogan.heading__2}</h2>
+                    <h1>{props.slogan.heading__1}</h1>
+                    <p>{props.slogan.desc}</p>
+                    <hr />
+                    <div className={classes.box__btn}>
+                        <Link to={props.link}>
+                            <button id={classes.btn__slogan}>{props.slogan.btn}</button>
+                        </Link>
+                    </div>
+                </div>
+            </div>
             <HeroSlider
                 height={props.height}
                 autoplay={{
@@ -32,10 +42,7 @@ const Slider = (props) => {
                     );
                 })}
             </HeroSlider>
-            <div id={classes.box__content}>
-                <h2>NO GOOD NO PAY</h2>
-            </div>
-        </React.Fragment>
+        </div>
     );
 };
 

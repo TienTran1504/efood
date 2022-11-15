@@ -1,5 +1,5 @@
-import Footer from "./Footer";
-import Header from "./Header"
+import Footer from './Footer';
+import Header from './Header';
 
 function DefaultLayout({ children }) {
     return (
@@ -9,9 +9,7 @@ function DefaultLayout({ children }) {
                 <div className="content">{children}</div>
             </div>
             <Footer />
-
         </div>
-
     );
 }
 

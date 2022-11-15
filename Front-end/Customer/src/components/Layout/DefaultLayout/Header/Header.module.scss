@@ -7,6 +7,12 @@
     background-color: #000;
     display: flex;
     justify-content: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
 }
 
 .inner {

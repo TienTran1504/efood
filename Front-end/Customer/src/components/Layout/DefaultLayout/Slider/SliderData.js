@@ -7,6 +7,13 @@ const sliderHomeItems = {
         { image: 'https://i.imgur.com/mjicxPK.jpeg' },
     ],
     height: '70vh',
+    slogan: {
+        heading__2: 'Are You Hungry ?',
+        heading__1: "Don't Wait !",
+        desc: 'Let start to order food now',
+        btn: 'Check Out Menu',
+    },
+    link: '/menu',
 };
 
 const sliderMenuItems = {
@@ -18,5 +25,13 @@ const sliderMenuItems = {
         { image: 'https://i.imgur.com/mjicxPK.jpeg' },
     ],
     height: '60vh',
+    slogan: {
+        heading__2: 'Are You Hungry ?',
+        heading__1: "Don't Wait !",
+        desc: 'Let start to order food now',
+        btn: 'Check Out Menu',
+    },
+    link: '/menu',
 };
+
 export { sliderHomeItems, sliderMenuItems };

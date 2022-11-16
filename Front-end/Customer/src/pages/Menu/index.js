@@ -47,7 +47,8 @@ function Menu() {
     };
     return (
         <div>
-            <Slider sliderPage={sliderMenuItems.sliderImage} height={sliderMenuItems.height} />
+            <Slider sliderPage={sliderMenuItems.sliderImage} height={sliderMenuItems.height} slogan={sliderMenuItems.slogan}
+                link={sliderMenuItems.link}/>
             {/* <h2>Menu page</h2> */}
             <div className="body__container">
                 <Categories categories={categories} activeCategory={activeCategory} filterItems={filterItems} />

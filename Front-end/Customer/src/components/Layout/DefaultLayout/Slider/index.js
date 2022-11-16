@@ -7,7 +7,7 @@ const Slider = (props) => {
     console.log();
     return (
         <div className={classes.container__slider}>
-            <div className={classes.container__slogan}>
+            <div className={classes.container__slogan} style={{ height: props.height }}>
                 <div id={classes.box__content}>
                     <h2>{props.slogan.heading__2}</h2>
                     <h1>{props.slogan.heading__1}</h1>

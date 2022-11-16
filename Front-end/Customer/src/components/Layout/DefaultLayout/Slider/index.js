@@ -4,7 +4,6 @@ import classes from './Slider.module.scss';
 import { Link } from 'react-router-dom';
 
 const Slider = (props) => {
-    console.log();
     return (
         <div className={classes.container__slider}>
             <div className={classes.container__slogan} style={{ height: props.height }}>

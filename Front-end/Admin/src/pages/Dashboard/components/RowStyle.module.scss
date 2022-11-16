@@ -1,0 +1,47 @@
+.btn {
+    background-color: transparent;
+    margin-left: 16px;
+}
+.input-edit {
+    width: 116px;
+}
+td {
+    text-align: center !important;
+    .icon-left {
+        padding-right: 12px;
+    }
+
+    .status-style {
+        text-transform: uppercase;
+        padding: 6px;
+        border-radius: 6px;
+    }
+}
+
+.btn-status {
+    margin: 2px;
+    list-style: none;
+}
+
+.btn-status:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.btn-status-choice {
+    border: 3px solid red;
+    padding: 3px !important;
+}
+
+.blue {
+    background-color: #4b93fe;
+    opacity: 0.99;
+}
+.red {
+    background-color: #da4848;
+    opacity: 0.99;
+}
+.green {
+    background-color: #38eca0;
+    opacity: 0.99;
+}

@@ -1,31 +1,47 @@
-import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import classes from "../Dashboard.module.scss"
-function ReadOnlyRow({ food, handleEditClick, handleDeleteClick }) {
+import { faEye, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useRef, useEffect, memo } from 'react';
+import classes from './RowStyle.module.scss';
+function ReadOnlyRow({ id, order, handleEditClick, handleDeleteClick }) {
+    const statusRef = useRef();
+
+    useEffect(() => {
+        if (order.status === 'delivered') {
+            statusRef.current.classList.add(classes.green);
+        } else if (order.status === 'process') {
+            statusRef.current.classList.add(classes.blue);
+        } else if (order.status === 'cancel') {
+            statusRef.current.classList.add(classes.red);
+        }
+    }, []);
+
     return (
         <tr>
-            <td>{food.id}</td>
+            <td>{id + 1}</td>
+            <td>{order.orderId}</td>
+            <td>{order.payMethod}</td>
+            <td>{order.date}</td>
             <td>
-                <img src={food.image} alt="img" />
+                <div className={classes['status-style']} ref={statusRef}>
+                    <p>{order.status}</p>
+                </div>
             </td>
-            <td>{food.fullName}</td>
-            <td>{food.type}</td>
-            <td>{food.price}</td>
+            <td>{order.total}</td>
             <td>
                 <button
-                    className={classes['btn']}
+                    className={`${classes['btn']} ${classes['icon-left']}`}
                     type="button"
-                    onClick={(event) => handleEditClick(event, food)}
+                    onClick={(event) => handleEditClick(event, order)}
                 >
-                    <FontAwesomeIcon icon={faPencil} />
+                    <FontAwesomeIcon icon={faEye} />
                 </button>
-                <button className={classes['btn']} type="button" onClick={() => handleDeleteClick(food.id)}>
-                    <FontAwesomeIcon icon={faTrash} />
+                <span>{order.action}</span>
+                <button className={classes['btn']} type="button" onClick={() => handleDeleteClick(order.orderId)}>
+                    <FontAwesomeIcon icon={faTimes} />
                 </button>
             </td>
         </tr>
     );
-};
+}
 
-export default ReadOnlyRow;
+export default memo(ReadOnlyRow);

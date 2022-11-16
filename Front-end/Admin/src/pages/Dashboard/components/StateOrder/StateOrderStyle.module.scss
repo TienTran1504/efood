@@ -1,0 +1,46 @@
+.blue {
+    background-color: #4b93fe;
+}
+.red {
+    background-color: #da4848;
+}
+.green {
+    background-color: #38eca0;
+}
+
+.type-food {
+    width: 20%;
+    height: 60px;
+    position: relative;
+    display: block;
+    color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+
+    &:hover {
+        opacity: 0.8;
+    }
+    &:active {
+        opacity: 0.95;
+    }
+}
+.type-icon {
+    position: absolute;
+    top: 20px;
+    right: 16px;
+    font-size: 3rem;
+}
+.type-name {
+    position: absolute;
+    top: 8px;
+    left: 20px;
+    font-size: 1.6rem;
+}
+
+.type-quantity {
+    position: absolute;
+    font-size: 1.4rem;
+    top: 34px;
+    left: 25px;
+}

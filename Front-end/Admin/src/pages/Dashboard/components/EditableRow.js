@@ -1,78 +1,59 @@
-import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import classes from "../Dashboard.module.scss"
+import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { memo, useState } from 'react';
+import classes from './RowStyle.module.scss';
 
-function EditableRow({ editFoodId, editFormData, handleEditFormChange, handleCancelClick }) {
-    console.log(editFormData.id);
+function EditableRow({ id, order, handleEditStatus, handleCancelClick }) {
+    const [prevLi, setPrevLi] = useState();
+    const status = [
+        { name: 'process', bgColor: 'blue' },
+        { name: 'delivered', bgColor: 'green' },
+        { name: 'cancel', bgColor: 'red' },
+    ];
+
+    function handleState(e) {
+        if (prevLi) {
+            prevLi.target.classList.remove(classes['btn-status-choice']);
+        }
+        e.target.classList.add(classes['btn-status-choice']);
+        setPrevLi(e);
+    }
+
+    function handleSubmit() {
+        handleEditStatus(prevLi, order.orderId);
+    }
     return (
         <tr>
+            <td>{id + 1}</td>
+            <td>{order.orderId}</td>
+            <td>{order.payMethod}</td>
+            <td>{order.date}</td>
             <td>
-                <input
-                    type="text"
-                    required="required"
-                    placeholder="Enter id"
-                    name="id"
-                    defaultValue={editFoodId}
-                    className={classes['input-edit']}
-                >
-                </input>
-
+                <ul>
+                    {status.map((state, index) => (
+                        <li
+                            key={index}
+                            className={`${classes['status-style']}
+                                    ${classes[state.bgColor]} 
+                                    ${classes['btn-status']}`}
+                            onClick={handleState}
+                        >
+                            {state.name}
+                        </li>
+                    ))}
+                </ul>
             </td>
+            <td>{order.total}</td>
             <td>
-                <input
-                    type="file"
-                    required="required"
-                    placeholder="Choose foodimgage "
-                    name="image"
-                    onChange={handleEditFormChange}
-                    accept="image/jpeg, imge/png, image/jpg"
-                    className={classes['input-edit']}
-                >
-                </input>
-            </td>
-            <td>
-                <input
-                    type="text"
-                    required="required"
-                    placeholder="Enter a name..."
-                    name="fullName"
-                    value={editFormData.fullName}
-                    onChange={handleEditFormChange}
-                    className={classes['input-edit']}
-                ></input>
-            </td>
-            <td>
-                <input
-                    type="text"
-                    required="required"
-                    placeholder="Enter type of food"
-                    name="type"
-                    value={editFormData.type}
-                    onChange={handleEditFormChange}
-                    className={classes['input-edit']}
-                ></input>
-            </td>
-            <td>
-                <input
-                    type="text"
-                    required="required"
-                    placeholder="Enter price of food"
-                    name="price"
-                    value={editFormData.price}
-                    onChange={handleEditFormChange}
-                    className={classes['input-edit']}
-                ></input>
-            </td>
-            <td>
-                <button className={classes['btn']} type="submit">
-                    <FontAwesomeIcon icon={faFloppyDisk} />
+                <button className={classes['btn']} type="submit" onClick={handleSubmit}>
+                    <FontAwesomeIcon icon={faCheckCircle} />
                 </button>
                 <button className={classes['btn']} type="button" onClick={handleCancelClick}>
-                    Cancel
+                    <FontAwesomeIcon icon={faTimesCircle} style={{ color: 'red' }} />
                 </button>
             </td>
         </tr>
     );
 }
 
-export default EditableRow;
+export default memo(EditableRow);

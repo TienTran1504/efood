@@ -139,7 +139,8 @@ p {
   /* gap: 1rem 2rem; */
   max-width: 25rem;
   border-radius: 10px;
-  overflow: hidden; /*khong cgho khung hinh phong to ra khi scale*/
+  overflow: hidden;
+  /*khong cgho khung hinh phong to ra khi scale*/
 }
 
 .photo {
@@ -155,20 +156,20 @@ p {
   width: 100%;
   /* height: 100%; */
   transition-duration: 0.5s;
-      -wekit-transition-duration: 0.5;
-      -moz-transition-duration: 0.5;
-      -o-transition-duration: 0.5s;
-      -ms-transition-duration: 0.5s;
+  -wekit-transition-duration: 0.5;
+  -moz-transition-duration: 0.5;
+  -o-transition-duration: 0.5s;
+  -ms-transition-duration: 0.5s;
   border-radius: 10px;
 }
 
 .menu-item:hover .photo {
   transform: scale(1.15);
-    -webkit-transform: scale(1.15); 
-    -moz-transform: scale(1.15); 
-    -o-transform: scale(1.15);
-    -ms-transform: scale(1.15);
-  cursor: pointer; 
+  -webkit-transform: scale(1.15);
+  -moz-transform: scale(1.15);
+  -o-transform: scale(1.15);
+  -ms-transform: scale(1.15);
+  cursor: pointer;
   border-radius: 10px;
 }
 
@@ -213,7 +214,7 @@ p {
   padding-top: 1rem;
 }
 
-.item-hover{
+.item-hover {
   display: none;
 }
 
@@ -241,6 +242,7 @@ p {
     /* gap: 0 1.15rem; */
     max-width: 40rem;
   }
+
   /* .section-center {
     grid-template-columns: 1fr 1fr;
   } */
@@ -259,6 +261,7 @@ p {
     /* gap: 0 1.15rem; */
     max-width: 40rem;
   }
+
   .section-center {
     grid-template-columns: 1fr 1fr;
   }
@@ -273,17 +276,19 @@ p {
 
 
 @media screen and (min-width: 1200px) {
-  .menu-item{
+  .menu-item {
     grid-template-columns: 264px 1fr;
     /* gap: 0 1.15rem; */
     /* max-width: 264px; */
- 
+
 
   }
+
   .section-center {
     width: 95vw;
     grid-template-columns: 1fr 1fr 1fr 1fr;
   }
+
   img {
     width: 264px;
     height: 250px;
@@ -293,21 +298,19 @@ p {
 }
 
 @media screen and (min-width: 1400px) {
-  .menu-item{
+  .menu-item {
     grid-template-columns: 370px 1fr;
     /* gap: 0 1.15rem; */
     /* max-width: 40rem; */
   }
+
   .section-center {
     width: 95vw;
     grid-template-columns: 1fr 1fr 1fr 1fr;
   }
+
   .photo {
     height: 300px;
     width: 370px;
   }
 }
-
-
-
-

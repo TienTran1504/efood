@@ -2,15 +2,27 @@ import Footer from './Footer';
 import Header from './Header';
 
 function DefaultLayout({ children }) {
-    return (
-        <div>
-            <Header />
-            <div className="container">
-                <div className="content">{children}</div>
+    if (children.type.name === 'Profile' || children.type.name === 'UpdatePassword' || children.type.name === 'PaymentHistory') {
+        return (
+            <div>
+                <div className="container">
+                    <div className="content">{children}</div>
+                </div>
             </div>
-            <Footer />
-        </div>
-    );
+        )
+    }
+    else {
+        return (
+            <div>
+                <Header />
+                <div className="container">
+                    <div className="content">{children}</div>
+                </div>
+                <Footer />
+            </div>
+        );
+    }
 }
+
 
 export default DefaultLayout;

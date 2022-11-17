@@ -29,7 +29,6 @@ function App() {
                         );
                     })}
                 </Routes>
-                <h1> Hi</h1>
             </div>
         </Router>
     );

@@ -45,10 +45,14 @@ function EditableRow({ id, order, handleEditStatus, handleCancelClick }) {
             </td>
             <td>{order.total}</td>
             <td>
-                <button className={classes['btn']} type="submit" onClick={handleSubmit}>
+                <button className={`${classes['btn']} ${classes['icon-left']}`} type="submit" onClick={handleSubmit}>
                     <FontAwesomeIcon icon={faCheckCircle} />
                 </button>
-                <button className={classes['btn']} type="button" onClick={handleCancelClick}>
+                <button
+                    className={`${classes['btn']} ${classes['icon-left']}`}
+                    type="button"
+                    onClick={handleCancelClick}
+                >
                     <FontAwesomeIcon icon={faTimesCircle} style={{ color: 'red' }} />
                 </button>
             </td>

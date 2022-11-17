@@ -36,7 +36,11 @@ function ReadOnlyRow({ id, order, handleEditClick, handleDeleteClick }) {
                     <FontAwesomeIcon icon={faEye} />
                 </button>
                 <span>{order.action}</span>
-                <button className={classes['btn']} type="button" onClick={() => handleDeleteClick(order.orderId)}>
+                <button
+                    className={`${classes['btn']} ${classes['icon-right']}`}
+                    type="button"
+                    onClick={() => handleDeleteClick(order.orderId)}
+                >
                     <FontAwesomeIcon icon={faTimes} />
                 </button>
             </td>

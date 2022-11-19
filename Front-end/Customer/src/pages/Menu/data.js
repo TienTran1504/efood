@@ -38,7 +38,6 @@ const menu = [
       price: 50000,
       // img: 'item-2.jpeg',
       img: img2,
-
       desc: 4,
     },
     {
@@ -105,7 +104,7 @@ const menu = [
       desc: 5,
     },
     {
-      id: 8,
+      id: 10,
       title: 'american classic',
       category: 'Bữa trưa',
       price: 42000,
@@ -114,7 +113,7 @@ const menu = [
       desc: 4,
     },
     {
-      id: 9,
+      id: 11,
       title: 'american classic',
       category: 'Bữa trưa',
       price: 42000,
@@ -123,7 +122,7 @@ const menu = [
       desc: 3.5,
     },
     {
-      id: 10,
+      id: 12,
       title: 'american classic',
       category: 'Bữa trưa',
       price: 42000,

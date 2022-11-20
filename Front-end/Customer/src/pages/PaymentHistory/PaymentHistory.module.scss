@@ -59,12 +59,19 @@
                     padding-left: 22px;
 
                     .nameItem{
+                        position: relative;
                         align-items: center;
                         display: flex;
                         flex-direction: column;
                         height: 100%;
                         overflow-y: scroll;
                         max-height: 50px;
+
+                        .foodItem{
+                            display: block;
+                            width: 100%;
+                            height: 50px;
+                        }
                     }
                     
                     .nameItem::-webkit-scrollbar{

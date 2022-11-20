@@ -9,6 +9,7 @@ import {
 import {
     faLock,
     faArrowRightFromBracket,
+    faHouse,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -27,6 +28,11 @@ const obj = [
         heading: 'Lịch sử đơn hàng',
         link: '/paymenthistory',
         icon: faRectangleList,
+    },
+    {
+        heading: 'Về trang chủ',
+        link: '/',
+        icon: faHouse
     }
 ]
 

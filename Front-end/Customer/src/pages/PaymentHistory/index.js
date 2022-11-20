@@ -1,6 +1,43 @@
 import classes from './PaymentHistory.module.scss';
 import Sidebar from '~/components/Layout/DefaultLayout/Sidebar';
 
+const obj = [
+    {
+        STT: '1',
+        method: 'Thanh toán khi nhận hàng',
+        nameList: [
+            {
+            nameItem: 'Chó xào',
+            },
+            {
+            nameItem: 'Vịt xào',
+            },
+            {
+            nameItem: 'Mèo xào',
+            },
+            {
+            nameItem: 'Bún riêu',
+            }
+        ],
+        quantity: '4',
+        total: '100.000đ'
+    },
+    {
+        STT: '2',
+        method: 'Thanh toán tại quầy',
+        nameList: [
+            {
+            nameItem: 'Heo quay',
+            },
+            {
+            nameItem: 'Cơm sườn',
+            },
+        ],
+        quantity: '2',
+        total: '150.000đ'
+    },
+]
+
 function PaymentHistory(){
     return (
         <div className={classes['main']}>
@@ -20,18 +57,23 @@ function PaymentHistory(){
                             <th className={classes['amount']}>Số lượng</th>
                             <th className={classes['total']}>Tổng Tiền</th>
                         </tr>
-                        <tr className={classes['Item']}>
-                            <td className={classes['STTitem']}>1</td>  
-                            <td className={classes['methodItem']}>Thanh toán khi nhận hàng</td>
+                        {
+                            obj.map((item, idx) => (
+                        <tr key={idx}
+                            className={classes['Item']}>
+                            <td className={classes['STTitem']}>{item.STT}</td>  
+                            <td className={classes['methodItem']}>{item.method}</td>
                             <td className={classes['nameItem']}>
-                                <span>Chó xào</span>
-                                <span>Chó xào</span>
-                                <span>Chó xào</span>
-                                <span>Chó xào</span>
+                                {item.nameList.map((itemfood, idxfood) => (
+                                    <span className={classes['foodItem']} key={idxfood}>{itemfood.nameItem}</span>
+                                ))}
                             </td>
-                            <td className={classes['amountItem']}>1</td>
-                            <td className={classes['totalItem']}>100.000đ</td>
+                            <td className={classes['amountItem']}>{item.quantity}</td>
+                            <td className={classes['totalItem']}>{item.total}</td>
                         </tr>
+                        )
+                        )
+                        }
                         </tbody>
                     </table>
                 </div>

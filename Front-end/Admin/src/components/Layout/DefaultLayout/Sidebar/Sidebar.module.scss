@@ -1,0 +1,72 @@
+.navbar{
+    width: 280px;
+    height: 900px;
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .navbar__logo{
+        margin-top: 30px;
+        margin-bottom: 25px;
+        display: block;
+        width: 140px;
+        height: 130px;
+        border-radius: 50%;
+        background-color: white;
+        background-image: url(./sidar-img/logo.png);  
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position-y: center;
+    }
+
+    .navbar__list{
+        list-style: none;
+        padding-left: 0;
+
+        .navbar__item{
+            font-size: 20px;
+            font-weight: 450;
+            padding: 8px 0;
+            margin: 12px 0;
+        }
+
+        .navbar__item:hover{
+            opacity: 0.8;
+        }
+
+        .navbar__item--actived .navbar__item-link{
+            color: #FE7C4B;
+        }
+
+        .navbar__item-link{
+            text-decoration: none;
+            color: white;
+        }
+        
+        .navbar__item-icon{
+            margin-right: 10px;
+        }
+    }
+
+    .navbar__logout{
+        margin-top: auto;
+        margin-bottom: 30px;
+    }
+    
+    .navbar__logout:hover{
+        opacity: 0.8;
+    }
+
+    .navbar__logout-link{
+        font-size: 22px;
+        font-style: italic;
+        text-decoration: none;
+        color: white;
+    }
+
+    .navbar__item-icon-logout{
+        margin-right: 5px;
+    }
+}

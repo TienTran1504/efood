@@ -73,10 +73,6 @@ function Menu() {
         const newItems = items.filter((item) => item.category === category);
         setMenuItems(newItems);
     };
-    const test = [];
-    test.push(<img src="https://wallpaperaccess.com/full/1140732.jpg" alt="error" />);
-    test.push(<img src="https://wallpaperaccess.com/full/1140732.jpg" alt="error" />);
-    test.push(<img src="https://wallpaperaccess.com/full/1140732.jpg" alt="error" />);
 
     return (
         <div>
@@ -90,7 +86,6 @@ function Menu() {
             <div className="body__container">
                 <Categories categories={categories} activeCategory={activeCategory} filterItems={filterItems} />
                 <MenuList items={menuItems} />
-                {/* <MenuSlider slides={test}></MenuSlider> */}
             </div>
         </div>
     );

@@ -11,6 +11,12 @@ td {
         padding-right: 12px;
     }
 
+    .icon-left:hover,
+    .icon-right:hover {
+        opacity: 0.8;
+        cursor: pointer;
+    }
+    
     .status-style {
         text-transform: uppercase;
         padding: 6px;

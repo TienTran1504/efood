@@ -40,11 +40,9 @@ function Users() {
     };
 
     const handleEditFormChange = (e) => {
-        e.preventDefault();
 
         const fieldName = e.target.getAttribute("name");
         const fieldValue = e.target.value;
-        console.log()
 
         const newFormData = { ...editFormData };
         newFormData[fieldName] = fieldValue;

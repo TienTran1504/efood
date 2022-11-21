@@ -40,6 +40,11 @@ form {
 form * {
     font-size: 1.8rem;
 }
+
+form:hover {
+    cursor: default;
+}
+
 .product-list {
     border: 2px solid #d9d9d9;
     width: 90%;
@@ -82,4 +87,9 @@ form * {
             font-size: 4rem;
         }
     }
+}
+
+p:hover,
+h4:hover {
+    cursor: default;
 }

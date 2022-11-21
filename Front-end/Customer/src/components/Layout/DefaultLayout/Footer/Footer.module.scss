@@ -1,0 +1,95 @@
+.footer{
+    width: 100%;
+    background-image: url(./footer_img/footer-backgr.jpg);
+    height: 250px;
+    background-repeat: no-repeat;
+    position: relative;
+    background-size: cover;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    bottom: 0;
+    font-size: 21px;
+    cursor: pointer;
+
+    h3{
+        font-size: 22px;
+    }
+
+    .footer__contact{
+        position: absolute;
+        margin-left: 90px;
+        margin-top: 27px;
+
+        .logo{
+            color: #DE7555;
+            font-size: 25px;
+        }
+        
+        .logo_ct{
+            font-size: 25px;
+            font-weight: 560;
+            margin-bottom: 35px;
+        }
+
+        .contact__list{
+            list-style: none;
+            padding-left: 0;
+            font-weight: 500;
+        }
+    }
+
+    .footer__apply{
+        position: absolute;
+        left: 560px;
+        margin-top: 27px;
+
+        .footer__apply-link{
+            list-style: none;
+            padding-left: 0;
+            margin-top: 5px;
+            margin-bottom: 35px;
+
+            li {
+                display: inline-block;
+            }
+
+            .footer__icon{
+                color: white;
+            }
+
+            .footer__link{
+                text-decoration: none;
+                margin: 0 14px;
+            }
+
+            .footer__link:hover{
+                opacity: 0.8;
+            }
+        }
+
+        .input__email{
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .Email__input{
+            display: block;
+            font-size: 24px;
+            border-radius: 4px;
+            padding: 5px 2px;
+            outline: none;
+            width: 330px;
+            border: none;
+        }
+
+    }
+}
+
+
+
+
+
+
+

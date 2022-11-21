@@ -1,0 +1,17 @@
+.swiper-slide {
+  width: 100%;
+  margin-bottom: 55px;
+}
+
+.swiper-pagination-bullet{
+  background-color: white;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: white;
+}
+
+.swiper-pagination-bullet:hover {
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}

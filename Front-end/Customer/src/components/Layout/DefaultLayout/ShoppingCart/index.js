@@ -1,4 +1,4 @@
-import { React } from 'react';
+import { React, useState } from 'react';
 import classes from './ShoppingCart.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import emptyCartImg from './empty-cart.jpg';
@@ -18,6 +18,29 @@ const ShoppingCart = (props) => {
     const totalQuantity = cartItems.reduce((a, c) => a + c.quantity, 0);
     const shippingPrice = totalQuantity > 0 ? 10000 + 5000 * totalQuantity : 0;
     const totalPrice = itemsPrice + shippingPrice;
+    const [paymentMethod, setpaymentMethod] = useState('Thanh toán khi nhận hàng');
+
+    const online = () => {
+        document.getElementById('online').style.backgroundColor = '#ff0000';
+        document.getElementById('online').style.color = 'white';
+        document.getElementById('offline').style.backgroundColor = 'white';
+        document.getElementById('offline').style.color = '#ff0000';
+        document.getElementById('offline').style.border = '2px solid #ff0000';
+        setpaymentMethod('Thanh toán khi nhận hàng');
+    };
+
+    const offline = () => {
+        document.getElementById('offline').style.backgroundColor = '#ff0000';
+        document.getElementById('offline').style.color = 'white';
+        document.getElementById('online').style.backgroundColor = 'white';
+        document.getElementById('online').style.color = '#ff0000';
+        document.getElementById('online').style.border = '2px solid #ff0000';
+        setpaymentMethod('Thanh toán tại quầy');
+    };
+
+    function numberWithDot(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
 
     return (
         <div className={classes['cart-container']}>
@@ -36,7 +59,7 @@ const ShoppingCart = (props) => {
                         </tr>
                         <tr className={classes['cart-row']}>
                             <td className={classes['cart-col']}>
-                                <FontAwesomeIcon icon={faUser} style={{ position: 'absolute', fontSize: '20px' }} />
+                                <FontAwesomeIcon icon={faUser} className={classes['icon']} />
                                 <input
                                     type="text"
                                     name=""
@@ -48,7 +71,7 @@ const ShoppingCart = (props) => {
                         </tr>
                         <tr className={classes['cart-row']}>
                             <td className={classes['cart-col']}>
-                                <FontAwesomeIcon icon={faPhone} style={{ position: 'absolute', fontSize: '20px' }} />
+                                <FontAwesomeIcon icon={faPhone} className={classes['icon']} />
                                 <input
                                     type="text"
                                     name=""
@@ -60,10 +83,7 @@ const ShoppingCart = (props) => {
                         </tr>
                         <tr className={classes['cart-row']}>
                             <td className={classes['cart-col']}>
-                                <FontAwesomeIcon
-                                    icon={faLocationDot}
-                                    style={{ position: 'absolute', fontSize: '20px' }}
-                                />
+                                <FontAwesomeIcon icon={faLocationDot} className={classes['icon']} />
                                 <input
                                     type="text"
                                     name=""
@@ -75,7 +95,7 @@ const ShoppingCart = (props) => {
                         </tr>
                         <tr className={classes['cart-row']}>
                             <td className={classes['cart-col']}>
-                                <FontAwesomeIcon icon={faPencil} style={{ position: 'absolute', fontSize: '20px' }} />
+                                <FontAwesomeIcon icon={faPencil} className={classes['icon']} />
                                 <textarea
                                     type="text"
                                     className={classes['cart-textarea']}
@@ -93,9 +113,10 @@ const ShoppingCart = (props) => {
                             <td className={classes['cart-col']}>
                                 <FontAwesomeIcon
                                     icon={faCircle}
-                                    style={{ position: 'absolute', color: '#E85D31', fontSize: '20px' }}
+                                    className={classes['icon']}
+                                    style={{ color: '#E85D31' }}
                                 />
-                                <div style={{ textIndent: '30px' }}>Thanh toán khi nhận hàng</div>
+                                <div className={classes['cart-input']}>{paymentMethod}</div>
                             </td>
                         </tr>
                     </tbody>
@@ -204,23 +225,3 @@ const ShoppingCart = (props) => {
 };
 
 export default ShoppingCart;
-
-const online = () => {
-    document.getElementById('online').style.backgroundColor = '#ff0000';
-    document.getElementById('online').style.color = 'white';
-    document.getElementById('offline').style.backgroundColor = 'white';
-    document.getElementById('offline').style.color = '#ff0000';
-    document.getElementById('offline').style.border = '2px solid #ff0000';
-};
-
-const offline = () => {
-    document.getElementById('offline').style.backgroundColor = '#ff0000';
-    document.getElementById('offline').style.color = 'white';
-    document.getElementById('online').style.backgroundColor = 'white';
-    document.getElementById('online').style.color = '#ff0000';
-    document.getElementById('online').style.border = '2px solid #ff0000';
-};
-
-function numberWithDot(num) {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-}

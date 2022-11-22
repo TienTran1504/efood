@@ -170,10 +170,16 @@
 }
 
 .empty-cart-image {
-    width: 180px;
-    height: 180px;
+    width: 220px;
+    height: 220px;
     display: block;
-    margin: 40px auto;
+    object-fit: contain;
+    margin: 20px auto;
     -webkit-user-select: none;
     user-select: none;
+}
+
+.icon {
+    position: absolute;
+    font-size: 20px;
 }

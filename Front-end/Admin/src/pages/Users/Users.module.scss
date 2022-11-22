@@ -1,7 +1,7 @@
 .wrapper {
     padding: 12px;
     display: block;
-    width: 1300px;
+    // width: 1300px;
 }
 //title
 .title {
@@ -39,12 +39,12 @@
 .filter {
     display: flex;
     justify-content: flex-start;
-    margin-bottom: 100px;
+    margin-bottom: 50px;
 }
 
 .type-user {
-    width: 20%;
-    height: 70px;
+    width: 25rem;
+    height: 7rem;
     position: relative;
     display: block;
     color: #fff;
@@ -62,8 +62,8 @@
 }
 .type-icon {
     position: absolute;
-    top: 16px;
-    right: 14px;
+    top: 20px;
+    right: 16px;
     font-size: 3rem;
 }
 .type-name {
@@ -77,14 +77,14 @@
     position: absolute;
     padding-left: 12px;
     font-size: 1.4rem;
-    top: 30px;
-    left: 18px;
+    top: 34px;
+    left: 25px;
 }
 
 //form
 .product-list {
     border: 2px solid #d9d9d9;
-    width: 70%;
+    width: 90%;
     margin: auto;
 }
 .product-list-content {

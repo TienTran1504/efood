@@ -1,21 +1,19 @@
 import Dashboard from '~/pages/Dashboard';
-import Menu from '~/pages/Menu';
 import Upload from '~/pages/Upload';
-import Login from '~/pages/Login';
 import Users from '~/pages/Users';
-
+import Login from '~/pages/Login';
+import ForgotPassword from '~/pages/ForgotPassword';
+import ChangePassword from '~/pages/ChangePassword';
 
 const publicRoutes = [
     { path: '/', component: Dashboard },
     { path: '/users', component: Users },
-    { path: '/menu', component: Menu },
     { path: '/login', component: Login },
+    { path: '/forgot', component: ForgotPassword },
+    { path: '/changePass', component: ChangePassword },
     { path: '/upload', component: Upload }, // admin
+];
 
-]
+const privateRoutes = [];
 
-const privateRoutes = [
-
-]
-
-export { publicRoutes, privateRoutes }
+export { publicRoutes, privateRoutes };

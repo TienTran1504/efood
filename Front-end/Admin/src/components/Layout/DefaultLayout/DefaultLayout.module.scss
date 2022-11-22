@@ -1,3 +1,12 @@
 .container {
+    width: 100%;
     display: flex;
+    min-height: 100vh;
+    .content {
+        width: 100%;
+    }
+}
+
+.sidebar__container {
+    height: 100%;
 }

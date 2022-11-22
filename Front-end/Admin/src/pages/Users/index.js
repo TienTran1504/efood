@@ -1,36 +1,35 @@
-import classes from './Users.module.scss'
-import images from '~/assets/images'
+import classes from './Users.module.scss';
+import images from '~/assets/images';
 import { faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState, Fragment } from "react";
-import data from './mock-data.json'
-import ReadOnlyRow from "./components/ReadOnlyRow";
-import EditableRow from "./components/EditableRow";
-
+import React, { useState, Fragment } from 'react';
+import data from './mock-data.json';
+import ReadOnlyRow from './components/ReadOnlyRow';
+import EditableRow from './components/EditableRow';
 
 function Users() {
     const [users, setUsers] = useState(data);
     const [addFormData, setAddFormData] = useState({
-        id: "",
-        fullName: "",
-        email: "",
-        role: "",
-        gender: "",
+        id: '',
+        fullName: '',
+        email: '',
+        role: '',
+        gender: '',
     });
 
     const [editFormData, setEditFormData] = useState({
-        id: "",
-        fullName: "",
-        email: "",
-        role: "",
-        gender: "",
+        id: '',
+        fullName: '',
+        email: '',
+        role: '',
+        gender: '',
     });
     const [editUserId, setEditUserId] = useState(null);
 
     const handleAddFormChange = (e) => {
         e.preventDefault();
 
-        const fieldName = e.target.getAttribute("name");
+        const fieldName = e.target.getAttribute('name');
         const fieldValue = e.target.value;
 
         const newFormData = { ...addFormData };
@@ -40,8 +39,7 @@ function Users() {
     };
 
     const handleEditFormChange = (e) => {
-
-        const fieldName = e.target.getAttribute("name");
+        const fieldName = e.target.getAttribute('name');
         const fieldValue = e.target.value;
 
         const newFormData = { ...editFormData };
@@ -115,10 +113,9 @@ function Users() {
     const [modalOpen, setModalOpen] = useState(false);
     return (
         <div className={classes.wrapper}>
-
             <div className={classes.title}>
                 <p className={classes['title-name']}>USERS MANAGEMENT</p>
-                <img src={images.logoImage} alt="logo" className={classes['title-logo']} />
+                {/* <img src={images.logoImage} alt="logo" className={classes['title-logo']} /> */}
             </div>
 
             <div className={classes.filter}>
@@ -134,12 +131,10 @@ function Users() {
                     <FontAwesomeIcon className={classes['type-icon']} icon={faUser} />
                     <p className={classes['type-quantity']}>12</p>
                 </button>
-
             </div>
             <div className={classes['product-list']}>
                 <div className={classes['product-list-content']}>
                     <h4 className={classes['product-list-title']}>Users List</h4>
-
                 </div>
                 <form className={classes['menu-form']} onSubmit={handleEditFormSubmit}>
                     <table>
@@ -175,11 +170,8 @@ function Users() {
                         </tbody>
                     </table>
                 </form>
-
-
             </div>
         </div>
-
     );
 }
 

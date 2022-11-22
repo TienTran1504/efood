@@ -1,36 +1,44 @@
-import classes from './Upload.module.scss'
-import images from '~/assets/images'
+import classes from './Upload.module.scss';
 import { faBowlFood, faBowlRice, faBurger, faIceCream, faMugHot } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState, Fragment } from "react";
-import data from './mock-data.json'
-import ReadOnlyRow from "./components/ReadOnlyRow";
-import EditableRow from "./components/EditableRow";
+import React, { useState, Fragment } from 'react';
+import data from './mock-data.json';
+import ReadOnlyRow from './components/ReadOnlyRow';
+import EditableRow from './components/EditableRow';
 import Button from '~/components/Layout/DefaultLayout/Header/Button';
 import Modal from './components/Modal';
+import TypeFood from './components/TypeFood';
 function Upload() {
     const [foods, setFoods] = useState(data);
     const [addFormData, setAddFormData] = useState({
-        id: "",
-        fullName: "",
-        type: "",
-        price: "",
-        image: "",
+        id: '',
+        fullName: '',
+        type: '',
+        price: '',
+        image: '',
     });
 
     const [editFormData, setEditFormData] = useState({
-        id: "",
-        fullName: "",
-        type: "",
-        price: "",
-        image: "",
+        id: '',
+        fullName: '',
+        type: '',
+        price: '',
+        image: '',
     });
+
+    const foodType = [
+        { name: 'Món nước', icon: faBowlFood, number: 3, color: 'blue' },
+        { name: 'Cơm', icon: faBowlRice, number: 3, color: 'red' },
+        { name: 'Đồ uống', icon: faMugHot, number: 3, color: 'purple' },
+        { name: 'Tráng miệng', icon: faIceCream, number: 3, color: 'green' },
+        { name: 'Ăn vặt', icon: faIceCream, number: 3, color: 'yellow' },
+    ];
+
     const [editFoodId, setEditFoodId] = useState(null);
 
     const handleAddFormChange = (e) => {
         e.preventDefault();
 
-        const fieldName = e.target.getAttribute("name");
+        const fieldName = e.target.getAttribute('name');
         const fieldValue = e.target.value;
 
         const newFormData = { ...addFormData };
@@ -42,7 +50,7 @@ function Upload() {
     const handleEditFormChange = (e) => {
         e.preventDefault();
 
-        const fieldName = e.target.getAttribute("name");
+        const fieldName = e.target.getAttribute('name');
         const fieldValue = e.target.value;
 
         const newFormData = { ...editFormData };
@@ -117,55 +125,38 @@ function Upload() {
     return (
         // < div className={`${modalOpen ? classes['wrapper-opacity'] : classes.wrapper}`}>
         <div className={classes.wrapper}>
-
-            {modalOpen && <Modal setOpenModal={setModalOpen} handleAddFormChange={handleAddFormChange} handleAddFormSubmit={handleAddFormSubmit} />}
+            {modalOpen && (
+                <Modal
+                    setOpenModal={setModalOpen}
+                    handleAddFormChange={handleAddFormChange}
+                    handleAddFormSubmit={handleAddFormSubmit}
+                />
+            )}
 
             <div className={classes.title}>
                 <p className={classes['title-name']}>PRODUCT MANAGEMENT</p>
-                <img src={images.logoImage} alt="logo" className={classes['title-logo']} />
+                {/* <img src={images.logoImage} alt="logo" className={classes['title-logo']} /> */}
             </div>
 
             <div className={classes.filter}>
-                {/* Sau này convert ra thành 1 component riêng */}
-                <button className={`${classes['type-food']} ${classes.blue}`}>
-                    <p className={classes['type-name']}>MÓN NƯỚC</p>
-                    <FontAwesomeIcon className={classes['type-icon']} icon={faBowlFood} />
-                    <p className={classes['type-quantity']}>12</p>
-                </button>
-
-                <button className={`${classes['type-food']} ${classes.red}`}>
-                    <p className={classes['type-name']}>CƠM</p>
-                    <FontAwesomeIcon className={classes['type-icon']} icon={faBowlRice} />
-                    <p className={classes['type-quantity']}>12</p>
-                </button>
-
-                <button className={`${classes['type-food']} ${classes.purple}`}>
-                    <p className={classes['type-name']}>ĐỒ UỐNG</p>
-                    <FontAwesomeIcon className={classes['type-icon']} icon={faMugHot} />
-                    <p className={classes['type-quantity']}>12</p>
-                </button>
-
-                <button className={`${classes['type-food']} ${classes.green}`}>
-                    <p className={classes['type-name']}>TRÁNG MIỆNG</p>
-                    <FontAwesomeIcon className={classes['type-icon']} icon={faIceCream} />
-                    <p className={classes['type-quantity']}>12</p>
-                </button>
-
-                <button className={`${classes['type-food']} ${classes.yellow}`}>
-                    <p className={classes['type-name']}>ĂN VẶT</p>
-                    <FontAwesomeIcon className={classes['type-icon']} icon={faBurger} />
-                    <p className={classes['type-quantity']}>12</p>
-                </button>
-
-
+                {foodType.map((payMenthod, index) => (
+                    <TypeFood key={index} props={payMenthod} />
+                ))}
             </div>
+
             <div className={classes['product-list']}>
                 <div className={classes['product-list-content']}>
                     <h4 className={classes['product-list-title']}>Product List</h4>
-                    <Button primary type="submit" className={classes['product-list-btn']} onClick={() => {
-                        setModalOpen(true);
-                    }}>Add new</Button>
-
+                    <Button
+                        primary
+                        type="submit"
+                        className={classes['product-list-btn']}
+                        onClick={() => {
+                            setModalOpen(true);
+                        }}
+                    >
+                        Add new
+                    </Button>
                 </div>
                 <form className={classes['menu-form']} onSubmit={handleEditFormSubmit}>
                     <table>
@@ -188,10 +179,10 @@ function Upload() {
                                             editFormData={editFormData}
                                             handleEditFormChange={handleEditFormChange}
                                             handleCancelClick={handleCancelClick}
-
                                         />
                                     ) : (
                                         <ReadOnlyRow
+                                            id={index + 1}
                                             food={food}
                                             handleEditClick={handleEditClick}
                                             handleDeleteClick={handleDeleteClick}
@@ -202,12 +193,8 @@ function Upload() {
                         </tbody>
                     </table>
                 </form>
-
-
             </div>
-
         </div>
-
     );
 }
 

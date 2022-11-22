@@ -1,9 +1,8 @@
-import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import classes from "../Upload.module.scss"
+import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classes from './RowStyle.module.scss';
 
 function EditableRow({ editFoodId, editFormData, handleEditFormChange, handleCancelClick }) {
-    console.log(editFormData.id);
     return (
         <tr>
             <td>
@@ -13,22 +12,20 @@ function EditableRow({ editFoodId, editFormData, handleEditFormChange, handleCan
                     placeholder="Enter id"
                     name="id"
                     defaultValue={editFoodId}
-                    className={classes['input-edit-id']}
-                >
-                </input>
-
+                    className={`${classes['input-edit-id']} ${classes['input-edit-text']}`}
+                ></input>
             </td>
             <td>
                 <input
                     type="file"
+                    name="file"
+                    id="file"
                     required="required"
-                    placeholder="Choose foodimgage "
-                    name="image"
                     onChange={handleEditFormChange}
                     accept="image/jpeg, imge/png, image/jpg"
-                    className={classes['input-edit-img']}
-                >
-                </input>
+                    className={`${classes['input-edit-img']} ${classes['input-edit-text']}`}
+                />
+                <label for="file">Chọn ảnh</label>
             </td>
             <td>
                 <input
@@ -38,7 +35,7 @@ function EditableRow({ editFoodId, editFormData, handleEditFormChange, handleCan
                     name="fullName"
                     value={editFormData.fullName}
                     onChange={handleEditFormChange}
-                    className={classes['input-edit-name']}
+                    className={`${classes['input-edit-name']} ${classes['input-edit-text']}`}
                 ></input>
             </td>
             <td>
@@ -49,7 +46,7 @@ function EditableRow({ editFoodId, editFormData, handleEditFormChange, handleCan
                     name="type"
                     value={editFormData.type}
                     onChange={handleEditFormChange}
-                    className={classes['input-edit-food']}
+                    className={`${classes['input-edit-food']} ${classes['input-edit-text']}`}
                 ></input>
             </td>
             <td>
@@ -60,7 +57,7 @@ function EditableRow({ editFoodId, editFormData, handleEditFormChange, handleCan
                     name="price"
                     value={editFormData.price}
                     onChange={handleEditFormChange}
-                    className={classes['input-edit-price']}
+                    className={`${classes['input-edit-price']} ${classes['input-edit-text']}`}
                 ></input>
             </td>
             <td>

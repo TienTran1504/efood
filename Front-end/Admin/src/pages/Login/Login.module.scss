@@ -3,6 +3,7 @@
     display: flex;
     justify-content: space-around;
     text-align: center;
+    background-color: #f1f5f8;
     .wrapper__logo {
         text-align: -webkit-center;
         width: 40%;
@@ -13,6 +14,9 @@
         }
     }
     .wrapper__form {
+        .form__container {
+            display: block;
+        }
         width: 60%;
         margin: auto;
         border-left: 1px solid rgb(64, 64, 64);

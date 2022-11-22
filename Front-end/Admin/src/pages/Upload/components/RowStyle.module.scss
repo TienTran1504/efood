@@ -1,0 +1,72 @@
+.btn {
+    background-color: transparent;
+    margin-left: 16px;
+    font-weight: 700;
+}
+td {
+    .icon-left {
+        padding-right: 12px;
+    }
+
+    .icon-left:hover,
+    .icon-right:hover {
+        opacity: 0.8;
+        cursor: pointer;
+    }
+
+    .input-edit-img {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+    }
+    label {
+        width: 9rem;
+        border: 2px solid black;
+        border-radius: 5px;
+        margin: 0;
+    }
+    .input-edit-img + label {
+        color: rgb(0, 0, 0);
+        background-color: rgb(209, 209, 209);
+        display: inline-block;
+    }
+    .input-edit-img:focus + label,
+    .input-edit-img + label:hover {
+        background-color: #ee7547;
+    }
+    .input-edit-img + label {
+        cursor: pointer;
+    }
+    .input-edit-img:focus + label {
+        outline: 1px dotted #000;
+        outline: -webkit-focus-ring-color auto 5px;
+    }
+    .input-edit-img + label * {
+        pointer-events: none;
+    }
+
+    .input-edit-text {
+        text-align: center;
+        // font-weight: 700;
+        height: 5.8rem;
+    }
+
+    .input-edit-id {
+        width: 20px;
+    }
+    .input-edit-img {
+        width: 200px;
+    }
+    .input-edit-name {
+        width: 120px;
+    }
+    .input-edit-food {
+        width: 100px;
+    }
+    .input-edit-price {
+        width: 80px;
+    }
+}

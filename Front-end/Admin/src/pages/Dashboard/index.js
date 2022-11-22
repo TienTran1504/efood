@@ -12,7 +12,7 @@ function Dashboard() {
     const [orders, setOrders] = useState(data);
     const [total, setTotal] = useState(0);
 
-    const payMenthodOrder = [
+    const processOrder = [
         { name: 'ORDER PROCESS', icon: faSpinner, number: 3, color: 'blue' },
         { name: 'ORDER DELIVERED', icon: faTruck, number: 3, color: 'green' },
         { name: 'ORDER CANCELED', icon: faTimes, number: 3, color: 'red' },
@@ -77,10 +77,9 @@ function Dashboard() {
         <div className={classes.wrapper}>
             <div className={classes.title}>
                 <p className={classes['title-name']}>DASHBOARD MANAGEMENT</p>
-                {/* <img src={statuss.logostatus} alt="logo" className={classes['title-logo']} /> */}
             </div>
             <div className={classes.filter}>
-                {payMenthodOrder.map((payMenthod, index) => (
+                {processOrder.map((payMenthod, index) => (
                     <StateOrder key={index} props={payMenthod} />
                 ))}
             </div>

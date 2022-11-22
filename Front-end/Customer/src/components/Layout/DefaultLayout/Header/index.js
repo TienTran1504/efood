@@ -100,10 +100,9 @@ function Header() {
                                 <FontAwesomeIcon icon={faCartShopping} />
                             </Link>
                         </li>
-                    </ul>   
+                    </ul>
 
-                    {/* {currentUser ? ( */}
-                    {true ? (
+                    {currentUser ? (
                         <Menu items={USER_ITEMS} handleLogOut={handleLogOut}>
                             {/* <button className={classes['more-btn']}>
                                 <FontAwesomeIcon icon={faBars} />

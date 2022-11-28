@@ -44,8 +44,15 @@ const UserSchema = new mongoose.Schema({
         type: Number,
         min: [0, "Bonus point can not be a negative number"],
         default: 0,
+    },
+    orderList: {
+        type: Array,
+        default: [],
+    },
+    orderPrice: {
+        type: Number,
+        default: 0,
     }
-
 })
 
 //Hashing password

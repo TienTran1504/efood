@@ -20,6 +20,7 @@ const authRouter = require('./routes/auth');// use for both admin, customer
 const adminRouter = require('./routes/admin');// use for admin
 const foodsRouter = require('./routes/foods');
 const billsRouter = require('./routes/bills');
+const customerRouter = require('./routes/customer');
 
 //parse form data
 app.use(express.urlencoded({ extended: false }));
@@ -48,6 +49,7 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/admin', authenticateUser, adminRouter);
 app.use('/api/v1/foods', authenticateUser, foodsRouter);
 app.use('/api/v1/bills', authenticateUser, billsRouter);
+app.use('/api/v1/customer', authenticateUser, customerRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

@@ -22,8 +22,8 @@ const USER_ITEMS = [
     },
     {
         icon: <FontAwesomeIcon icon={faCircleQuestion} />,
-        title: 'Help',
-        to: '/service',
+        title: 'Location',
+        to: '/location',
     },
     {
         icon: <FontAwesomeIcon icon={faCartShopping} />,
@@ -81,10 +81,10 @@ function Header() {
                         </li>
                         <li className={classes['menu-item']}>
                             <Link
-                                to="/service"
-                                className={`${path.pathname.includes('/service') ? classes.active : ''}`}
+                                to="/location"
+                                className={`${path.pathname.includes('/location') ? classes.active : ''}`}
                             >
-                                Service
+                                Location
                             </Link>
                         </li>
                         <li className={classes['menu-item']}>
@@ -102,7 +102,8 @@ function Header() {
                         </li>
                     </ul>
 
-                    {currentUser ? (
+                    {/* {currentUser ? ( */}
+                    {true ? (
                         <Menu items={USER_ITEMS} handleLogOut={handleLogOut}>
                             {/* <button className={classes['more-btn']}>
                                 <FontAwesomeIcon icon={faBars} />

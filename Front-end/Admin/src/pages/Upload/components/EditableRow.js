@@ -18,14 +18,14 @@ function EditableRow({ editFoodId, editFormData, handleEditFormChange, handleCan
             <td>
                 <input
                     type="file"
-                    name="file"
+                    name="image"
                     id="file"
                     required="required"
                     onChange={handleEditFormChange}
                     accept="image/jpeg, imge/png, image/jpg"
                     className={`${classes['input-edit-img']} ${classes['input-edit-text']}`}
                 />
-                <label for="file">Chọn ảnh</label>
+                <label htmlFor="file">Chọn ảnh</label>
             </td>
             <td>
                 <input

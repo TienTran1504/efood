@@ -1,5 +1,5 @@
 import classes from './Upload.module.scss';
-import { faBowlFood, faBowlRice, faBurger, faIceCream, faMugHot } from '@fortawesome/free-solid-svg-icons';
+import { faBowlFood, faBowlRice, faIceCream, faMugHot } from '@fortawesome/free-solid-svg-icons';
 import React, { useState, Fragment } from 'react';
 import data from './mock-data.json';
 import ReadOnlyRow from './components/ReadOnlyRow';
@@ -7,6 +7,7 @@ import EditableRow from './components/EditableRow';
 import Button from '~/components/Layout/DefaultLayout/Header/Button';
 import Modal from './components/Modal';
 import TypeFood from './components/TypeFood';
+
 function Upload() {
     const [foods, setFoods] = useState(data);
     const [addFormData, setAddFormData] = useState({
@@ -35,6 +36,19 @@ function Upload() {
 
     const [editFoodId, setEditFoodId] = useState(null);
 
+    const convertToBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+          const fileReader = new FileReader();
+          fileReader.readAsDataURL(file);
+          fileReader.onload = () => {
+            resolve(fileReader.result);
+          };
+          fileReader.onerror = (error) => {
+            reject(error);
+          };
+        });
+      };
+
     const handleAddFormChange = (e) => {
         e.preventDefault();
 
@@ -50,12 +64,25 @@ function Upload() {
     const handleEditFormChange = (e) => {
         e.preventDefault();
 
-        const fieldName = e.target.getAttribute('name');
-        const fieldValue = e.target.value;
+        var fieldValue;
+        var fieldName = e.target.getAttribute('name');
 
         const newFormData = { ...editFormData };
-        newFormData[fieldName] = fieldValue;
 
+        if(fieldName === 'image')
+        {
+            fieldValue = URL.createObjectURL(e.target.files[0]);
+            convertToBase64(e.target.files[0]).then(data => {
+            // console.log(data);
+            })
+
+        }
+        else{
+            fieldValue = e.target.value;
+        }
+
+        newFormData[fieldName] = fieldValue;
+        // console.log(newFormData);
         setEditFormData(newFormData);
     };
 

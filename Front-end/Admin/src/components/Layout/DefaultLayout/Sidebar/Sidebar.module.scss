@@ -5,22 +5,78 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
 
-    .navbar__logo {
-        margin-top: 30px;
-        margin-bottom: 25px;
-        display: block;
-        width: 140px;
-        height: 130px;
-        border-radius: 50%;
-        background-color: white;
-        background-image: url(./sidar-img/logo.png);
-        background-size: cover;
+    .navbar__avt{
         background-repeat: no-repeat;
-        background-position-y: center;
+        display: block;
+        background-color: #000;
+        border: 1px solid #fff;
+        border-radius: 50%;
+        height: 17%;    
+        left: 16%;
+        overflow: hidden;
+        position: absolute;
+        top: 4%;
+        width: 61%;
+        z-index: 1;
+        
+        .background{
+            object-fit: cover;
+            width: 130px;
+            height: 130px;
+        }
+    }
+
+    .nickname{
+        z-index: 1;
+        font-weight: 600;
+        left: 22%;
+        font-size: 22px;
+        top: 24%;
+        cursor: pointer;
+        position: absolute;
+        margin: 0 auto;
+    }
+
+    .choose__avt{
+        height: 40px;
+        align-items: center;
+        background-color: #fff;
+        border: 1px solid gray;
+        border-radius: 50%;
+        box-shadow: 0 5px 10px rgb(0 0 0 / 30%);
+        display: flex;
+        justify-content: center;
+        left: 53%;
+        top: 18%;
+        width: 40px;
+        position: absolute;
+        z-index: 2;
+    }
+
+    .choose__avt:hover{
+        background-color: rgb(221, 238, 253);
+    }
+    
+    input[type="file"]
+    {
+        display: none;
+    }
+    
+    .choose__avt label{
+        display: block;
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        left: 1%;
+        z-index: 1;
+        cursor: pointer;
     }
 
     .navbar__list {
+        margin-top: 250px;
         list-style: none;
         padding-left: 0;
 

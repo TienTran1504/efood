@@ -1,6 +1,6 @@
 import Home from '~/pages/Home';
 import Menu from '~/pages/Menu';
-import Service from '~/pages/Service';
+import Location from '~/pages/Location';
 import Contact from '~/pages/Contact';
 import Login from '~/pages/Login';
 import SignUp from '~/pages/Register';
@@ -16,7 +16,7 @@ const publicRoutes = [
     { path: '/', component: Home },
     { path: '/menu', component: Menu },
     { path: '/contact', component: Contact },
-    { path: '/service', component: Service },
+    { path: '/location', component: Location },
     { path: '/login', component: Login },
     { path: '/register', component: SignUp },
     { path: '/forgot', component: ForgotPassword },

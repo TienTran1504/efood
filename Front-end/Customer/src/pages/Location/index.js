@@ -1,8 +1,8 @@
 import React from 'react';
 import Iframe from 'react-iframe'
-import classes from './Service.module.scss';
+import classes from './Location.module.scss';
 
-function Service() {
+function Location() {
     return (
         <div className={classes['map__container']}>
         <div className={classes['map__uppon']}></div>
@@ -11,4 +11,4 @@ function Service() {
     );
 }
 
-export default Service;
+export default Location;

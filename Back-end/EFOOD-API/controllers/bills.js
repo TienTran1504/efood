@@ -65,8 +65,7 @@ const getUserBills = async (req, res) => {
 const createBill = async (req, res) => {
     const user = await User.findOne({ _id: req.user.userId })
 
-    console.log(user)
-    if (!!user.orderList) {
+    if (user.orderList.length > 0) {
         req.body.createdBy = req.user.userId;
         req.body.orderList = user.orderList;
         req.body.total = user.orderPrice;

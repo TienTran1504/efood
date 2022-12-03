@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 
 
-const { getAllItems, updateItem, deleteItem, createItem } = require('../controllers/customer')
-
+const { getAllItems, updateItem, deleteItem, createItem, getUserInfor } = require('../controllers/customer')
+router.route('/').get(getUserInfor)
 router.route('/cart').get(getAllItems)
 router.route('/cart/:foodId').delete(deleteItem).patch(updateItem).post(createItem)
 router.route('/cart/delete/:foodId').patch(deleteItem)

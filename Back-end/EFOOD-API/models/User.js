@@ -52,7 +52,11 @@ const UserSchema = new mongoose.Schema({
     orderPrice: {
         type: Number,
         default: 0,
-    }
+    },
+    image: {
+        type: String,
+        default: "./default.png",
+    },
 })
 
 //Hashing password

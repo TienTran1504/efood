@@ -69,7 +69,7 @@ const createBill = async (req, res) => {
         req.body.createdBy = req.user.userId;
         req.body.orderList = user.orderList;
         req.body.total = user.orderPrice;
-
+        req.body.orderPrice = 0;
         const bill = await Bill.create(req.body);
 
         req.body.orderList.splice(0);

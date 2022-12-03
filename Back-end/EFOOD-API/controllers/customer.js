@@ -2,6 +2,11 @@ const User = require('../models/User')
 const Food = require('../models/Food')
 const { StatusCodes } = require('http-status-codes')
 const { BadRequestError, UnauthenticatedError, NotFoundError } = require('../errors')
+// {{URL}}/customer
+const getUserInfor = async (req, res) => {
+    const user = await User.findOne({ _id: req.user.userId });
+    res.status(StatusCodes.OK).json({ id: user.id, userName: user.name, image: user.image, email: user.email, orderList: user.orderList, orderPrice: user.orderPrice })
+}
 // {{URL}}/customer/cart
 const getAllItems = async (req, res) => {
     const user = await User.findOne({ _id: req.user.userId }); // lấy ra đúng user đang login
@@ -121,6 +126,7 @@ const updateItem = async (req, res) => {
     }
 }
 module.exports = {
+    getUserInfor,
     getAllItems,
     updateItem,
     deleteItem,
@@ -128,7 +134,7 @@ module.exports = {
 }
 /*main flow:
 Khi create một item vào trong cart thì nó sẽ kiểm tra food có tồn tại chưa -> kiểm tra food item đó có nằm trong cart chưa
-Khi getAllItems sẽ lấy toàn bộ item trong cart,
-Khi updateItem sẽ update quantity của sản phẩm và tổng giá của sản phẩm và của giỏ hàng
+Khi getAllItems sẽ lấy toàn bộ item trong user's cart,
+Khi updateItem sẽ update quantity của sản phẩm và tự động update tổng giá của sản phẩm và của giỏ hàng
 Khi deleteItem sẽ update lại giỏ hàng mà xoá đi item được chọn
 */

@@ -1,6 +1,20 @@
 const User = require('../models/User')
 const { StatusCodes } = require('http-status-codes')
 const { BadRequestError, UnauthenticatedError, NotFoundError } = require('../errors')
+const nodemailer = require('nodemailer');
+const sendMail = require('../sendMail')
+// {{URL}}/auth/otp
+const createOTP = async (req, res) => {
+    const OTP = await sendMail(7);
+    console.log(typeof OTP);
+    console.log(OTP);
+    if (!OTP) {
+        res.status(StatusCodes.BAD_REQUEST).json({ msg: "Sending gmail fail!!!" })
+    }
+    else {
+        res.status(StatusCodes.CREATED).json({ msgSentToGmail: OTP });
+    }
+}
 
 // {{URL}}/auth/register
 const register = async (req, res) => {
@@ -10,7 +24,7 @@ const register = async (req, res) => {
     // }
     const user = await User.create({ ...req.body });
     const token = user.createJWT();
-    // console.log(user);
+
     res.status(StatusCodes.CREATED).json({
         user: { userId: user._id, name: user.name, gender: user.gender, typeOf: user.typeOf },
         token
@@ -37,12 +51,13 @@ const login = async (req, res) => {
     }
     const token = user.createJWT();
     res.status(StatusCodes.OK).json({
-        user: { name: user.name, typeOf: user.typeOf, msg: "Login successfully" },
+        user: { id: user.id, name: user.name, typeOf: user.typeOf, msg: "Login successfully" },
         token
     });
 
 }
 module.exports = {
+    createOTP,
     register,
     login,
 }

@@ -5,7 +5,48 @@ const { BadRequestError, UnauthenticatedError, NotFoundError } = require('../err
 // {{URL}}/customer
 const getUserInfor = async (req, res) => {
     const user = await User.findOne({ _id: req.user.userId });
-    res.status(StatusCodes.OK).json({ id: user.id, userName: user.name, image: user.image, email: user.email, orderList: user.orderList, orderPrice: user.orderPrice })
+    res.status(StatusCodes.OK).json({
+        id: user._id,
+        userName: user.name,
+        image: user.image,
+        phone: user.phone,
+        gender: user.gender,
+        birthday: user.birthday,
+        email: user.email,
+        address: user.address,
+        typeOf: user.typeOf,
+        orderList: user.orderList,
+        orderPrice: user.orderPrice
+    })
+}
+// {{URL}}/customer/profile
+const updateUserProfile = async (req, res) => {
+    const user = await User.findOne({ _id: req.user.userId });
+    const { phone, gender, address, image, birthday } = req.body
+    if (!phone && !gender && !address && !image && !birthday) {
+        throw new BadRequestError("Please enter at least 1 fields to update user profile (phone, gender, address)")
+    }
+    else {
+        const userUpdate = await User.findByIdAndUpdate(
+            {
+                _id: user._id,
+            },
+            req.body,
+            { new: true, runValidators: true }
+        )
+        res.status(StatusCodes.OK).json({
+            id: userUpdate._id,
+            name: userUpdate.name,
+            image: userUpdate.image,
+            phone: userUpdate.phone,
+            gender: userUpdate.gender,
+            birthday: userUpdate.birthday,
+            email: userUpdate.email,
+            address: userUpdate.address,
+            typeOf: userUpdate.typeOf
+        });
+    }
+
 }
 // {{URL}}/customer/cart
 const getAllItems = async (req, res) => {
@@ -126,6 +167,7 @@ const updateItem = async (req, res) => {
     }
 }
 module.exports = {
+    updateUserProfile,
     getUserInfor,
     getAllItems,
     updateItem,

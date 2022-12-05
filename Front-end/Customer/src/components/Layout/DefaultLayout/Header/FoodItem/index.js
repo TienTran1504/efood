@@ -1,18 +1,18 @@
 import classes from "./FoodItem.module.scss";
 import Image from '~/components/Image';
-import { Link } from 'react-router-dom'
+
 function FoodItem({ data }) {
     return (
-        <Link to={`/@${data.nickname}`} className={classes.wrapper}>
+        <div className={classes.wrapper}>
             <Image
                 className={classes['food-image']}
-                src={data.avatar}
+                src={data.image}
                 alt="avatar_picture" />
             <div className={classes['food-content']}>
-                <h4 className={classes['food-name']}>{data.full_name}</h4>
+                <h4 className={classes['food-name']}>{data.name}</h4>
             </div>
 
-        </Link>
+        </div>
     );
 }
 

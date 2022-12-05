@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Images from '~/assets/images';
 import classes from '../Login/Login.module.scss';
@@ -17,6 +17,7 @@ export default function ForgotPassword() {
         setRewritePass('');
         e.preventDefault();
     }
+
     return (
         <div className={classes.wrapper}>
             <div className={classes.wrapper__logo}>

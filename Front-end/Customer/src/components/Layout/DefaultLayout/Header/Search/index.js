@@ -25,7 +25,7 @@ function Search({setIsOpen, setData}) {
         //Khi lần đầu load trang thì searchValue nó bằng rỗng để ngăn chặn gọi api thì return nếu nó là chuỗi rỗng
         // .trim() để loại bỏ chuỗi rỗng ký tự đầu
         if (!searchValue.trim()) {
-            setSearchResult([])
+            setSearchResult([]);
             return;
         }
 
@@ -33,6 +33,15 @@ function Search({setIsOpen, setData}) {
 
         var arraySuggestFood = [];
         // encodeURIcomponent để mã hoá những ký tự đặc biệt thành ký tự hợp lệ trên URL vd &,?,...
+<<<<<<< HEAD
+        fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(searchValue)}&type=less`)
+            .then((res) => res.json())
+            .then((res) => {
+                setSearchResult(res.data); // sẽ gán lại mảng cho result
+                setLoading(false);
+            })
+            .catch(() => {
+=======
         const headers ={ 'Authorization': "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzgwN2ViNjllODIxYTMyMDA1N2ViZDAiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzAwODU1NTQsImV4cCI6MTY3MjY3NzU1NH0.CbfYvU3dRalURXHYfX8sFifDyINaJHe_iJZ3X1SxjNc"};
         axios.get(`http://localhost:3000/api/v1/foods/` , {headers : headers}).then((res) => { 
         var temparray = searchValue.split(" ");
@@ -60,25 +69,30 @@ function Search({setIsOpen, setData}) {
              })
             .catch((error) => {
                 console.log(error);
+>>>>>>> 50f3731cae42e37a92eb0851f796fadc0f11a71a
                 setLoading(false);
-            })
-    }, [searchValue])
+            });
+    }, [searchValue]);
 
     const handleClear = () => {
         setSearchValue('');
         setSearchResult([]);
         inputRef.current.focus();
-    }
+    };
 
     const handleHideResult = () => {
         setShowResult(false);
+<<<<<<< HEAD
+    };
+=======
     }
         
+>>>>>>> 50f3731cae42e37a92eb0851f796fadc0f11a71a
     return (
         <Tippy
             interactive
             visible={showResult && searchResult.length > 0}
-            render={attrs => (
+            render={(attrs) => (
                 <div className={classes['search-result']} tabIndex="-1" {...attrs}>
                     <PopperWrapper>
                         <h4 className={classes['search-title']}>FOOD</h4>
@@ -101,13 +115,13 @@ function Search({setIsOpen, setData}) {
             onClickOutside={handleHideResult}
         >
             <div className={classes.search}>
-                <input placeholder="Search dishes..."
+                <input
+                    placeholder="Search dishes..."
                     ref={inputRef}
                     value={searchValue}
                     spellCheck={false}
                     onChange={(e) => setSearchValue(e.target.value)}
                     onFocus={() => setShowResult(true)}
-
                 />
                 {/* Khi có search value sẽ hiện button clear */}
                 {!!searchValue && !loading && (
@@ -116,7 +130,6 @@ function Search({setIsOpen, setData}) {
                     </button>
                 )}
                 {loading && <FontAwesomeIcon className={classes.loading} icon={faSpinner} />}
-
 
                 <button className={classes['search-btn']}>
                     <FontAwesomeIcon icon={faMagnifyingGlass} />

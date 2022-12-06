@@ -1,31 +1,67 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+
+import request from '~/utils/request';
 import Images from '~/assets/images';
 import classes from '../Login/Login.module.scss';
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function SignUpPage() {
-    const [gmail, setGmail] = useState('');
+    const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [rewritePass, setRewritePass] = useState('');
-    const gmailInput = useRef();
-    const passInput = useRef();
-    const rewritePassInput = useRef();
+    const [validEmail, setValidEmail] = useState(false);
+    const [validPass, setValidPass] = useState(false);
+    const [validReWritePass, setValidRewritePass] = useState(false);
 
-    function handleSubmit(e) {
+    function handleEmailCheck() {
         const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        const checkGmail = mailFormat.test(gmail);
+        const checkEmail = mailFormat.test(email);
 
-        if (!checkGmail || pass === '' || pass !== rewritePass) {
-            if (!checkGmail) alert('Lỗi!\nGmail của bạn không hợp lệ.');
-            else if (pass === '') alert('Bạn chưa nhập mật khẩu!');
-            else alert('Mật khẩu của bạn không trùng khớp!');
-        } else alert('Tài khoản hợp lệ!\nBạn đã đăng ký thàng công. Hãy quay về đăng nhập.');
-
-        setGmail('');
-        setPass('');
-        setRewritePass('');
-        e.preventDefault();
+        if (!checkEmail) setValidEmail(true);
+        else setValidEmail(false);
     }
+
+    function handlePasswordCheck() {
+        const passFormat = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+        const checkPass = passFormat.test(pass);
+        if (!checkPass) setValidPass(true);
+        else setValidPass(false);
+    }
+
+    function handleRewritePassCheck() {
+        if (rewritePass !== pass && !validPass) setValidRewritePass(true);
+        else setValidRewritePass(false);
+        console.log(validEmail, pass, rewritePass);
+    }
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+        if (validEmail || validPass || validReWritePass) {
+            alert('Lỗi đăng ký!!!');
+            return;
+        }
+        var objResgister = {
+            email: email,
+            password: pass,
+        };
+
+        // make axios post
+        await request
+            .post('auth/register', objResgister)
+            .then((res) => {
+                console.log(res.data);
+                setEmail('');
+                setPass('');
+                setRewritePass('');
+                alert('Tài khoản hợp lệ!\nBạn đã đăng ký thàng công. Hãy quay về đăng nhập.');
+            })
+            .catch((error) => alert(error.response.data.msg));
+        // setSuccess(true);
+    }
+
+    // useEffect(() => {}, [success]);
 
     return (
         <div className={classes.wrapper}>
@@ -34,39 +70,75 @@ export default function SignUpPage() {
             </div>
             <div className={classes.wrapper__form}>
                 <h2>Đăng Ký</h2>
-                <form action="/home">
+                <form onSubmit={handleSubmit}>
                     <p>
                         <input
                             type="text"
                             name="first__name"
-                            placeholder="Nhập gmail của bạn"
-                            ref={gmailInput}
-                            value={gmail}
-                            onChange={(e) => setGmail(e.target.value)}
+                            required
+                            placeholder="Nhập email của bạn"
+                            // ref={emailInput}
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            onBlur={handleEmailCheck}
                         />
+                        <text>
+                            {validEmail ? (
+                                <div>
+                                    <FontAwesomeIcon icon={faExclamationCircle} />
+                                    Email không hợp lệ.
+                                </div>
+                            ) : (
+                                ''
+                            )}
+                        </text>
                     </p>
                     <p>
                         <input
                             type="password"
                             name="password"
+                            required
                             placeholder="Nhập mật khẩu của bạn"
-                            ref={passInput}
+                            // ref={passInput}
                             value={pass}
                             onChange={(e) => setPass(e.target.value)}
+                            onBlur={handlePasswordCheck}
                         />
+                        <text>
+                            {validPass ? (
+                                <div className={classes.error__password}>
+                                    <FontAwesomeIcon icon={faExclamationCircle} />
+                                    Tối thiểu 6 ký tự, ít nhất một chữ cái và một số.
+                                </div>
+                            ) : (
+                                ''
+                            )}
+                        </text>
                     </p>
                     <p>
                         <input
                             type="password"
                             name="password"
+                            required
                             placeholder="Xác nhận mật khẩu"
-                            ref={rewritePassInput}
+                            // ref={rewritePassInput}
                             value={rewritePass}
                             onChange={(e) => setRewritePass(e.target.value)}
+                            onBlur={handleRewritePassCheck}
                         />
+                        <text>
+                            {validReWritePass ? (
+                                <div className={classes.error__rewrite__password}>
+                                    <FontAwesomeIcon icon={faExclamationCircle} />
+                                    Mật khẩu không trùng khớp.
+                                </div>
+                            ) : (
+                                ''
+                            )}
+                        </text>
                     </p>
                     <p>
-                        <button id={classes.sub__btn} type="submit" onClick={handleSubmit}>
+                        <button id={classes.sub__btn} type="submit">
                             Đăng ký
                         </button>
                     </p>

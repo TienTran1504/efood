@@ -2,6 +2,8 @@ require('dotenv').config();
 const User = require('../models/User')
 const { StatusCodes } = require('http-status-codes')
 const { BadRequestError, UnauthenticatedError, NotFoundError } = require('../errors')
+<<<<<<< HEAD
+=======
 const nodemailer = require('nodemailer');
 const sendMail = require('../sendMail');
 const jwt = require('jsonwebtoken')
@@ -72,6 +74,7 @@ const createOTP = async (req, res) => {
 //     }
 // }
 
+>>>>>>> 50f3731cae42e37a92eb0851f796fadc0f11a71a
 // {{URL}}/auth/register
 const register = async (req, res) => {
     const { name, email, password, otp, otpVerify } = req.body;

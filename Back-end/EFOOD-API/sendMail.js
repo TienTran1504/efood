@@ -3,7 +3,7 @@ const mailTransporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
         user: "trandungtien1504@gmail.com",
-        pass: "ojsowfdkhtwdhnxo1"
+        pass: "ojsowfdkhtwdhnxo"
     }
 })
 function makeid(length) {
@@ -17,26 +17,28 @@ function makeid(length) {
 }
 
 
-const sendMail = async (lengthOTP) => {
-    let details = {
-        from: "trandungtien1504@gmail.com", // sender address
-        to: "trandungtien0305@gmail.com", // list of receivers
-        subject: "OTP", // Subject line
-        text: makeid(lengthOTP), // plain text body
+const sendMail = (lengthOTP, email) => new Promise(
+    (resolve, reject) => {
+        let details = {
+            from: "trandungtien1504@gmail.com", // sender address
+            to: email, // list of receivers
+            subject: "OTP", // Subject line
+            text: makeid(lengthOTP), // plain text body
+        }
+        let OTP = null;
+        const check = mailTransporter.sendMail(details, (err) => {
+            if (err) {
+                console.log("It has an error", err);
+                reject(err);
+            }
+            else {
+                OTP = details.text;
+                console.log("email has sent: ", details.text);
+                resolve(OTP);
+            }
+        })
     }
-    let OTP = null;
-    const check = mailTransporter.sendMail(details, (err) => {
-        if (err) {
-            console.log("It has an error", err);
-        }
-        else {
-            OTP = details.text;
-            console.log("email has sent: ", details.text);
-        }
-    })
-    console.log(check);
-    return OTP;
-}
+)
 
 
 module.exports = sendMail;

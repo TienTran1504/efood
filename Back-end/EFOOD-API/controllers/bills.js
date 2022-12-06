@@ -70,7 +70,7 @@ const createBill = async (req, res) => {
         req.body.orderList = user.orderList;
         req.body.total = user.orderPrice;
         req.body.orderPrice = 0;
-        const bill = await Bill.create(req.body);
+        const bill = await Bill.create({ ...req.body });
 
         req.body.orderList.splice(0);
         const userCart = await User.findOneAndUpdate(

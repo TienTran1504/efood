@@ -2,6 +2,7 @@ const User = require('../models/User')
 const Food = require('../models/Food')
 const { StatusCodes } = require('http-status-codes')
 const { BadRequestError, UnauthenticatedError, NotFoundError } = require('../errors')
+const moment = require('moment');
 // {{URL}}/customer
 const getUserInfor = async (req, res) => {
     const user = await User.findOne({ _id: req.user.userId });
@@ -22,11 +23,13 @@ const getUserInfor = async (req, res) => {
 // {{URL}}/customer/profile
 const updateUserProfile = async (req, res) => {
     const user = await User.findOne({ _id: req.user.userId });
-    const { phone, gender, address, image, birthday } = req.body
+    const { phone, gender, address, image, birthday } = req.body;
     if (!phone && !gender && !address && !image && !birthday) {
         throw new BadRequestError("Please enter at least 1 fields to update user profile (phone, gender, address)")
     }
     else {
+        const dob = moment(birthday, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        req.body.birthday = dob;
         const userUpdate = await User.findByIdAndUpdate(
             {
                 _id: user._id,

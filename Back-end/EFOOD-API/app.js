@@ -38,7 +38,6 @@ app.use(rateLimiter({
     max: 1000 // limit each IP to 1000 requests per windowMs
 }));
 
-
 app.use(express.json());
 // extra packages
 app.use(helmet());

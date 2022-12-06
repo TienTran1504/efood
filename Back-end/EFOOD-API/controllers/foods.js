@@ -38,7 +38,7 @@ const createFood = async (req, res) => {
     const userCheck = await User.findOne({ _id: req.user.userId });
     if (userCheck.typeOf === 'admin') {
         req.body.createdBy = req.user.userId;
-        const food = await Food.create(req.body);
+        const food = await Food.create({ ...req.body });
         res.status(StatusCodes.CREATED).json({
             food
         })

@@ -2,7 +2,6 @@ const Bill = require('../models/Bill')
 const User = require('../models/User')
 const { StatusCodes } = require('http-status-codes')
 const { BadRequestError, NotFoundError, UnauthenticatedError } = require('../errors')
-//get all jobs of user by userid (for admin)
 //{{URL}}/bills?limit
 const getAllBills = async (req, res) => {
     const userCheck = await User.findOne({ _id: req.user.userId });
@@ -14,12 +13,11 @@ const getAllBills = async (req, res) => {
             sortedBills = sortedBills.slice(0, Number(limit));
         }
         if (sortedBills.length < 1) {
-            return res.status(StatusCodes.OK).json({ msg: "No bills match your search" });
+            return res.status(StatusCodes.OK).json({ msg: "Dont have any bills to show", length: sortedBills.length });
         }
         res.status(StatusCodes.OK).json({ sortedBills, count: sortedBills.length });
     }
     else {
-        // throw new UnauthenticatedError(`User ${userCheck._id} have no permission`)
         throw new UnauthenticatedError(`User have no permission`)
     }
 }

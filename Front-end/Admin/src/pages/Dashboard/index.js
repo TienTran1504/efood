@@ -65,7 +65,6 @@ function Dashboard() {
 
     const handleDeleteClick = (orderId) => {
         const newOrders = [];
-        console.log(111);
         orders.forEach((order, index) => {
             if (order.orderId !== orderId) newOrders.push(order);
         });

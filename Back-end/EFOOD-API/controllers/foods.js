@@ -2,7 +2,6 @@ const Food = require('../models/Food')
 const User = require('../models/User')
 const { StatusCodes } = require('http-status-codes')
 const { BadRequestError, NotFoundError, UnauthenticatedError } = require('../errors')
-//get all jobs of user by userid
 // {{URL}}/foods
 const getAllFoods = async (req, res) => {
     const { search, limit } = req.query;

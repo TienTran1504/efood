@@ -1,0 +1,232 @@
+.darkBG {
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 100vw;
+    height: 3000px;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    }
+  
+  .centered {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    .modal {
+        width: 600px;
+        height: 300px;
+        background: white;
+        color: white;
+        z-index: 100;
+        border-radius: 16px;
+        box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+
+        .modalHeader {
+            position: relative;
+            height: 50px;
+            background: white;
+            overflow: hidden;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+
+            .heading {
+                margin: 0;
+                padding: 10px;
+                color: #2c3e50;
+                font-weight: 500;
+                font-size: 18px;
+                text-align: center;
+              }
+            
+          }
+
+          .modalHeader__infor{
+            position: absolute;
+            display: flex;
+            width: 100%;
+            height: 65%;
+            z-index: 100;
+
+            .modalHeader__wrapper{
+              width: 100%;
+              height: 95%;
+
+              .modalHeader__list{
+                display: block;
+                width: 100%;
+                height: 70%;
+                list-style: none;
+                padding-left: 20px;
+                margin-top: 20px;
+  
+                .modalHeader__list-item{
+                  color: black;
+                  display: flex;
+                  padding: 10px 20px;
+                  font-size: 20px;
+
+                  .modalHeader__list-descrp{
+                    font-size: 16px;
+                    margin-left: 10px;
+                  }
+
+                  .item-quantity {
+                    padding-left: 15px;
+                    display: flex;
+                    align-items: center;
+
+                    #current-quantity {
+                      margin: 0 12px;
+                      font-size: 15px;
+                    }
+                  
+                    #btn--add,
+                    #btn--remove {
+                        text-decoration: none;
+                        background-color: transparent;
+                        transition: color 0.2s;
+                        font-size: 18px;
+                    }
+                    
+                    #btn--add:hover,
+                    #btn--remove:hover {
+                        cursor: pointer;
+                        color: #ff0000;
+                    }
+
+                    #btn--remove--disabled{
+                        text-decoration: none;
+                        background-color: transparent;
+                        color: grey;
+                        transition: color 0.2s;
+                        font-size: 18px;
+                    }
+                  }
+                }
+              }
+
+            }
+
+            .modalHeader__img{
+              width: 100%;
+              height: 100%;
+              position: relative;
+
+              .img__wrapper{
+                position: absolute;
+                display: block;
+                width: 60%;
+                height: 60%;
+                background-color: #ff3e4e;
+                margin: auto;
+                margin-top: 35px;
+                left: 25%;
+              }
+
+              .img__wrapper img{
+                width: 100%;
+                height: 100%;
+              }
+            }
+           
+          }
+
+          .closeBtn {
+            cursor: pointer;
+            font-weight: 500;
+            padding: 4px 8px;
+            border-radius: 8px;
+            border: 1px solid black;
+            font-size: 18px;
+            color: #2c3e50;
+            background: white;
+            transition: all 0.25s ease;
+            box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.06);
+            position: absolute;
+            right: 0;
+            top: 0;
+            align-self: flex-end;
+            margin-top: -7px;
+            margin-right: -7px;
+          }
+
+          .closeBtn:hover {
+            box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+            transform: translate(-4px, 4px);
+          }
+
+          .modalActions {
+            position: absolute;
+            bottom: 2px;
+            margin-bottom: 10px;
+            width: 100%;
+            margin-top: 10px;
+
+            .actionsContainer {
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+
+                .addBtn {
+                    margin-top: 10px;
+                    cursor: pointer;
+                    font-weight: 500;
+                    padding: 11px 28px;
+                    border-radius: 12px;
+                    font-size: 16px;
+                    border: none;
+                    color: #fff;
+                    background: #ff0000;
+                    transition: all 0.25s ease;
+                  }
+                  
+                  .addBtn:hover {
+                    box-shadow: 0 10px 20px -10px rgba(255, 62, 78, 0.6);
+                    background: rgba(255, 62, 78, 0.6);
+                    transform: translateY(-5px);
+                  }
+                  
+                  .cancelBtn {
+                    margin-top: 10px;
+                    cursor: pointer;
+                    font-weight: 500;
+                    padding: 11px 28px;
+                    border-radius: 12px;
+                    font-size: 16px;
+                    border: none;
+                    color: #2c3e50;
+                    background: #b7b6b6;
+                    transition: all 0.25s ease;
+                  }
+                  
+                  .cancelBtn:hover {
+                    box-shadow: none;
+                    transform: none;
+                    color: #fff;
+                    background: rgb(42, 42, 42);
+                  }
+              }
+          }
+      }
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

@@ -14,6 +14,7 @@ import Button from '~/components/Layout/DefaultLayout/Header/Button';
 import Menu from '~/components/Layout/DefaultLayout/Header/Popper/Menu';
 import Image from '~/components/Image';
 import Search from './Search';
+import ModalFood from './ModelFood';
 const USER_ITEMS = [
     {
         icon: <FontAwesomeIcon icon={faUser} />,
@@ -43,6 +44,8 @@ const USER_ITEMS = [
     },
 ];
 function Header() {
+    const [isOpen, setIsOpen] = useState(false);
+    const [data, setData] = useState([]);
     const [currentUser, setCurrentUser] = useState(() => {
         const storageUserState = JSON.parse(localStorage.getItem('user-state'));
         return storageUserState;
@@ -70,7 +73,7 @@ function Header() {
                 </Link>
 
                 <span>
-                    <Search />
+                    <Search setIsOpen={setIsOpen} setData={setData} />
                 </span>
 
                 <div className={classes.actions}>
@@ -141,6 +144,7 @@ function Header() {
                     )}
                 </div>
             </div>
+            {isOpen && <ModalFood setData ={data} setIsOpen={setIsOpen} />}
         </div>
     );
 }

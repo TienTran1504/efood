@@ -38,7 +38,7 @@ const createFood = async (req, res) => {
     const userCheck = await User.findOne({ _id: req.user.userId });
     if (userCheck.typeOf === 'admin') {
         req.body.createdBy = req.user.userId;
-        const food = await Food.create(req.body);
+        const food = await Food.create({ ...req.body });
         res.status(StatusCodes.CREATED).json({
             food
         })
@@ -140,3 +140,13 @@ module.exports = {
     deleteFood,
     ratingFood,
 }
+
+/* 
+main flow:
+Khi getAllFoods để lấy toàn bộ thức ăn sau này để render ra menu hay product list
+Khi getFood để lấy ra một food dựa trên id của nó.
+Khi createFood (admin) để tạo ra một món ăn mới
+Khi updateFood (admin) để chỉnh sửa một món ăn sau này dùng để edit trong product list
+Khi deleteFood (admin) để xoá một món ăn trong product list
+Khi ratingFood để đánh giá món ăn.
+*/

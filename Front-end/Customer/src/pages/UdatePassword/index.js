@@ -1,8 +1,9 @@
 import classes from './UpdatePassword.module.scss';
 import Sidebar from '~/components/Layout/DefaultLayout/Sidebar';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import bgrImg from './userprofile-img/bgr2.jpg';
 import avatar from './userprofile-img/meome.jpg';
+import axios from 'axios';
 
 function PassworkValid(password) 
 {
@@ -23,6 +24,7 @@ function CheckPassEqual(password1, password2)
 }
 
 function UpdatePassword() {
+    const [name, setName] = useState('');
     const [CurrentPass, setCurrentPass] = useState('');
     const [NewPass, setNewPass] = useState('');
     const [AgainPass, setAgainPass] = useState('');
@@ -107,6 +109,15 @@ function UpdatePassword() {
 
     }
 
+    useEffect(() => {
+        const headers ={ 'Authorization': "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzgwN2ViNjllODIxYTMyMDA1N2ViZDAiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzAwODU1NTQsImV4cCI6MTY3MjY3NzU1NH0.CbfYvU3dRalURXHYfX8sFifDyINaJHe_iJZ3X1SxjNc"};
+        axios.get(`http://localhost:3000/api/v1/customer`, {headers : headers}).then((res) => {
+            setName(res.data.userName);
+        }).catch(error => {
+          console.log(error)
+        })
+    }, [])
+
     return (
         <div className={classes['main']}>
             <Sidebar />
@@ -182,7 +193,7 @@ function UpdatePassword() {
                         </div>
                     </div>
 
-                    <span className={classes['nickname']}>AnhKhoi123</span>
+                    <span className={classes['nickname']}>{name}</span>
 
                 </div>
             </div>

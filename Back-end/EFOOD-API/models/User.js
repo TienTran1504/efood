@@ -24,6 +24,22 @@ const UserSchema = new mongoose.Schema({
         trim: true,
 
     },
+    phone: {
+        type: String,
+        // required: [true, 'Please provide phone number'],
+        match: [/(84|0[3|5|7|8|9])+([0-9]{8})\b/g, "Please provide valid phone number"],
+        // console.log(regexPhoneNumber('840988888888')) // true
+        // console.log(regexPhoneNumber('84988888888')) // false
+        // console.log(regexPhoneNumber('8409888888881')) // false
+        unique: true,
+        trim: true,
+
+    },
+    address: {
+        type: String,
+        minlength: 6,
+        maxlength: 60,
+    },
     password: {
         type: String,
         required: [true, 'Please provide password'],
@@ -52,6 +68,13 @@ const UserSchema = new mongoose.Schema({
     orderPrice: {
         type: Number,
         default: 0,
+    },
+    image: {
+        type: String,
+        default: "./default.png",
+    },
+    birthday: {
+        type: Date
     }
 })
 
@@ -64,7 +87,6 @@ UserSchema.pre('save', async function () {
 // create json web token
 UserSchema.methods.createJWT = function () {
     return jwt.sign({ userId: this._id, name: this.name }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_LIFETIME })
-
 }
 
 // compare password to login

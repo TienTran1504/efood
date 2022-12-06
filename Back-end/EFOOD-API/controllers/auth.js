@@ -19,7 +19,7 @@ const forgotPassword = async (req, res) => {
         else {
             //Hashing password
             const salt = await bcrypt.genSalt(10);
-            passwordHashed = await bcrypt.hash(password, salt)
+            const passwordHashed = await bcrypt.hash(password, salt)
             const updatePassword = {
                 password: passwordHashed,
             };

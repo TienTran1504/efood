@@ -3,6 +3,7 @@ const Food = require('../models/Food')
 const { StatusCodes } = require('http-status-codes')
 const { BadRequestError, UnauthenticatedError, NotFoundError } = require('../errors')
 const moment = require('moment');
+const bcrypt = require('bcryptjs')
 // {{URL}}/customer
 const getUserInfor = async (req, res) => {
     const user = await User.findOne({ _id: req.user.userId });
@@ -19,6 +20,46 @@ const getUserInfor = async (req, res) => {
         orderList: user.orderList,
         orderPrice: user.orderPrice
     })
+}
+
+// {{URL}}/customer/updatepassword
+const updatePassword = async (req, res) => {
+    const user = await User.findOne({ _id: req.user.userId });
+    const { currentPassword, newPassword } = req.body;
+    if (!newPassword || !currentPassword) {
+        throw new BadRequestError("Please enter new password, current password")
+    }
+    else {
+        //compare password
+        const isPasswordCorrect = await user.comparePassword(currentPassword)
+        if (!isPasswordCorrect) {
+            throw new UnauthenticatedError("Invalid password credentials");
+        }
+        else {
+            //Hashing password
+            const salt = await bcrypt.genSalt(10);
+            const passwordHashed = await bcrypt.hash(newPassword, salt)
+            const updatePassword = {
+                password: passwordHashed,
+            };
+            const userUpdate = await User.findByIdAndUpdate(
+                {
+                    _id: user._id,
+                },
+                updatePassword,
+                { new: true, runValidators: true }
+            )
+            res.status(StatusCodes.OK).json({
+                msg: "Changing password successfully",
+                id: userUpdate._id,
+                name: userUpdate.name,
+                password: userUpdate.password,
+                email: userUpdate.email,
+                typeOf: userUpdate.typeOf
+            });
+        }
+    }
+
 }
 // {{URL}}/customer/profile
 const updateUserProfile = async (req, res) => {
@@ -170,6 +211,7 @@ const updateItem = async (req, res) => {
     }
 }
 module.exports = {
+    updatePassword,
     updateUserProfile,
     getUserInfor,
     getAllItems,

@@ -50,12 +50,8 @@ function Header() {
         const storageUserState = JSON.parse(localStorage.getItem('user-state'));
         return storageUserState;
     });
-    const [stateHomePage, setStateHomePage] = useState(false);
-    const path = useLocation();
 
-    useEffect(() => {
-        localStorage.setItem('switchToLoginPage', JSON.stringify(stateHomePage));
-    }, [stateHomePage]);
+    const path = useLocation();
 
     const handleLogOut = () => {
         const jsonUser = JSON.stringify(!currentUser);
@@ -132,19 +128,14 @@ function Header() {
                         </Menu>
                     ) : (
                         <Link to="/login">
-                            <Button
-                                primary
-                                rightIcon={<FontAwesomeIcon icon={faSignIn} />}
-                                medium
-                                // onClick={() => setStateHomePage(true)}
-                            >
+                            <Button primary rightIcon={<FontAwesomeIcon icon={faSignIn} />} medium>
                                 Sign in
                             </Button>
                         </Link>
                     )}
                 </div>
             </div>
-            {isOpen && <ModalFood setData ={data} setIsOpen={setIsOpen} />}
+            {isOpen && <ModalFood setData={data} setIsOpen={setIsOpen} />}
         </div>
     );
 }

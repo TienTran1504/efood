@@ -8,7 +8,7 @@ import axios from 'axios';
 
 import FoodItem from '~/components/Layout/DefaultLayout/Header/FoodItem';
 
-function Search({setIsOpen, setData}) {
+function Search({ setIsOpen, setData }) {
     const [searchValue, setSearchValue] = useState('');
     const [searchResult, setSearchResult] = useState([]);
     const [showResult, setShowResult] = useState(true);
@@ -16,12 +16,14 @@ function Search({setIsOpen, setData}) {
 
     const inputRef = useRef();
 
-    function jsUcfirst(string) 
-    {
-    return string.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    function jsUcfirst(string) {
+        return string
+            .toUpperCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '');
     }
 
-    useEffect(() =>{
+    useEffect(() => {
         //Khi lần đầu load trang thì searchValue nó bằng rỗng để ngăn chặn gọi api thì return nếu nó là chuỗi rỗng
         // .trim() để loại bỏ chuỗi rỗng ký tự đầu
         if (!searchValue.trim()) {
@@ -33,43 +35,35 @@ function Search({setIsOpen, setData}) {
 
         var arraySuggestFood = [];
         // encodeURIcomponent để mã hoá những ký tự đặc biệt thành ký tự hợp lệ trên URL vd &,?,...
-<<<<<<< HEAD
-        fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(searchValue)}&type=less`)
-            .then((res) => res.json())
+        const headers = {
+            Authorization:
+                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzgwN2ViNjllODIxYTMyMDA1N2ViZDAiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzAwODU1NTQsImV4cCI6MTY3MjY3NzU1NH0.CbfYvU3dRalURXHYfX8sFifDyINaJHe_iJZ3X1SxjNc',
+        };
+        axios
+            .get(`http://localhost:3000/api/v1/foods/`, { headers: headers })
             .then((res) => {
-                setSearchResult(res.data); // sẽ gán lại mảng cho result
-                setLoading(false);
-            })
-            .catch(() => {
-=======
-        const headers ={ 'Authorization': "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzgwN2ViNjllODIxYTMyMDA1N2ViZDAiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzAwODU1NTQsImV4cCI6MTY3MjY3NzU1NH0.CbfYvU3dRalURXHYfX8sFifDyINaJHe_iJZ3X1SxjNc"};
-        axios.get(`http://localhost:3000/api/v1/foods/` , {headers : headers}).then((res) => { 
-        var temparray = searchValue.split(" ");
+                var temparray = searchValue.split(' ');
 
-            res.data.sortedFoods.map((food)=>{
-                for(var i = 0; i< temparray.length; i++)
-                {
-                    if(food.name.length >= temparray[i].length){
-                        if(jsUcfirst(food.name).includes(jsUcfirst(temparray[i]))){
-                            arraySuggestFood.push(food);
-                            return;
+                res.data.sortedFoods.map((food) => {
+                    for (var i = 0; i < temparray.length; i++) {
+                        if (food.name.length >= temparray[i].length) {
+                            if (jsUcfirst(food.name).includes(jsUcfirst(temparray[i]))) {
+                                arraySuggestFood.push(food);
+                                return;
+                            }
+                        } else {
+                            if (jsUcfirst(temparray[i]).includes(jsUcfirst(food.name))) {
+                                arraySuggestFood.push(food);
+                                return;
+                            }
                         }
                     }
-                    else{
-                        if(jsUcfirst(temparray[i]).includes(jsUcfirst(food.name))){
-                            arraySuggestFood.push(food);
-                            return;
-                        }
-                    }
-                }
-            })
+                });
                 setSearchResult(arraySuggestFood);
                 setLoading(false);
-
-             })
+            })
             .catch((error) => {
                 console.log(error);
->>>>>>> 50f3731cae42e37a92eb0851f796fadc0f11a71a
                 setLoading(false);
             });
     }, [searchValue]);
@@ -82,12 +76,7 @@ function Search({setIsOpen, setData}) {
 
     const handleHideResult = () => {
         setShowResult(false);
-<<<<<<< HEAD
     };
-=======
-    }
-        
->>>>>>> 50f3731cae42e37a92eb0851f796fadc0f11a71a
     return (
         <Tippy
             interactive
@@ -97,18 +86,18 @@ function Search({setIsOpen, setData}) {
                     <PopperWrapper>
                         <h4 className={classes['search-title']}>FOOD</h4>
                         {searchResult.map((result, index) => (
-                            <div 
-                                key={index} 
+                            <div
+                                key={index}
                                 onClick={() => {
-                                setIsOpen(true)
-                                setShowResult(false)
-                                setData(result)
-                                console.log(result);
-                            }}>
-                            <FoodItem data={result} />
+                                    setIsOpen(true);
+                                    setShowResult(false);
+                                    setData(result);
+                                    console.log(result);
+                                }}
+                            >
+                                <FoodItem data={result} />
                             </div>
                         ))}
-                        
                     </PopperWrapper>
                 </div>
             )}
@@ -135,7 +124,6 @@ function Search({setIsOpen, setData}) {
                     <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </button>
             </div>
-
         </Tippy>
     );
 }

@@ -11,8 +11,8 @@ export default function ForgotPassword() {
         const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         const checkGmail = mailFormat.test(gmail);
         if (!checkGmail) {
-            alert('Lỗi!\nGmail của bạn không hợp lệ.');
             e.preventDefault();
+            alert('Lỗi!\nGmail của bạn không hợp lệ.');
         }
     }
     return (

@@ -9,7 +9,7 @@ import {
     faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '~/components/Layout/DefaultLayout/Header/Button';
 import Menu from '~/components/Layout/DefaultLayout/Header/Popper/Menu';
 import Image from '~/components/Image';
@@ -47,7 +47,12 @@ function Header() {
         const storageUserState = JSON.parse(localStorage.getItem('user-state'));
         return storageUserState;
     });
+    const [stateHomePage, setStateHomePage] = useState(false);
     const path = useLocation();
+
+    useEffect(() => {
+        localStorage.setItem('switchToLoginPage', JSON.stringify(stateHomePage));
+    }, [stateHomePage]);
 
     const handleLogOut = () => {
         const jsonUser = JSON.stringify(!currentUser);
@@ -56,6 +61,7 @@ function Header() {
         const state = setCurrentUser(!currentUser);
         return state;
     };
+
     return (
         <div className={classes.wrapper}>
             <div className={classes.inner}>
@@ -70,7 +76,11 @@ function Header() {
                 <div className={classes.actions}>
                     <ul className={classes['menu-list']}>
                         <li className={classes['menu-item']}>
-                            <Link to="/" className={`${path.pathname === '/' ? classes.active : ''}`}>
+                            <Link
+                                to="/"
+                                className={`${path.pathname === '/' ? classes.active : ''}`}
+                                // onClick={() => setStateHomePage(false)}
+                            >
                                 Home
                             </Link>
                         </li>
@@ -102,8 +112,8 @@ function Header() {
                         </li>
                     </ul>
 
-                    {/* {currentUser ? ( */}
-                    {true ? (
+                    {currentUser ? (
+                        // {true ? (
                         <Menu items={USER_ITEMS} handleLogOut={handleLogOut}>
                             {/* <button className={classes['more-btn']}>
                                 <FontAwesomeIcon icon={faBars} />
@@ -118,9 +128,16 @@ function Header() {
                             </div>
                         </Menu>
                     ) : (
-                        <Button primary rightIcon={<FontAwesomeIcon icon={faSignIn} />} medium to="/login">
-                            Sign in
-                        </Button>
+                        <Link to="/login">
+                            <Button
+                                primary
+                                rightIcon={<FontAwesomeIcon icon={faSignIn} />}
+                                medium
+                                // onClick={() => setStateHomePage(true)}
+                            >
+                                Sign in
+                            </Button>
+                        </Link>
                     )}
                 </div>
             </div>

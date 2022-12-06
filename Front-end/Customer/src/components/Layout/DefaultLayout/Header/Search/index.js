@@ -19,38 +19,37 @@ function Search() {
         //Khi lần đầu load trang thì searchValue nó bằng rỗng để ngăn chặn gọi api thì return nếu nó là chuỗi rỗng
         // .trim() để loại bỏ chuỗi rỗng ký tự đầu
         if (!searchValue.trim()) {
-            setSearchResult([])
+            setSearchResult([]);
             return;
         }
 
         setLoading(true);
         // encodeURIcomponent để mã hoá những ký tự đặc biệt thành ký tự hợp lệ trên URL vd &,?,...
         fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(searchValue)}&type=less`)
-            .then(res => res.json())
-            .then(res => {
-                setSearchResult(res.data) // sẽ gán lại mảng cho result
+            .then((res) => res.json())
+            .then((res) => {
+                setSearchResult(res.data); // sẽ gán lại mảng cho result
                 setLoading(false);
-
             })
             .catch(() => {
                 setLoading(false);
-            })
-    }, [searchValue])
+            });
+    }, [searchValue]);
 
     const handleClear = () => {
         setSearchValue('');
         setSearchResult([]);
         inputRef.current.focus();
-    }
+    };
 
     const handleHideResult = () => {
         setShowResult(false);
-    }
+    };
     return (
         <Tippy
             interactive
             visible={showResult && searchResult.length > 0}
-            render={attrs => (
+            render={(attrs) => (
                 <div className={classes['search-result']} tabIndex="-1" {...attrs}>
                     <PopperWrapper>
                         <h4 className={classes['search-title']}>FOOD</h4>
@@ -63,13 +62,13 @@ function Search() {
             onClickOutside={handleHideResult}
         >
             <div className={classes.search}>
-                <input placeholder="Search dishes..."
+                <input
+                    placeholder="Search dishes..."
                     ref={inputRef}
                     value={searchValue}
                     spellCheck={false}
                     onChange={(e) => setSearchValue(e.target.value)}
                     onFocus={() => setShowResult(true)}
-
                 />
                 {/* Khi có search value sẽ hiện button clear */}
                 {!!searchValue && !loading && (
@@ -78,7 +77,6 @@ function Search() {
                     </button>
                 )}
                 {loading && <FontAwesomeIcon className={classes.loading} icon={faSpinner} />}
-
 
                 <button className={classes['search-btn']}>
                     <FontAwesomeIcon icon={faMagnifyingGlass} />

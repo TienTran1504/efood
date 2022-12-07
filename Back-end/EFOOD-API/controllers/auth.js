@@ -1,11 +1,20 @@
 require('dotenv').config();
 const User = require('../models/User')
+const Contact = require('../models/Contact')
 const { StatusCodes } = require('http-status-codes')
 const { BadRequestError, UnauthenticatedError, NotFoundError } = require('../errors')
 const nodemailer = require('nodemailer');
 const sendMail = require('../sendMail');
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
+const createContact = async (req, res) => {
+    const { title, email, content } = req.body;
+    if (!title || !email || !content) {
+        throw new BadRequestError('Please provide title, email, content of contact')
+    }
+    const contact = await Contact.create({ ...req.body });
+    res.status(StatusCodes.CREATED).json({ msg: "Create contact successfully", contact })
+}
 //{{URL}}/auth/updatepassword
 const forgotPassword = async (req, res) => {
     const { email, password, repassword, otp, otpVerify } = req.body;
@@ -58,19 +67,7 @@ const createOTP = async (req, res) => {
     }
 }
 
-// // {{URL}}/auth/sendotp
-// const sendOTP = async (req, res) => {
-//     const { otpSent } = req.body;
-//     const otpVerify = jwt.sign({ otpSent }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_LIFETIME })
-//     console.log(otpSent);
-//     console.log(otpVerify);
-//     if (!otpSent) {
-//         res.status(StatusCodes.BAD_REQUEST).json({ msg: "Please provide otp" });
-//     }
-//     else {
-//         res.status(StatusCodes.OK).json({ otpVerify });
-//     }
-// }
+
 
 // {{URL}}/auth/register
 const register = async (req, res) => {
@@ -80,9 +77,7 @@ const register = async (req, res) => {
             throw new BadRequestError('Please provide name,email, password and otp')
         }
         else {
-            console.log(otpVerify);
             const OTP_verify = jwt.verify(otpVerify, process.env.JWT_SECRET);
-            console.log(OTP_verify);
             if (OTP_verify.OTP === otp) {
                 const user = await User.create({ ...req.body });
                 // const token = user.createJWT();
@@ -125,6 +120,7 @@ const login = async (req, res) => {
     });
 }
 module.exports = {
+    createContact,
     forgotPassword,
     createOTP,
     register,

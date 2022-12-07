@@ -1,16 +1,18 @@
 import classes from './Dashboard.module.scss';
-import { faMoneyBill, faSpinner, faTimes, faTruck } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faHouseChimneyCrack, faMoneyBill, faSpinner, faTimes, faTruck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment, useRef } from 'react';
 import data from './mock-data.json';
 import ReadOnlyRow from './components/ReadOnlyRow';
 import EditableRow from './components/EditableRow';
 import Button from '~/components/Layout/DefaultLayout/Header/Button';
 import StateOrder from './components/StateOrder';
+import DialogConfirm from '~/components/UiComponent/DialogConfirm';
 
 function Dashboard() {
     const [orders, setOrders] = useState(data);
     const [total, setTotal] = useState(0);
+    
 
     const processOrder = [
         { name: 'ORDER PROCESS', icon: faSpinner, number: 3, color: 'blue' },
@@ -20,6 +22,11 @@ function Dashboard() {
 
     const [editFormData, setEditFormData] = useState('');
     const [editorderId, setEditOrderId] = useState(null);
+
+    const [dialogConfirm, setDialog] = useState(false);
+    const [idProduct, setIdProduct] = useState(null);
+
+
 
     useEffect(() => {
         const total = orders.reduce((money, order) => {
@@ -63,14 +70,32 @@ function Dashboard() {
         setEditOrderId(null);
     };
 
+    const handlShowDialogConfirm = (isLoading)=>{
+        setDialog(isLoading);
+    }
     const handleDeleteClick = (orderId) => {
-        const newOrders = [];
-        orders.forEach((order, index) => {
-            if (order.orderId !== orderId) newOrders.push(order);
-        });
-
-        setOrders(newOrders);
+        handlShowDialogConfirm(true);
+        setIdProduct(orderId);
+       
     };
+
+
+    const areUSureDelete = (choose) => {
+        if(choose){     
+            setDialog(false);
+            const newOrders = [];
+            console.log(111);
+            orders.forEach((order, index) => {
+                if (order.orderId !== idProduct) newOrders.push(order);
+            });
+
+            setOrders(newOrders);
+        }else{
+            setDialog(false);
+
+        }
+    };
+
     return (
         // < div className={`${modalOpen ? classes['wrapper-opacity'] : classes.wrapper}`}>
         <div className={classes.wrapper}>
@@ -132,6 +157,8 @@ function Dashboard() {
                     </div>
                 </Button>
             </div>
+            {dialogConfirm && <DialogConfirm onDialog={areUSureDelete}/>}
+            {/* <DialogConfirm/> */}           
         </div>
     );
 }

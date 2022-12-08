@@ -1,7 +1,7 @@
 import ShoppingCart from '~/components/Layout/DefaultLayout/ShoppingCart/index.js';
 import itemData from '~/components/Layout/DefaultLayout/ShoppingCart/itemData.js';
 import { useState, useEffect } from 'react';
-// import Menu from '~/pages/Menu/index.js';
+import axios from 'axios';
 
 function Cart() {
     const [cartItems, setCartItems] = useState([]);
@@ -25,10 +25,36 @@ function Cart() {
     useEffect(() => {
         const cartData = window.localStorage.getItem('CART_DATA');
         if (cartData) setCartItems(JSON.parse(cartData));
+
+        const headers = {
+            Authorization:
+                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzkwYjU2MDU3MTczMWE0NGEyMzE3MTIiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzA1MTU4NTIsImV4cCI6MTY3MzEwNzg1Mn0.b99hXW1dgsejSAZhWfyhY_wXLjQcztF6r3GmealBLAU',
+        };
+        axios
+            .get(`http://localhost:3000/api/v1/customer/cart`, { headers: headers })
+            .then((res) => {
+                console.log(res.data.orderList);
+                // add(res.data.orderList);
+                setCartItems(
+                    res.data.orderList.map((item) => ({
+                        id: item.foodId,
+                        name: item.name,
+                        image: item.image,
+                        price: item.totalPrice / item.quantity,
+                        totalPrice: item.totalPrice,
+                        quantity: item.quantity,
+                    })),
+                );
+                console.log('cart: ', cartItems);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }, []);
 
     useEffect(() => {
         window.localStorage.setItem('CART_DATA', JSON.stringify(cartItems));
+        // console.log(cartItems);
     }, [cartItems]);
 
     return (

@@ -168,7 +168,7 @@ const ShoppingCart = (props) => {
                                                     <div className="item-info">
                                                         <div className={classes['item-name']}>{item.name}</div>
                                                         <div className={classes['item-price']}>
-                                                            {numberWithDot(item.price)}đ
+                                                            {numberWithDot(item.totalPrice)}đ
                                                         </div>
                                                     </div>
                                                 </div>

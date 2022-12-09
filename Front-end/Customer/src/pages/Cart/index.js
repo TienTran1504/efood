@@ -1,7 +1,11 @@
 import ShoppingCart from '~/components/Layout/DefaultLayout/ShoppingCart/index.js';
-import itemData from '~/components/Layout/DefaultLayout/ShoppingCart/itemData.js';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+
+const headers = {
+    Authorization:
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzkwYjU2MDU3MTczMWE0NGEyMzE3MTIiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzA1MTU4NTIsImV4cCI6MTY3MzEwNzg1Mn0.b99hXW1dgsejSAZhWfyhY_wXLjQcztF6r3GmealBLAU',
+};
 
 function Cart() {
     const [cartItems, setCartItems] = useState([]);
@@ -9,6 +13,11 @@ function Cart() {
         const exist = cartItems.find((x) => x.id === product.id);
         if (exist) {
             setCartItems(cartItems.map((x) => (x.id === product.id ? { ...exist, quantity: exist.quantity + 1 } : x)));
+            axios.patch(
+                `http://localhost:3000/api/v1/customer/cart/${product.id}`,
+                { quantity: exist.quantity + 1 },
+                { headers: headers },
+            );
         } else {
             setCartItems([...cartItems, { ...product, quantity: 1 }]);
         }
@@ -17,8 +26,14 @@ function Cart() {
         const exist = cartItems.find((x) => x.id === product.id);
         if (exist.quantity === 1) {
             setCartItems(cartItems.filter((x) => x.id !== product.id));
+            axios.patch(`http://localhost:3000/api/v1/customer/cart/delete/${product.id}`, {}, { headers: headers });
         } else {
             setCartItems(cartItems.map((x) => (x.id === product.id ? { ...exist, quantity: exist.quantity - 1 } : x)));
+            axios.patch(
+                `http://localhost:3000/api/v1/customer/cart/${product.id}`,
+                { quantity: exist.quantity - 1 },
+                { headers: headers },
+            );
         }
     };
 
@@ -26,15 +41,9 @@ function Cart() {
         const cartData = window.localStorage.getItem('CART_DATA');
         if (cartData) setCartItems(JSON.parse(cartData));
 
-        const headers = {
-            Authorization:
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzkwYjU2MDU3MTczMWE0NGEyMzE3MTIiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzA1MTU4NTIsImV4cCI6MTY3MzEwNzg1Mn0.b99hXW1dgsejSAZhWfyhY_wXLjQcztF6r3GmealBLAU',
-        };
         axios
             .get(`http://localhost:3000/api/v1/customer/cart`, { headers: headers })
             .then((res) => {
-                console.log(res.data.orderList);
-                // add(res.data.orderList);
                 setCartItems(
                     res.data.orderList.map((item) => ({
                         id: item.foodId,
@@ -45,7 +54,6 @@ function Cart() {
                         quantity: item.quantity,
                     })),
                 );
-                console.log('cart: ', cartItems);
             })
             .catch((error) => {
                 console.log(error);
@@ -60,21 +68,6 @@ function Cart() {
     return (
         <>
             <ShoppingCart cartItems={cartItems} onAdd={onAdd} onRemove={onRemove} deliveryCost={20000}></ShoppingCart>
-            <button onClick={() => onAdd(itemData.products[0])} style={{ marginRight: '30px' }}>
-                Add To Cart
-            </button>
-            <button onClick={() => onAdd(itemData.products[1])} style={{ marginRight: '30px' }}>
-                Add To Cart
-            </button>
-            <button onClick={() => onAdd(itemData.products[2])} style={{ marginRight: '30px' }}>
-                Add To Cart
-            </button>
-            <button onClick={() => onAdd(itemData.products[3])} style={{ marginRight: '30px' }}>
-                Add To Cart
-            </button>
-            <button onClick={() => onAdd(itemData.products[4])} style={{ marginRight: '30px' }}>
-                Add To Cart
-            </button>
         </>
     );
 }

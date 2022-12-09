@@ -7,8 +7,13 @@ import EditableRow from './components/EditableRow';
 import Button from '~/components/Layout/DefaultLayout/Header/Button';
 import Modal from './components/Modal';
 import TypeFood from './components/TypeFood';
+import DialogConfirm from '~/components/UiComponent/DialogConfirm';
 
 function Upload() {
+
+    const [dialogConfirm, setDialog] = useState(false);
+    const [idFood, setIdFood] = useState(null);
+
     const [foods, setFoods] = useState(data);
     const [addFormData, setAddFormData] = useState({
         id: '',
@@ -139,15 +144,42 @@ function Upload() {
         setEditFoodId(null);
     };
 
+    const handlShowDialogConfirm = (isLoading)=>{
+        setDialog(isLoading);
+    }
+
+
+
     const handleDeleteClick = (foodId) => {
-        const newFoods = [...foods];
+        // const newFoods = [...foods];
 
-        const index = foods.findIndex((food) => food.id === foodId);
+        // const index = foods.findIndex((food) => food.id === foodId);
 
-        newFoods.splice(index, 1);
+        // newFoods.splice(index, 1);
 
-        setFoods(newFoods);
+        // setFoods(newFoods);
+        handlShowDialogConfirm(true);
+        setIdFood(foodId);
+
     };
+
+    const areUSureDelete = (choose) => {
+        if(choose){     
+            setDialog(false);
+            const newFoods = [...foods];
+
+            const index = foods.findIndex((food) => food.id === idFood);
+    
+            newFoods.splice(index, 1);
+    
+            setFoods(newFoods);
+        }else{
+            setDialog(false);
+
+        }
+    };
+
+
     const [modalOpen, setModalOpen] = useState(false);
     return (
         // < div className={`${modalOpen ? classes['wrapper-opacity'] : classes.wrapper}`}>
@@ -221,6 +253,7 @@ function Upload() {
                     </table>
                 </form>
             </div>
+            {dialogConfirm && <DialogConfirm onDialog={areUSureDelete}/>}
         </div>
     );
 }

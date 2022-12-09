@@ -6,8 +6,13 @@ import React, { useState, Fragment } from 'react';
 import data from './mock-data.json';
 import ReadOnlyRow from './components/ReadOnlyRow';
 import EditableRow from './components/EditableRow';
+import DialogConfirm from '~/components/UiComponent/DialogConfirm';
 
 function Users() {
+    //add for process delete modal
+    const [idUser, setIdUser] = useState(null);
+    const [dialogConfirm, setDialog] = useState(false);
+    //====================
     const [users, setUsers] = useState(data);
     const [addFormData, setAddFormData] = useState({
         id: '',
@@ -102,14 +107,34 @@ function Users() {
     };
 
     const handleDeleteClick = (userId) => {
-        const newUsers = [...users];
-
-        const index = users.findIndex((user) => user.id === userId);
-
-        newUsers.splice(index, 1);
-
-        setUsers(newUsers);
+        handlShowDialogConfirm(true);
+        setIdUser(userId);
     };
+
+    //add functon process delete 
+    const areUSureDelete = (choose) => {
+        if(choose){     
+            setDialog(false);
+            const newUsers = [...users];
+
+            const index = users.findIndex((user) => user.id === idUser);
+    
+            newUsers.splice(index, 1);
+    
+            setUsers(newUsers);
+        }else{
+            setDialog(false);
+
+        }
+    };
+
+
+
+    const handlShowDialogConfirm = (isLoading)=>{
+        setDialog(isLoading);
+    }
+
+
     const [modalOpen, setModalOpen] = useState(false);
     return (
         <div className={classes.wrapper}>
@@ -171,6 +196,7 @@ function Users() {
                     </table>
                 </form>
             </div>
+            {dialogConfirm && <DialogConfirm onDialog={areUSureDelete}/>}
         </div>
     );
 }

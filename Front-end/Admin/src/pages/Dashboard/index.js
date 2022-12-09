@@ -76,7 +76,6 @@ function Dashboard() {
     const handleDeleteClick = (orderId) => {
         handlShowDialogConfirm(true);
         setIdProduct(orderId);
-       
     };
 
 

@@ -4,7 +4,7 @@ const Contact = require('../models/Contact')
 const { StatusCodes } = require('http-status-codes')
 const { BadRequestError, UnauthenticatedError, NotFoundError } = require('../errors')
 const nodemailer = require('nodemailer');
-const sendMail = require('../sendMail');
+const sendMail = require('../service/sendMail');
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const createContact = async (req, res) => {

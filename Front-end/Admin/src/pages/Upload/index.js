@@ -47,10 +47,23 @@ function Upload() {
         const headers = {
             Authorization: tokenAuth,
         };
-        console.log(tokenAuth);
+
         await request
             .get('foods', { headers: headers })
-            .then((res) => {})
+            .then((res) => {
+                var newFoods = [];
+                res.data.sortedFoods.forEach((value, index) => {
+                    var newFood = {
+                        id: value._id,
+                        fullName: value.name,
+                        type: value.typeOf,
+                        price: value.price + 'đ',
+                        image: value.image,
+                    };
+                    newFoods = [...newFoods, newFood];
+                });
+                setFoods(newFoods);
+            })
             .catch((err) => console.log(err));
     };
     const convertToBase64 = (file) => {

@@ -6,12 +6,12 @@ function DefaultLayout({ children }) {
         if (
             children.type.name === 'LoginPage' ||
             children.type.name === 'ForgotPassword' ||
-            children.type.name === 'ChangePassword'
+            children.type.name === 'ChangePassword' ||
+            children.type.name === 'SignUpPage'
         )
             return false;
         return true;
     }
-    console.log(children);
     return (
         <div className={classes.wrapper}>
             {!check() ? (

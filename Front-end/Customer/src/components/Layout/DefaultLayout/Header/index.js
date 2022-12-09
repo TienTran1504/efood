@@ -55,9 +55,10 @@ function Header() {
 
     const handleLogOut = () => {
         const jsonUser = JSON.stringify(!currentUser);
-        console.log(jsonUser);
         localStorage.setItem('user-state', jsonUser);
         const state = setCurrentUser(!currentUser);
+        localStorage.removeItem('userId');
+        localStorage.removeItem('token');
         return state;
     };
 
@@ -141,5 +142,3 @@ function Header() {
 }
 
 export default Header;
-
-// để thêm hai class dùng template literal `${} ${}`

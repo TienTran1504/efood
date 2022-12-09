@@ -1,6 +1,6 @@
 import classes from './Upload.module.scss';
-import { faBowlFood, faBowlRice, faIceCream, faMugHot } from '@fortawesome/free-solid-svg-icons';
-import React, { useState, Fragment } from 'react';
+import { faBowlFood, faBowlRice, faIceCream, faMugHot, faRefresh } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect, Fragment } from 'react';
 import data from './mock-data.json';
 import ReadOnlyRow from './components/ReadOnlyRow';
 import EditableRow from './components/EditableRow';
@@ -8,9 +8,10 @@ import Button from '~/components/Layout/DefaultLayout/Header/Button';
 import Modal from './components/Modal';
 import TypeFood from './components/TypeFood';
 import DialogConfirm from '~/components/UiComponent/DialogConfirm';
+import request from '~/utils/request';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function Upload() {
-
     const [dialogConfirm, setDialog] = useState(false);
     const [idFood, setIdFood] = useState(null);
 
@@ -41,18 +42,29 @@ function Upload() {
 
     const [editFoodId, setEditFoodId] = useState(null);
 
+    const handleRefreshData = async () => {
+        const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
+        const headers = {
+            Authorization: tokenAuth,
+        };
+        console.log(tokenAuth);
+        await request
+            .get('foods', { headers: headers })
+            .then((res) => {})
+            .catch((err) => console.log(err));
+    };
     const convertToBase64 = (file) => {
         return new Promise((resolve, reject) => {
-          const fileReader = new FileReader();
-          fileReader.readAsDataURL(file);
-          fileReader.onload = () => {
-            resolve(fileReader.result);
-          };
-          fileReader.onerror = (error) => {
-            reject(error);
-          };
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            };
+            fileReader.onerror = (error) => {
+                reject(error);
+            };
         });
-      };
+    };
 
     const handleAddFormChange = (e) => {
         e.preventDefault();
@@ -74,15 +86,12 @@ function Upload() {
 
         const newFormData = { ...editFormData };
 
-        if(fieldName === 'image')
-        {
+        if (fieldName === 'image') {
             fieldValue = URL.createObjectURL(e.target.files[0]);
-            convertToBase64(e.target.files[0]).then(data => {
-            // console.log(data);
-            })
-
-        }
-        else{
+            convertToBase64(e.target.files[0]).then((data) => {
+                // console.log(data);
+            });
+        } else {
             fieldValue = e.target.value;
         }
 
@@ -144,11 +153,9 @@ function Upload() {
         setEditFoodId(null);
     };
 
-    const handlShowDialogConfirm = (isLoading)=>{
+    const handlShowDialogConfirm = (isLoading) => {
         setDialog(isLoading);
-    }
-
-
+    };
 
     const handleDeleteClick = (foodId) => {
         // const newFoods = [...foods];
@@ -160,29 +167,25 @@ function Upload() {
         // setFoods(newFoods);
         handlShowDialogConfirm(true);
         setIdFood(foodId);
-
     };
 
     const areUSureDelete = (choose) => {
-        if(choose){     
+        if (choose) {
             setDialog(false);
             const newFoods = [...foods];
 
             const index = foods.findIndex((food) => food.id === idFood);
-    
-            newFoods.splice(index, 1);
-    
-            setFoods(newFoods);
-        }else{
-            setDialog(false);
 
+            newFoods.splice(index, 1);
+
+            setFoods(newFoods);
+        } else {
+            setDialog(false);
         }
     };
 
-
     const [modalOpen, setModalOpen] = useState(false);
     return (
-        // < div className={`${modalOpen ? classes['wrapper-opacity'] : classes.wrapper}`}>
         <div className={classes.wrapper}>
             {modalOpen && (
                 <Modal
@@ -194,7 +197,6 @@ function Upload() {
 
             <div className={classes.title}>
                 <p className={classes['title-name']}>PRODUCT MANAGEMENT</p>
-                {/* <img src={images.logoImage} alt="logo" className={classes['title-logo']} /> */}
             </div>
 
             <div className={classes.filter}>
@@ -206,16 +208,26 @@ function Upload() {
             <div className={classes['product-list']}>
                 <div className={classes['product-list-content']}>
                     <h4 className={classes['product-list-title']}>Product List</h4>
-                    <Button
-                        primary
-                        type="submit"
-                        className={classes['product-list-btn']}
-                        onClick={() => {
-                            setModalOpen(true);
-                        }}
-                    >
-                        Add new
-                    </Button>
+                    <div className={classes['list-btn']}>
+                        <Button
+                            primary
+                            type="submit"
+                            className={classes['product-list-btn']}
+                            onClick={() => {
+                                setModalOpen(true);
+                            }}
+                        >
+                            Add new
+                        </Button>
+                        <Button
+                            primary
+                            type="button"
+                            className={classes['product-list-btn']}
+                            onClick={handleRefreshData}
+                        >
+                            Refresh <FontAwesomeIcon icon={faRefresh} />
+                        </Button>
+                    </div>
                 </div>
                 <form className={classes['menu-form']} onSubmit={handleEditFormSubmit}>
                     <table>
@@ -253,7 +265,7 @@ function Upload() {
                     </table>
                 </form>
             </div>
-            {dialogConfirm && <DialogConfirm onDialog={areUSureDelete}/>}
+            {dialogConfirm && <DialogConfirm onDialog={areUSureDelete} />}
         </div>
     );
 }

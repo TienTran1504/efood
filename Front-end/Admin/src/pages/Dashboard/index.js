@@ -1,5 +1,12 @@
 import classes from './Dashboard.module.scss';
-import { faCheck, faHouseChimneyCrack, faMoneyBill, faSpinner, faTimes, faTruck } from '@fortawesome/free-solid-svg-icons';
+import {
+    faCheck,
+    faHouseChimneyCrack,
+    faMoneyBill,
+    faSpinner,
+    faTimes,
+    faTruck,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, useEffect, Fragment, useRef } from 'react';
 import data from './mock-data.json';
@@ -12,7 +19,6 @@ import DialogConfirm from '~/components/UiComponent/DialogConfirm';
 function Dashboard() {
     const [orders, setOrders] = useState(data);
     const [total, setTotal] = useState(0);
-    
 
     const processOrder = [
         { name: 'ORDER PROCESS', icon: faSpinner, number: 3, color: 'blue' },
@@ -25,8 +31,6 @@ function Dashboard() {
 
     const [dialogConfirm, setDialog] = useState(false);
     const [idProduct, setIdProduct] = useState(null);
-
-
 
     useEffect(() => {
         const total = orders.reduce((money, order) => {
@@ -70,17 +74,16 @@ function Dashboard() {
         setEditOrderId(null);
     };
 
-    const handlShowDialogConfirm = (isLoading)=>{
+    const handlShowDialogConfirm = (isLoading) => {
         setDialog(isLoading);
-    }
+    };
     const handleDeleteClick = (orderId) => {
         handlShowDialogConfirm(true);
         setIdProduct(orderId);
     };
 
-
     const areUSureDelete = (choose) => {
-        if(choose){     
+        if (choose) {
             setDialog(false);
             const newOrders = [];
             console.log(111);
@@ -89,14 +92,12 @@ function Dashboard() {
             });
 
             setOrders(newOrders);
-        }else{
+        } else {
             setDialog(false);
-
         }
     };
 
     return (
-        // < div className={`${modalOpen ? classes['wrapper-opacity'] : classes.wrapper}`}>
         <div className={classes.wrapper}>
             <div className={classes.title}>
                 <p className={classes['title-name']}>DASHBOARD MANAGEMENT</p>
@@ -156,8 +157,8 @@ function Dashboard() {
                     </div>
                 </Button>
             </div>
-            {dialogConfirm && <DialogConfirm onDialog={areUSureDelete}/>}
-            {/* <DialogConfirm/> */}           
+            {dialogConfirm && <DialogConfirm onDialog={areUSureDelete} />}
+            {/* <DialogConfirm/> */}
         </div>
     );
 }

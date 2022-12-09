@@ -32,6 +32,20 @@ const getFood = async (req, res) => {
     }
     res.status(StatusCodes.OK).json({ food })
 }
+// {{URL}}/foods/type
+const getFoodsByType = async (req, res) => {
+    const { typeOf } = req.body;
+    if (!typeOf) {
+        throw new BadRequestError('Please provide type food')
+    }
+    const foods = await Food.find({
+        typeOf
+    })
+    if (!foods) {
+        throw new NotFoundError(`No food with type ${type}`)
+    }
+    res.status(StatusCodes.OK).json({ foods, countLength: foods.length })
+}
 // {{URL}}/foods
 const createFood = async (req, res) => {
     const userCheck = await User.findOne({ _id: req.user.userId });
@@ -132,6 +146,7 @@ const deleteFood = async (req, res) => {
     }
 }
 module.exports = {
+    getFoodsByType,
     getAllFoods,
     getFood,
     createFood,

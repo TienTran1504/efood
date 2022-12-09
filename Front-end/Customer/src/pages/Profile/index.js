@@ -4,6 +4,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import bgrImg from './userprofile-img/bgr2.jpg';
 import avatar from './userprofile-img/meome.jpg';
 import axios from 'axios';
+import Moment from 'react-moment';
+import moment from 'moment'
 import { useParams } from 'react-router-dom';
 
 function PhoneNumberValid(number) {
@@ -34,6 +36,9 @@ function Profile() {
     const [Email, setEmail] = useState('');
     const [Gender, setGender] = useState('');
     const [Address, setAddress] = useState('');
+
+    //const [Birthday, setBirthday] = useState(moment().format('YYYY-MM-DD'));
+    const [Birthday, setBirthday] = useState(new Date());
     const [checkNameValid, setCheckNameValid] = useState(false);
     const [checkPhoneValid, setCheckPhoneValid] = useState(false);
     const [checkEmailValid, setCheckEmailValid] = useState(false);
@@ -61,7 +66,7 @@ function Profile() {
             };
         });
     };
-
+    
     if (selectedImage !== null) {
         convertToBase64(selectedImage).then((data) => {
             // console.log(data);
@@ -72,16 +77,18 @@ function Profile() {
     useEffect(() => {
         const headers = {
             Authorization:
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzgwN2ViNjllODIxYTMyMDA1N2ViZDAiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzAwODU1NTQsImV4cCI6MTY3MjY3NzU1NH0.CbfYvU3dRalURXHYfX8sFifDyINaJHe_iJZ3X1SxjNc',
+                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzkwYjU2MDU3MTczMWE0NGEyMzE3MTIiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzA1NzUyMDgsImV4cCI6MTY3MzE2NzIwOH0.bGor_YwVVKp2_jc8e0tLUCFLAXjQ6jyafCT4S8ywQPo',
         };
         axios
             .get(`http://localhost:3000/api/v1/customer`, { headers: headers })
             .then((res) => {
+                console.log(res.data);
                 setName(res.data.userName);
                 setEmail(res.data.email);
                 setGender(res.data.gender.charAt(0).toUpperCase() + res.data.gender.slice(1));
                 setAddress(res.data.address);
                 setPhone(res.data.phone);
+                setBirthday(res.data.birthday);
             })
             .catch((error) => {
                 console.log(error);
@@ -92,13 +99,14 @@ function Profile() {
         e.preventDefault();
         const headers = {
             Authorization:
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzgwN2ViNjllODIxYTMyMDA1N2ViZDAiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzAwODU1NTQsImV4cCI6MTY3MjY3NzU1NH0.CbfYvU3dRalURXHYfX8sFifDyINaJHe_iJZ3X1SxjNc',
+                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzkwYjU2MDU3MTczMWE0NGEyMzE3MTIiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzA1NzUyMDgsImV4cCI6MTY3MzE2NzIwOH0.bGor_YwVVKp2_jc8e0tLUCFLAXjQ6jyafCT4S8ywQPo',
         };
         const obj = {
             phone: Phone,
             gender: Gender.charAt(0).toLowerCase() + Gender.slice(1),
             address: Address,
             image: imgURL,
+            birthday: Birthday,
         };
         axios
             .patch(`http://localhost:3000/api/v1/customer/profile`, obj, { headers: headers })
@@ -212,6 +220,10 @@ function Profile() {
                                     type="date"
                                     className={classes['content__form-input']}
                                     placeholder="Nhập ngày sinh"
+                                    value={Birthday}
+                                    format="yyyy-MM-dd"
+                                    //onChange={(e)=> (moment(e.value.timeStamp).format('YYYY-MM-DD'))}
+                                    onChange={(e)=> (e.target.value)}
                                 ></input>
                             </div>
                             <div className={classes['content__form-text']}>

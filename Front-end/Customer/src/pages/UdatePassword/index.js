@@ -40,6 +40,27 @@ function UpdatePassword() {
         console.log(CurrentPass + ' ' + NewPass + ' ' + AgainPass);
         e.preventDefault();
 
+        const headers = {
+            Authorization:
+                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzkwYjU2MDU3MTczMWE0NGEyMzE3MTIiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzA1NzUyMDgsImV4cCI6MTY3MzE2NzIwOH0.bGor_YwVVKp2_jc8e0tLUCFLAXjQ6jyafCT4S8ywQPo',
+        };
+        const obj = {
+            currentPassword: CurrentPass,
+            newPassword: NewPass,
+        };
+        axios
+            .patch(`http://localhost:3000/api/v1/customer/updatepassword`, obj, { headers: headers })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((error) => {
+                alert("Mật khẩu hiện tại không đúng");
+                console.log(error);
+                setSaveSuccess(false);
+                return;
+            });
+
+
         if (CurrentPass === '' || NewPass === '' || AgainPass === '') {
             alert('Please fill all fields!')
             setCheckCurrentPassValid(true);

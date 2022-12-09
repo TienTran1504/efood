@@ -2,12 +2,10 @@ import classes from './Sidebar.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
-
 import { faChartSimple, faBox, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-
 import { Link, useLocation } from 'react-router-dom';
-
 import defaultavatar from './sidar-img/logo.png';
+import { useNavigate } from 'react-router-dom';
 
 const obj = [
     {
@@ -25,17 +23,19 @@ const obj = [
         link: '/users',
         icon: faUser,
     },
-    {
-        heading: 'LOG OUT',
-        link: '/login',
-        icon: faArrowRightFromBracket,
-    },
 ];
 
 function Sidebar() {
     const path = useLocation();
     const [selectedImage, setSelectedImage] = useState(null);
 
+    function HandleLogOut(){
+        localStorage.removeItem("userId");
+        localStorage.removeItem("token");
+        localStorage.setItem("user-state", false);
+
+        useNavigate('\login');
+    }
     const convertToBase64 = (file) => {
         return new Promise((resolve, reject) => {
           const fileReader = new FileReader();
@@ -92,6 +92,12 @@ function Sidebar() {
                         </Link>
                     </li>
                 ))}
+                    <li>
+                        <div onClick={HandleLogOut} className={classes['navbar__item']}>
+                            <FontAwesomeIcon className={classes['navbar__item-icon']} icon={faArrowRightFromBracket} />
+                            LOG OUT
+                        </div>
+                    </li>
             </ul>
         </div>
     );

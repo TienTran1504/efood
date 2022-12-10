@@ -2,8 +2,8 @@ const nodemailer = require('nodemailer');
 const mailTransporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-        user: "trandungtien1504@gmail.com",
-        pass: "ojsowfdkhtwdhnxo"
+        user: "efoodprojectgroup06@gmail.com",
+        pass: "irdpgukqoevrivyw"
     }
 })
 function makeid(length) {
@@ -20,7 +20,7 @@ function makeid(length) {
 const sendMail = (lengthOTP, email) => new Promise(
     (resolve, reject) => {
         let details = {
-            from: "trandungtien1504@gmail.com", // sender address
+            from: "efoodprojectgroup06@gmail.com", // sender address
             to: email, // list of receivers
             subject: "OTP", // Subject line
             text: makeid(lengthOTP), // plain text body

@@ -6,7 +6,7 @@ import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faChartSimple, faBox, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 import { Link, useLocation } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 import defaultavatar from './sidar-img/logo.png';
 
 const obj = [
@@ -25,14 +25,10 @@ const obj = [
         link: '/users',
         icon: faUser,
     },
-    {
-        heading: 'LOG OUT',
-        link: '/login',
-        icon: faArrowRightFromBracket,
-    },
 ];
 
 function Sidebar() {
+    const usenavigate = useNavigate();
     const path = useLocation();
     const [selectedImage, setSelectedImage] = useState(null);
     const [dialogConfirm, setDialogConfirm] = useState(false);
@@ -60,6 +56,13 @@ function Sidebar() {
         });
     }
 
+    function hanldeLogout() {
+        localStorage.removeItem('userId');
+        localStorage.removeItem('token');
+        localStorage.setItem('user-state', false);
+
+        usenavigate('/login');
+    }
     return (
         <div className={classes['navbar']}>
             <div className={classes['navbar__avt']}>
@@ -113,6 +116,12 @@ function Sidebar() {
                         </Link>
                     </li>
                 ))}
+                <li>
+                    <div onClick={hanldeLogout} className={classes['navbar__item']}>
+                        <FontAwesomeIcon className={classes['navbar__item-icon']} icon={faArrowRightFromBracket} />
+                        LOG OUT
+                    </div>
+                </li>
             </ul>
         </div>
     );

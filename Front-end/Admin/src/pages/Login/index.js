@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 import request from '~/utils/request';
@@ -6,6 +7,7 @@ import Images from '~/assets/images';
 import classes from './Login.module.scss';
 
 export default function LoginPage() {
+    const loginNavigate = useNavigate();
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [currentUser, setCurrentUser] = useState(() => {
@@ -13,20 +15,22 @@ export default function LoginPage() {
         return storageUserState;
     });
 
-    function handleLogin() {}
+    useEffect(() => {
+        if (currentUser) {
+            loginNavigate('/');
+        }
+    }, [currentUser]);
+
     async function handleSubmit(e) {
         e.preventDefault();
-        // make axios post
         var objLogin = {
             email: email,
             password: pass,
         };
-        console.log(objLogin.email, objLogin.password);
-        // make axios post
+
         await request
             .post('auth/login', objLogin)
             .then((res) => {
-                console.log(res.data.token);
                 localStorage.setItem('user-state', true);
                 localStorage.setItem('userId', res.data.user.id);
                 localStorage.setItem('token', res.data.token);
@@ -43,11 +47,7 @@ export default function LoginPage() {
             </div>
             <div className={classes.wrapper__form}>
                 <h2>Đăng nhập</h2>
-                <form
-                    action="/"
-                    onSubmit={currentUser ? handleLogin : handleSubmit}
-                    className={classes.form__container}
-                >
+                <form action="/" onSubmit={handleSubmit} className={classes.form__container}>
                     <p>
                         <input
                             type="text"
@@ -71,7 +71,7 @@ export default function LoginPage() {
                         </Link>
                     </p>
                     <p>
-                        <button id={classes.sub__btn} type="submit" onClick={handleLogin}>
+                        <button id={classes.sub__btn} type="submit">
                             Đăng nhập
                         </button>
                     </p>

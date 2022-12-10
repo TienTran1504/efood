@@ -6,7 +6,7 @@ const BillSchema = new mongoose.Schema({
     method: {
         type: String,
         required: [true, 'Please provide payment method'],
-        enum: ['cod', 'e-payment'],
+        enum: ['Thanh toán khi nhận hàng', 'Thanh toán trực tiếp'],
     },
     total: {
         type: Number,
@@ -19,8 +19,8 @@ const BillSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['delivered', 'shipping', 'cancel'],
-        default: 'cancel'
+        enum: ['Delivered', 'Shipping', 'Cancel'],
+        default: 'Cancel'
     },
     createdBy: {
         type: mongoose.Types.ObjectId,

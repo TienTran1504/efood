@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import classes from './StateOrderStyle.module.scss';
+import classes from './TypeStyle.module.scss';
 
 export default function ({ props }) {
     return (

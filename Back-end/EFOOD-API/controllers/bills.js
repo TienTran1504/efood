@@ -96,7 +96,7 @@ const updateBill = async (req, res) => {
             user: { userId },
             params: { id: billId },
         } = req;
-
+        console.log(req.body);
         if (status === '') {
             throw new BadRequestError('status fields cannot be empty');
         }

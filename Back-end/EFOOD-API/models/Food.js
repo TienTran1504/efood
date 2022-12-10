@@ -16,7 +16,7 @@ const FoodSchema = new mongoose.Schema({
     typeOf: {
         type: String,
         required: [true, 'Please provide type of food'],
-        enum: ['món nước', 'cơm', 'đồ uống', 'tráng miệng', 'ăn vặt'],
+        enum: ['Món nước', 'Cơm', 'Đồ uống', 'Tráng miệng', 'Ăn vặt'],
     },
     ratingList: {
         type: Array,

@@ -1,14 +1,15 @@
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { logDOM } from '@testing-library/react';
 import React, { memo, useState } from 'react';
 import classes from './RowStyle.module.scss';
 
 function EditableRow({ id, order, handleEditStatus, handleCancelClick }) {
     const [prevLi, setPrevLi] = useState();
     const status = [
-        { name: 'process', bgColor: 'blue' },
-        { name: 'delivered', bgColor: 'green' },
-        { name: 'cancel', bgColor: 'red' },
+        { name: 'Delivered', bgColor: 'blue' },
+        { name: 'Shipping', bgColor: 'green' },
+        { name: 'Cancel', bgColor: 'red' },
     ];
 
     function handleState(e) {
@@ -20,7 +21,7 @@ function EditableRow({ id, order, handleEditStatus, handleCancelClick }) {
     }
 
     function handleSubmit() {
-        handleEditStatus(prevLi, order.orderId);
+        handleEditStatus(prevLi);
     }
     return (
         <tr>

@@ -5,33 +5,5 @@
         "email": "tien@gmail.com",
         "gender": "Nam",
         "role": "Admin"
-    },
-    {
-        "id": 2,
-        "fullName": "Trần Dũng Tiến",
-        "email": "tien@gmail.com",
-        "gender": "Nam",
-        "role": "Admin"
-    },
-    {
-        "id": 3,
-        "fullName": "Trần Dũng Tiến",
-        "email": "tien@gmail.com",
-        "gender": "Nam",
-        "role": "Admin"
-    },
-    {
-        "id": 4,
-        "fullName": "Trần Dũng Tiến",
-        "email": "tien@gmail.com",
-        "gender": "Nam",
-        "role": "Admin"
-    },
-    {
-        "id": 5,
-        "fullName": "Trần Dũng Tiến",
-        "email": "tien@gmail.com",
-        "gender": "Nam",
-        "role": "Admin"
     }
 ]

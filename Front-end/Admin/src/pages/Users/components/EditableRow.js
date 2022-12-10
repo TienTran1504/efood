@@ -1,39 +1,28 @@
-import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useRef, useState } from "react";
-import classes from "../Users.module.scss"
+import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useEffect, useRef, useState } from 'react';
+import classes from '../Users.module.scss';
 
-function EditableRow({ editUserId, editFormData, handleEditFormChange, handleCancelClick }) {
-    const [role, setRole] = useState(editFormData.role)
-    console.log(editFormData.role);
+function EditableRow({ index, editFormData, handleEditFormChange, handleCancelClick }) {
+    const [role, setRole] = useState(editFormData.typrOf);
     const handleRadio = (e) => {
         setRole(e.target.value);
         handleEditFormChange(e);
-    }
-
+    };
 
     return (
         <tr>
             <td>
-                <input
-                    type="text"
-                    name="id"
-                    defaultValue={editUserId}
-                    className={classes['input-edit-id']}
-                    disabled
-                >
-                </input>
-
+                <input type="text" name="id" defaultValue={index} className={classes['input-edit-id']} disabled></input>
             </td>
             <td>
                 <input
                     type="text"
-                    name="fullName"
-                    defaultValue={editFormData.fullName}
+                    name="name"
+                    defaultValue={editFormData.name}
                     className={classes['input-edit-name']}
                     disabled
-                >
-                </input>
+                ></input>
             </td>
             <td>
                 <input
@@ -58,27 +47,25 @@ function EditableRow({ editUserId, editFormData, handleEditFormChange, handleCan
                     type="radio"
                     required
                     placeholder="Enter role"
-                    name="role"
+                    name="typeOf"
                     value="Admin"
                     onChange={handleRadio}
                     className={classes['input-edit-role']}
                     checked={role === 'Admin' ? true : false}
                     id="admin"
-                >
-                </input>
+                ></input>
                 <label htmlFor="admin">Admin</label>
                 <input
                     type="radio"
                     required
                     checked={role === 'Customer' ? true : false}
                     placeholder="Enter role"
-                    name="role"
+                    name="typeOf"
                     value="Customer"
                     onChange={handleRadio}
                     className={classes['input-edit-role']}
                     id="customer"
-                >
-                </input>
+                ></input>
                 <label htmlFor="customer">Customer</label>
             </td>
             <td>

@@ -122,7 +122,6 @@ const updateUser = async (req, res) => {
             body: { typeOf },
             params: { id: userId },
         } = req;
-
         if (typeOf === '') {
             throw new BadRequestError('status fields cannot be empty');
         }

@@ -28,9 +28,6 @@ const UserSchema = new mongoose.Schema({
         type: String,
         // required: [true, 'Please provide phone number'],
         match: [/(84|0[3|5|7|8|9])+([0-9]{8})\b/g, "Please provide valid phone number"],
-        // console.log(regexPhoneNumber('840988888888')) // true
-        // console.log(regexPhoneNumber('84988888888')) // false
-        // console.log(regexPhoneNumber('8409888888881')) // false
         unique: true,
         trim: true,
 
@@ -48,13 +45,13 @@ const UserSchema = new mongoose.Schema({
     },
     gender: {
         type: String,
-        enum: ['nam', 'nữ'],
-        default: 'nam',
+        enum: ['Nam', 'Nữ'],
+        default: 'Nam',
     },
     typeOf: {
         type: String,
-        enum: ['customer', 'admin'],
-        default: 'customer',
+        enum: ['Customer', 'Admin'],
+        default: 'Customer',
     },
     bonus: {
         type: Number,

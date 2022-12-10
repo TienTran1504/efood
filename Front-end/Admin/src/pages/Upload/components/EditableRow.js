@@ -2,16 +2,15 @@ import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classes from './RowStyle.module.scss';
 
-function EditableRow({ editFoodId, editFormData, handleEditFormChange, handleCancelClick }) {
+function EditableRow({ index, editFormData, handleEditFormChange, handleCancelClick }) {
     return (
         <tr>
             <td>
                 <input
                     type="text"
-                    required="required"
-                    placeholder="Enter id"
                     name="id"
-                    defaultValue={editFoodId}
+                    value={index}
+                    readOnly
                     className={`${classes['input-edit-id']} ${classes['input-edit-text']}`}
                 ></input>
             </td>
@@ -20,7 +19,6 @@ function EditableRow({ editFoodId, editFormData, handleEditFormChange, handleCan
                     type="file"
                     name="image"
                     id="file"
-                    required="required"
                     onChange={handleEditFormChange}
                     accept="image/jpeg, imge/png, image/jpg"
                     className={`${classes['input-edit-img']} ${classes['input-edit-text']}`}
@@ -30,10 +28,10 @@ function EditableRow({ editFoodId, editFormData, handleEditFormChange, handleCan
             <td>
                 <input
                     type="text"
-                    required="required"
+                    required
                     placeholder="Enter a name..."
-                    name="fullName"
-                    value={editFormData.fullName}
+                    name="name"
+                    value={editFormData.name}
                     onChange={handleEditFormChange}
                     className={`${classes['input-edit-name']} ${classes['input-edit-text']}`}
                 ></input>
@@ -43,8 +41,8 @@ function EditableRow({ editFoodId, editFormData, handleEditFormChange, handleCan
                     type="text"
                     required="required"
                     placeholder="Enter type of food"
-                    name="type"
-                    value={editFormData.type}
+                    name="typeOf"
+                    value={editFormData.typeOf}
                     onChange={handleEditFormChange}
                     className={`${classes['input-edit-food']} ${classes['input-edit-text']}`}
                 ></input>

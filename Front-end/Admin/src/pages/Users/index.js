@@ -1,46 +1,71 @@
 import classes from './Users.module.scss';
-import images from '~/assets/images';
-import { faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState, Fragment } from 'react';
+import { faRefresh, faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect, Fragment } from 'react';
+
+import request from '~/utils/request';
+import Role from '~/components/TypeOf';
 import data from './mock-data.json';
 import ReadOnlyRow from './components/ReadOnlyRow';
 import EditableRow from './components/EditableRow';
 import DialogConfirm from '~/components/UiComponent/DialogConfirm';
+import Button from '~/components/Layout/DefaultLayout/Header/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function Users() {
     //add for process delete modal
     const [idUser, setIdUser] = useState(null);
     const [dialogConfirm, setDialog] = useState(false);
+    const [typeRole, setTypeRole] = useState([
+        { name: 'Customer', icon: faUsers, number: 0, color: 'blue' },
+        { name: 'Admin', icon: faUser, number: 0, color: 'red' },
+    ]);
     //====================
     const [users, setUsers] = useState(data);
-    const [addFormData, setAddFormData] = useState({
-        id: '',
-        fullName: '',
-        email: '',
-        role: '',
-        gender: '',
-    });
-
     const [editFormData, setEditFormData] = useState({
         id: '',
-        fullName: '',
+        name: '',
         email: '',
-        role: '',
+        typeOf: '',
         gender: '',
     });
     const [editUserId, setEditUserId] = useState(null);
+    const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
+    const headers = {
+        Authorization: tokenAuth,
+    };
 
-    const handleAddFormChange = (e) => {
-        e.preventDefault();
+    useEffect(() => {
+        var newTypeRole = [...typeRole];
+        newTypeRole.forEach((role) => {
+            role.number = 0;
+        });
 
-        const fieldName = e.target.getAttribute('name');
-        const fieldValue = e.target.value;
+        users.forEach((value) => {
+            if (value.typeOf === 'Customer') newTypeRole[0].number += 1;
+            else newTypeRole[1].number += 1;
+        });
+        setTypeRole(newTypeRole);
+    }, [users]);
 
-        const newFormData = { ...addFormData };
-        newFormData[fieldName] = fieldValue;
-
-        setAddFormData(newFormData);
+    const handleRefreshData = async () => {
+        await request
+            .get('admin', { headers: headers })
+            .then((res) => {
+                var newUsers = [];
+                res.data.sortedUsers.forEach((value, index) => {
+                    var newUser = {
+                        id: value._id,
+                        name: value.name,
+                        email: value.email,
+                        gender: value.gender,
+                        typeOf: value.typeOf,
+                        image: value.image,
+                    };
+                    newUsers = [...newUsers, newUser];
+                });
+                setUsers(newUsers);
+            })
+            .catch((err) => console.log(err));
     };
 
     const handleEditFormChange = (e) => {
@@ -53,39 +78,21 @@ function Users() {
         setEditFormData(newFormData);
     };
 
-    const handleAddFormSubmit = (e) => {
+    const handleEditFormSubmit = async (e) => {
         e.preventDefault();
-        const newUser = {
-            id: users.length + 1,
-            fullName: addFormData.fullName,
-            email: addFormData.email,
-            role: addFormData.role,
-            gender: addFormData.gender,
-        };
-
-        const newUsers = [...users, newUser];
-        setUsers(newUsers);
-    };
-
-    const handleEditFormSubmit = (e) => {
-        e.preventDefault();
-
-        const editedContact = {
-            id: editUserId,
-            fullName: editFormData.fullName,
-            email: editFormData.email,
-            role: editFormData.role,
-            gender: editFormData.gender,
-        };
 
         const newUsers = [...users];
 
         const index = users.findIndex((user) => user.id === editUserId);
-
-        newUsers[index] = editedContact;
-
-        setUsers(newUsers);
-        setEditUserId(null);
+        newUsers[index] = editFormData;
+        console.log('admin/' + editUserId);
+        const res = await request
+            .patch('admin/' + editUserId, { typeOf: editFormData.typeOf }, { headers: headers })
+            .then((res) => {
+                setUsers(newUsers);
+                setEditUserId(null);
+            })
+            .catch((err) => console.log(err));
     };
 
     const handleEditClick = (e, user) => {
@@ -93,7 +100,7 @@ function Users() {
         setEditUserId(user.id);
 
         const formValues = {
-            fullName: user.fullName,
+            name: user.name,
             email: user.email,
             role: user.role,
             gender: user.gender,
@@ -111,61 +118,51 @@ function Users() {
         setIdUser(userId);
     };
 
-    //add functon process delete 
+    //add functon process delete
     const areUSureDelete = (choose) => {
-        if(choose){     
-            setDialog(false);
+        if (choose) {
             const newUsers = [...users];
-
             const index = users.findIndex((user) => user.id === idUser);
-    
-            newUsers.splice(index, 1);
-    
-            setUsers(newUsers);
-        }else{
-            setDialog(false);
 
+            request
+                .delete('admin/' + users[index].id, { headers: headers })
+                .then((res) => console.log(res))
+                .catch((res) => console.log(res));
+
+            newUsers.splice(index, 1);
+            setUsers(newUsers);
         }
+        setDialog(false);
     };
 
-
-
-    const handlShowDialogConfirm = (isLoading)=>{
+    const handlShowDialogConfirm = (isLoading) => {
         setDialog(isLoading);
-    }
-
+    };
 
     const [modalOpen, setModalOpen] = useState(false);
     return (
         <div className={classes.wrapper}>
             <div className={classes.title}>
                 <p className={classes['title-name']}>USERS MANAGEMENT</p>
-                {/* <img src={images.logoImage} alt="logo" className={classes['title-logo']} /> */}
             </div>
 
             <div className={classes.filter}>
-                {/* Sau này convert ra thành 1 component riêng */}
-                <button className={`${classes['type-user']} ${classes.blue}`}>
-                    <p className={classes['type-name']}>CUSTOMERS</p>
-                    <FontAwesomeIcon className={classes['type-icon']} icon={faUsers} />
-                    <p className={classes['type-quantity']}>12</p>
-                </button>
-
-                <button className={`${classes['type-user']} ${classes.red}`}>
-                    <p className={classes['type-name']}>ADMIN</p>
-                    <FontAwesomeIcon className={classes['type-icon']} icon={faUser} />
-                    <p className={classes['type-quantity']}>12</p>
-                </button>
+                {typeRole.map((role, index) => (
+                    <Role key={index} props={role} />
+                ))}
             </div>
             <div className={classes['product-list']}>
                 <div className={classes['product-list-content']}>
                     <h4 className={classes['product-list-title']}>Users List</h4>
+                    <Button primary type="button" className={classes['product-list-btn']} onClick={handleRefreshData}>
+                        Refresh <FontAwesomeIcon icon={faRefresh} />
+                    </Button>
                 </div>
                 <form className={classes['menu-form']} onSubmit={handleEditFormSubmit}>
                     <table>
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>#</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Gender</th>
@@ -178,13 +175,14 @@ function Users() {
                                 <Fragment key={index}>
                                     {editUserId === user.id ? (
                                         <EditableRow
-                                            editUserId={editUserId}
+                                            index={index + 1}
                                             editFormData={editFormData}
                                             handleEditFormChange={handleEditFormChange}
                                             handleCancelClick={handleCancelClick}
                                         />
                                     ) : (
                                         <ReadOnlyRow
+                                            index={index + 1}
                                             user={user}
                                             handleEditClick={handleEditClick}
                                             handleDeleteClick={handleDeleteClick}
@@ -196,7 +194,7 @@ function Users() {
                     </table>
                 </form>
             </div>
-            {dialogConfirm && <DialogConfirm onDialog={areUSureDelete}/>}
+            {dialogConfirm && <DialogConfirm onDialog={areUSureDelete} />}
         </div>
     );
 }

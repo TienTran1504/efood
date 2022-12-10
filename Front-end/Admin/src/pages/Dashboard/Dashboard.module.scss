@@ -51,7 +51,9 @@ form:hover {
     margin: auto;
 }
 .product-list-content {
-    padding: 10px 0px 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 10px 8px 12px;
 }
 .product-list-title {
     font-size: 2.5rem;

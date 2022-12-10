@@ -9,8 +9,8 @@ function ReadOnlyRow({ id, food, handleEditClick, handleDeleteClick }) {
             <td>
                 <img src={food.image} alt="img" />
             </td>
-            <td>{food.fullName}</td>
-            <td>{food.type}</td>
+            <td>{food.name}</td>
+            <td>{food.typeOf}</td>
             <td>{food.price}</td>
             <td>
                 <button

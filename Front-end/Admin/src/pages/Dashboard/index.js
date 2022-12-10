@@ -1,72 +1,99 @@
 import classes from './Dashboard.module.scss';
-import {
-    faCheck,
-    faHouseChimneyCrack,
-    faMoneyBill,
-    faSpinner,
-    faTimes,
-    faTruck,
-} from '@fortawesome/free-solid-svg-icons';
+import { faMoneyBill, faRefresh, faSpinner, faTimes, faTruck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, useEffect, Fragment, useRef } from 'react';
+
+import request from '~/utils/request';
 import data from './mock-data.json';
 import ReadOnlyRow from './components/ReadOnlyRow';
 import EditableRow from './components/EditableRow';
 import Button from '~/components/Layout/DefaultLayout/Header/Button';
-import StateOrder from './components/StateOrder';
+import TypeOfFood from '~/components/TypeOf';
 import DialogConfirm from '~/components/UiComponent/DialogConfirm';
+import Users from '../Users';
 
 function Dashboard() {
     const [orders, setOrders] = useState(data);
     const [total, setTotal] = useState(0);
-
-    const processOrder = [
-        { name: 'ORDER PROCESS', icon: faSpinner, number: 3, color: 'blue' },
-        { name: 'ORDER DELIVERED', icon: faTruck, number: 3, color: 'green' },
-        { name: 'ORDER CANCELED', icon: faTimes, number: 3, color: 'red' },
-    ];
+    const [status, setStatus] = useState([
+        { name: 'ORDER DELIVERED', icon: faSpinner, number: 0, color: 'blue' },
+        { name: 'ORDER SHIPPING', icon: faTruck, number: 0, color: 'green' },
+        { name: 'ORDER CANCELED', icon: faTimes, number: 0, color: 'red' },
+    ]);
 
     const [editFormData, setEditFormData] = useState('');
     const [editorderId, setEditOrderId] = useState(null);
 
     const [dialogConfirm, setDialog] = useState(false);
-    const [idProduct, setIdProduct] = useState(null);
+    const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
+    const headers = {
+        Authorization: tokenAuth,
+    };
 
     useEffect(() => {
+        var newStatus = [...status];
+        newStatus.forEach((st) => {
+            st.number = 0;
+        });
+
+        orders.forEach((value) => {
+            if (value.status === 'Delivered') newStatus[0].number += 1;
+            else if (value.status === 'Shipping') newStatus[1].number += 1;
+            else if (value.status === 'Cancel') newStatus[2].number += 1;
+        });
+        setStatus(newStatus);
+
         const total = orders.reduce((money, order) => {
             return money + order.total * 1.0;
         }, 0);
         setTotal(total);
     }, [orders]);
 
-    const handleEditStatus = (e, orderId) => {
-        if (e && orderId) {
-            e.preventDefault();
-            const newOrders = [];
-
-            orders.forEach((order, index) => {
-                if (order.orderId !== orderId) {
-                    newOrders.push(order);
-                } else {
-                    order.status = e.target.innerText.toLowerCase();
-                    newOrders.push(order);
-                }
-            });
-
-            setOrders(newOrders);
-        }
+    const handleRefreshData = async () => {
+        await request
+            .get('bills', { headers: headers })
+            .then((res) => {
+                var newBills = [];
+                res.data.sortedBills.forEach((value, index) => {
+                    var newbill = {
+                        orderId: value._id,
+                        payMethod: value.method,
+                        date: value.createdAt,
+                        status: value.status,
+                        total: value.total,
+                    };
+                    newBills = [...newBills, newbill];
+                });
+                setOrders(newBills);
+                console.log(orders);
+            })
+            .catch((err) => console.log(err));
     };
 
-    const handleEditFormSubmit = (e) => {
+    const handleEditStatus = (e) => {
         e.preventDefault();
+        var fieldValue = e.target.innerHTML;
+        console.log(fieldValue);
+        setEditFormData(fieldValue);
+    };
 
-        setEditOrderId(null);
+    const handleEditFormSubmit = async (e) => {
+        e.preventDefault();
+        const newOrders = [...orders];
+        const index = orders.findIndex((order) => order.orderId === editorderId);
+        newOrders[index].status = editFormData;
+        const res = await request
+            .patch('bills/' + editorderId, { status: editFormData }, { headers: headers })
+            .then((res) => {
+                setOrders(newOrders);
+                setEditOrderId(null);
+            })
+            .catch((err) => console.log(err));
     };
 
     const handleEditClick = (e, order) => {
         e.preventDefault();
-        setEditOrderId(order.id);
-
+        setEditOrderId(order.orderId);
         setEditFormData(order.status);
     };
 
@@ -79,22 +106,23 @@ function Dashboard() {
     };
     const handleDeleteClick = (orderId) => {
         handlShowDialogConfirm(true);
-        setIdProduct(orderId);
+        setEditOrderId(orderId);
     };
 
-    const areUSureDelete = (choose) => {
+    const areUSureDelete = async (choose) => {
         if (choose) {
-            setDialog(false);
-            const newOrders = [];
-            console.log(111);
-            orders.forEach((order, index) => {
-                if (order.orderId !== idProduct) newOrders.push(order);
-            });
+            const newOrders = [...orders];
+            const index = orders.findIndex((order) => order.orderId === editorderId);
 
-            setOrders(newOrders);
-        } else {
-            setDialog(false);
+            await request
+                .delete('bills/' + orders[index].orderId, { headers: headers })
+                .then((res) => {
+                    newOrders.splice(index, 1);
+                    setOrders(newOrders);
+                })
+                .catch((res) => console.log(res));
         }
+        setDialog(false);
     };
 
     return (
@@ -103,13 +131,16 @@ function Dashboard() {
                 <p className={classes['title-name']}>DASHBOARD MANAGEMENT</p>
             </div>
             <div className={classes.filter}>
-                {processOrder.map((payMenthod, index) => (
-                    <StateOrder key={index} props={payMenthod} />
+                {status.map((st, index) => (
+                    <TypeOfFood key={index} props={st} />
                 ))}
             </div>
             <div className={classes['product-list']}>
                 <div className={classes['product-list-content']}>
                     <h4 className={classes['product-list-title']}>Recent Orders</h4>
+                    <Button primary type="button" className={classes['product-list-btn']} onClick={handleRefreshData}>
+                        Refresh <FontAwesomeIcon icon={faRefresh} />
+                    </Button>
                 </div>
                 <form className={classes['menu-form']} onSubmit={handleEditFormSubmit}>
                     <table>
@@ -127,7 +158,7 @@ function Dashboard() {
                         <tbody>
                             {orders.map((order, index) => (
                                 <Fragment key={index}>
-                                    {editorderId === order.id ? (
+                                    {editorderId === order.orderId ? (
                                         <EditableRow
                                             id={index}
                                             order={order}
@@ -158,7 +189,6 @@ function Dashboard() {
                 </Button>
             </div>
             {dialogConfirm && <DialogConfirm onDialog={areUSureDelete} />}
-            {/* <DialogConfirm/> */}
         </div>
     );
 }

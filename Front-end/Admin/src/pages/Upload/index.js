@@ -14,40 +14,55 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 function Upload() {
     const [dialogConfirm, setDialog] = useState(false);
     const [idFood, setIdFood] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [foodType, setFoodType] = useState([
+        { name: 'Món nước', icon: faBowlFood, number: 0, color: 'blue' },
+        { name: 'Cơm', icon: faBowlRice, number: 0, color: 'red' },
+        { name: 'Đồ uống', icon: faMugHot, number: 0, color: 'purple' },
+        { name: 'Tráng miệng', icon: faIceCream, number: 0, color: 'green' },
+        { name: 'Ăn vặt', icon: faIceCream, number: 0, color: 'yellow' },
+    ]);
 
     const [foods, setFoods] = useState(data);
     const [addFormData, setAddFormData] = useState({
-        id: '',
-        fullName: '',
-        type: '',
+        name: '',
+        typeOf: '',
         price: '',
         image: '',
     });
 
     const [editFormData, setEditFormData] = useState({
-        id: '',
-        fullName: '',
-        type: '',
+        name: '',
+        typeOf: '',
         price: '',
         image: '',
     });
-
-    const foodType = [
-        { name: 'Món nước', icon: faBowlFood, number: 3, color: 'blue' },
-        { name: 'Cơm', icon: faBowlRice, number: 3, color: 'red' },
-        { name: 'Đồ uống', icon: faMugHot, number: 3, color: 'purple' },
-        { name: 'Tráng miệng', icon: faIceCream, number: 3, color: 'green' },
-        { name: 'Ăn vặt', icon: faIceCream, number: 3, color: 'yellow' },
-    ];
+    const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
+    const headers = {
+        Authorization: tokenAuth,
+    };
 
     const [editFoodId, setEditFoodId] = useState(null);
 
-    const handleRefreshData = async () => {
-        const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
-        const headers = {
-            Authorization: tokenAuth,
-        };
+    //Refresh type foods
+    useEffect(() => {
+        var newFoodType = [...foodType];
+        newFoodType.forEach((foodT) => {
+            foodT.number = 0;
+        });
 
+        foods.forEach((value) => {
+            if (value.typeOf === 'món nước') newFoodType[0].number += 1;
+            else if (value.typeOf === 'cơm') newFoodType[1].number += 1;
+            else if (value.typeOf === 'đồ uống') newFoodType[2].number += 1;
+            else if (value.typeOf === 'tráng miệng') newFoodType[3].number += 1;
+            else if (value.typeOf === 'ăn vặt') newFoodType[4].number += 1;
+        });
+        setFoodType(newFoodType);
+    }, [foods]);
+
+    //Handle call api foods
+    const handleRefreshData = async () => {
         await request
             .get('foods', { headers: headers })
             .then((res) => {
@@ -55,17 +70,20 @@ function Upload() {
                 res.data.sortedFoods.forEach((value, index) => {
                     var newFood = {
                         id: value._id,
-                        fullName: value.name,
-                        type: value.typeOf,
+                        name: value.name,
+                        typeOf: value.typeOf,
                         price: value.price + 'đ',
                         image: value.image,
                     };
                     newFoods = [...newFoods, newFood];
                 });
                 setFoods(newFoods);
+                console.log(foods);
             })
             .catch((err) => console.log(err));
     };
+
+    //Converts the picture into base64
     const convertToBase64 = (file) => {
         return new Promise((resolve, reject) => {
             const fileReader = new FileReader();
@@ -79,11 +97,21 @@ function Upload() {
         });
     };
 
+    //Handle add foods
     const handleAddFormChange = (e) => {
         e.preventDefault();
 
-        const fieldName = e.target.getAttribute('name');
-        const fieldValue = e.target.value;
+        var fieldName = e.target.getAttribute('name');
+        var fieldValue;
+
+        if (fieldName === 'image') {
+            fieldValue = URL.createObjectURL(e.target.files[0]);
+            convertToBase64(e.target.files[0]).then((data) => {
+                fieldValue = data;
+            });
+        } else {
+            fieldValue = e.target.value;
+        }
 
         const newFormData = { ...addFormData };
         newFormData[fieldName] = fieldValue;
@@ -91,6 +119,36 @@ function Upload() {
         setAddFormData(newFormData);
     };
 
+    //Call api post method add food
+    const handleAddFormSubmit = async (e) => {
+        e.preventDefault();
+        var newFood = {
+            name: addFormData.name,
+            typeOf: addFormData.typeOf,
+            price: addFormData.price,
+            image: addFormData.image,
+        };
+
+        await request
+            .post('/foods', newFood, { headers: headers })
+            .then((res) => {
+                newFood = {
+                    id: res.data.food._id,
+                    name: addFormData.name,
+                    typeOf: addFormData.typeOf,
+                    price: addFormData.price,
+                    image: addFormData.image,
+                };
+                const newFoods = [...foods, newFood];
+                setFoods(newFoods);
+
+                setModalOpen(false);
+                alert('Thêm món ăn hoàn tất');
+            })
+            .catch((err) => console.log(err));
+    };
+
+    //Handle input change information of food
     const handleEditFormChange = (e) => {
         e.preventDefault();
 
@@ -102,50 +160,47 @@ function Upload() {
         if (fieldName === 'image') {
             fieldValue = URL.createObjectURL(e.target.files[0]);
             convertToBase64(e.target.files[0]).then((data) => {
-                // console.log(data);
+                fieldValue = data;
             });
         } else {
             fieldValue = e.target.value;
         }
 
         newFormData[fieldName] = fieldValue;
-        // console.log(newFormData);
         setEditFormData(newFormData);
     };
 
-    const handleAddFormSubmit = (e) => {
-        e.preventDefault();
-        const newFood = {
-            id: foods.length + 1,
-            fullName: addFormData.fullName,
-            type: addFormData.type,
-            price: addFormData.price,
-            image: addFormData.image,
-        };
-
-        const newFoods = [...foods, newFood];
-        setFoods(newFoods);
-    };
-
-    const handleEditFormSubmit = (e) => {
+    const handleEditFormSubmit = async (e) => {
         e.preventDefault();
 
         const editedContact = {
-            id: editFoodId,
-            fullName: editFormData.fullName,
-            type: editFormData.type,
+            name: editFormData.name,
+            typeOf: editFormData.typeOf,
             price: editFormData.price,
             image: editFormData.image,
         };
-
         const newFoods = [...foods];
-
         const index = foods.findIndex((food) => food.id === editFoodId);
-
         newFoods[index] = editedContact;
+        newFoods[index].price = newFoods[index].price.replace('đ', '');
 
-        setFoods(newFoods);
-        setEditFoodId(null);
+        const res = await request
+            .patch(
+                'foods/' + editFoodId,
+                {
+                    name: editedContact.name,
+                    typeOf: editedContact.typeOf,
+                    price: editedContact.price,
+                    image: editedContact.image,
+                },
+                { headers: headers },
+            )
+            .then((res) => {
+                newFoods[index].price = newFoods[index].price + 'đ';
+                setFoods(newFoods);
+                setEditFoodId(null);
+            })
+            .catch((err) => console.log(err));
     };
 
     const handleEditClick = (e, food) => {
@@ -153,8 +208,8 @@ function Upload() {
         setEditFoodId(food.id);
 
         const formValues = {
-            fullName: food.fullName,
-            type: food.type,
+            name: food.name,
+            typeOf: food.typeOf,
             price: food.price,
             image: food.image,
         };
@@ -171,33 +226,26 @@ function Upload() {
     };
 
     const handleDeleteClick = (foodId) => {
-        // const newFoods = [...foods];
-
-        // const index = foods.findIndex((food) => food.id === foodId);
-
-        // newFoods.splice(index, 1);
-
-        // setFoods(newFoods);
         handlShowDialogConfirm(true);
         setIdFood(foodId);
     };
 
-    const areUSureDelete = (choose) => {
+    const areUSureDelete = async (choose) => {
         if (choose) {
-            setDialog(false);
             const newFoods = [...foods];
-
             const index = foods.findIndex((food) => food.id === idFood);
 
-            newFoods.splice(index, 1);
-
-            setFoods(newFoods);
-        } else {
-            setDialog(false);
+            await request
+                .delete('foods/' + foods[index].id, { headers: headers })
+                .then((res) => {
+                    newFoods.splice(index, 1);
+                    setFoods(newFoods);
+                })
+                .catch((res) => console.log(res));
         }
+        setDialog(false);
     };
 
-    const [modalOpen, setModalOpen] = useState(false);
     return (
         <div className={classes.wrapper}>
             {modalOpen && (
@@ -259,7 +307,7 @@ function Upload() {
                                 <Fragment key={index}>
                                     {editFoodId === food.id ? (
                                         <EditableRow
-                                            editFoodId={editFoodId}
+                                            index={index + 1}
                                             editFormData={editFormData}
                                             handleEditFormChange={handleEditFormChange}
                                             handleCancelClick={handleCancelClick}

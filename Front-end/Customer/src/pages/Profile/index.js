@@ -4,9 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import bgrImg from './userprofile-img/bgr2.jpg';
 import avatar from './userprofile-img/meome.jpg';
 import axios from 'axios';
-import Moment from 'react-moment';
 import moment from 'moment'
-import { useParams } from 'react-router-dom';
 
 function PhoneNumberValid(number) {
     return /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/.test(number);
@@ -37,8 +35,7 @@ function Profile() {
     const [Gender, setGender] = useState('');
     const [Address, setAddress] = useState('');
 
-    //const [Birthday, setBirthday] = useState(moment().format('YYYY-MM-DD'));
-    const [Birthday, setBirthday] = useState(new Date());
+    const [Birthday, setBirthday] = useState(moment().format('YYYY-DD-MM'));
     const [checkNameValid, setCheckNameValid] = useState(false);
     const [checkPhoneValid, setCheckPhoneValid] = useState(false);
     const [checkEmailValid, setCheckEmailValid] = useState(false);
@@ -47,7 +44,6 @@ function Profile() {
     const [imgURL, setimgURL] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
     const [saveSuccess, setSaveSuccess] = useState(false);
-    const params = useParams();
     const NameInput = useRef();
     const PhoneInput = useRef();
     const EmailInput = useRef();
@@ -82,13 +78,13 @@ function Profile() {
         axios
             .get(`http://localhost:3000/api/v1/customer`, { headers: headers })
             .then((res) => {
-                console.log(res.data);
+                //console.log(res.data.birthday);
                 setName(res.data.userName);
                 setEmail(res.data.email);
                 setGender(res.data.gender.charAt(0).toUpperCase() + res.data.gender.slice(1));
                 setAddress(res.data.address);
                 setPhone(res.data.phone);
-                setBirthday(res.data.birthday);
+                setBirthday(moment(res.data.birthday).format('YYYY-MM-DD'));
             })
             .catch((error) => {
                 console.log(error);
@@ -106,7 +102,7 @@ function Profile() {
             gender: Gender.charAt(0).toLowerCase() + Gender.slice(1),
             address: Address,
             image: imgURL,
-            birthday: Birthday,
+            birthday: moment(Birthday).format('DD/MM/YYYY'),
         };
         axios
             .patch(`http://localhost:3000/api/v1/customer/profile`, obj, { headers: headers })
@@ -221,9 +217,8 @@ function Profile() {
                                     className={classes['content__form-input']}
                                     placeholder="Nhập ngày sinh"
                                     value={Birthday}
-                                    format="yyyy-MM-dd"
-                                    //onChange={(e)=> (moment(e.value.timeStamp).format('YYYY-MM-DD'))}
-                                    onChange={(e)=> (e.target.value)}
+                                    format="YYYY-MM-DD"
+                                    onChange={(e)=> (setBirthday(moment(e.target.value).format('YYYY-MM-DD')))}
                                 ></input>
                             </div>
                             <div className={classes['content__form-text']}>

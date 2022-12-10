@@ -46,6 +46,34 @@ const getFoodsByType = async (req, res) => {
     }
     res.status(StatusCodes.OK).json({ foods, countLength: foods.length })
 }
+// {{URL}}/foods/price
+const getFoodsByPrice = async (req, res) => {
+    const { numericFilters } = req.query;
+    const numberFilters = numericFilters.split('&lt;').join('<');
+    const queryObject = {}
+    if (!numberFilters) {
+        throw new BadRequestError('Please provide numericFilters')
+    }
+    const operatorMap = {
+        '>': '$gt',
+        '>=': '$gte',
+        '=': '$eq',
+        '<': '$lt',
+        '<=': '$lte',
+    }
+    const regEx = /\b(>|>=|=|<|<=)\b/g
+    let filters = numberFilters.replace(regEx, (match) => `-${operatorMap[match]}-`)
+    console.log(filters);
+    const options = ['price', 'rating'];
+    filters = filters.split(',').forEach((item) => {
+        const [field, operator, value] = item.split('-') // tách ra vd price $gt 30
+        if (options.includes(field)) {
+            queryObject[field] = { [operator]: Number(value) }
+        }
+    })
+    const foods = await Food.find(queryObject)
+    res.status(StatusCodes.OK).json({ foods, countLength: foods.length })
+}
 // {{URL}}/foods
 const createFood = async (req, res) => {
     const userCheck = await User.findOne({ _id: req.user.userId });
@@ -149,6 +177,7 @@ const deleteFood = async (req, res) => {
     }
 }
 module.exports = {
+    getFoodsByPrice,
     getFoodsByType,
     getAllFoods,
     getFood,

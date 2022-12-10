@@ -8,7 +8,6 @@ import { faChartSimple, faBox, faArrowRightFromBracket } from '@fortawesome/free
 import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import defaultavatar from './sidar-img/logo.png';
-import DialogConfirm from '~/components/UiComponent/DialogConfirm';
 
 const obj = [
     {
@@ -124,7 +123,6 @@ function Sidebar() {
                     </div>
                 </li>
             </ul>
-            {dialogConfirm && <DialogConfirm onDialog={areUSureDelete} />}
         </div>
     );
 }

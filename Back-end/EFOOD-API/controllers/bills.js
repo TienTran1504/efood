@@ -5,7 +5,7 @@ const { BadRequestError, NotFoundError, UnauthenticatedError } = require('../err
 //{{URL}}/bills?limit
 const getAllBills = async (req, res) => {
     const userCheck = await User.findOne({ _id: req.user.userId });
-    if (userCheck.typeOf === 'admin') {
+    if (userCheck.typeOf === 'Admin') {
         const { limit } = req.query;
         const bills = await Bill.find({}).sort('createdAt')
         let sortedBills = [...bills];
@@ -25,7 +25,7 @@ const getAllBills = async (req, res) => {
 //{{URL}}/bills/user/:id
 const getBillbyUserId = async (req, res) => {
     const userCheck = await User.findOne({ _id: req.user.userId });
-    if (userCheck.typeOf === 'admin') {
+    if (userCheck.typeOf === 'Admin') {
         const bills = await Bill.find({ createdBy: req.params.id }).sort('createdAt')
         res.status(StatusCodes.OK).json({ bills, count: bills.length });
     }
@@ -37,7 +37,7 @@ const getBillbyUserId = async (req, res) => {
 //{{URL}}/bills/:id
 const getBill = async (req, res) => {
     const userCheck = await User.findOne({ _id: req.user.userId });
-    if (userCheck.typeOf === 'admin') {
+    if (userCheck.typeOf === 'Admin') {
         const { params: { id: billId } } = req; // req.user.userId, req.params.id
 
         const bill = await Bill.findOne({
@@ -90,7 +90,7 @@ const createBill = async (req, res) => {
 //{{URL}}/bills/:id
 const updateBill = async (req, res) => {
     const userCheck = await User.findOne({ _id: req.user.userId });
-    if (userCheck.typeOf === 'admin') {
+    if (userCheck.typeOf === 'Admin') {
         const {
             body: { status },
             user: { userId },
@@ -135,7 +135,7 @@ const updateBill = async (req, res) => {
 //{{URL}}/bills/:id
 const deleteBill = async (req, res) => {
     const userCheck = await User.findOne({ _id: req.user.userId });
-    if (userCheck.typeOf === 'admin') {
+    if (userCheck.typeOf === 'Admin') {
         const {
             user: { userId },
             params: { id: billId },

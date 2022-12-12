@@ -52,7 +52,7 @@ const deleteContact = async (req, res) => {
 //{{URL}}/admin
 const getAllUsers = async (req, res) => {
     const userCheck = await User.findOne({ _id: req.user.userId }); // lấy ra đúng user đang login
-    if (userCheck.typeOf === 'admin') {
+    if (userCheck.typeOf === 'Admin') {
         const { search, limit } = req.query;
         const users = await User.find({})
         let sortedUsers = [...users];
@@ -77,7 +77,7 @@ const getAllUsers = async (req, res) => {
 // {{URL}}/admin/:id
 const getUser = async (req, res) => {
     const userCheck = await User.findOne({ _id: req.user.userId });
-    if (userCheck.typeOf === 'admin') {
+    if (userCheck.typeOf === 'Admin') {
         const { params: { id: userId } } = req; // req.user.userId, req.params.id
 
         const user = await User.findOne({
@@ -95,7 +95,7 @@ const getUser = async (req, res) => {
 // {{URL}}/admin/:id
 const deleteUser = async (req, res) => {
     const userCheck = await User.findOne({ _id: req.user.userId });
-    if (userCheck.typeOf === 'admin') {
+    if (userCheck.typeOf === 'Admin') {
         const {
             params: { id: userId },
         } = req;
@@ -117,7 +117,7 @@ const deleteUser = async (req, res) => {
 // {{URL}}/admin/:id
 const updateUser = async (req, res) => {
     const userCheck = await User.findOne({ _id: req.user.userId });
-    if (userCheck.typeOf === 'admin') {
+    if (userCheck.typeOf === 'Admin') {
         const {
             body: { typeOf },
             params: { id: userId },

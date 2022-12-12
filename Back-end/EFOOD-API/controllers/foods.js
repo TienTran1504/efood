@@ -78,7 +78,7 @@ const getFoodsByPrice = async (req, res) => {
 const createFood = async (req, res) => {
     const userCheck = await User.findOne({ _id: req.user.userId });
     console.log(userCheck);
-    if (userCheck.typeOf === 'admin') {
+    if (userCheck.typeOf === 'Admin') {
         req.body.createdBy = req.user.userId;
         console.log("body", req.body);
         const food = await Food.create({ ...req.body });
@@ -94,7 +94,7 @@ const createFood = async (req, res) => {
 // {{URL}}/foods/:id
 const updateFood = async (req, res) => {
     const userCheck = await User.findOne({ _id: req.user.userId });
-    if (userCheck.typeOf === 'admin') {
+    if (userCheck.typeOf === 'Admin') {
         const {
             user: { userId },
             params: { id: foodId },
@@ -156,7 +156,7 @@ const ratingFood = async (req, res) => {
 // {{URL}}/foods/:id
 const deleteFood = async (req, res) => {
     const userCheck = await User.findOne({ _id: req.user.userId });
-    if (userCheck.typeOf === 'admin') {
+    if (userCheck.typeOf === 'Admin') {
         const {
             user: { userId },
             params: { id: foodId },

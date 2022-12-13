@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import request from '~/utils/request';
 import Images from '~/assets/images';
 import classes from './Login.module.scss';
-// import Home from '../Home';
+import Swal from 'sweetalert2';
 
 export default function LoginPage() {
     const loginNavigate = useNavigate();
@@ -36,11 +36,23 @@ export default function LoginPage() {
                 localStorage.setItem('userId', res.data.user.id);
                 localStorage.setItem('token', res.data.token);
                 setCurrentUser(true);
+                Swal.fire({
+                    title: 'Đăng nhập thành công!',
+                    icon: 'success',
+                    confirmButtonText: 'Hoàn tất',
+                    width: '50rem',
+                });
             })
             .catch((error) => {
-                console.log(error.response.data.msg);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: 'Email hoặc mật khẩu của bạn không đúng!',
+                    width: '50rem',
+                });
             });
     }
+
     return (
         <div className={classes.wrapper}>
             <div className={classes.wrapper__logo}>

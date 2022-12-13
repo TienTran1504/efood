@@ -22,15 +22,27 @@ export default function SignUpPage() {
     const [confirmEmail, setConfirmEmail] = useState(false);
 
     async function handleSentOtp() {
-        console.log('sent otp');
         await request
             .post('auth/otp', { email: email })
             .then((res) => {
                 setConfirmEmail(true);
-                console.log(res.data);
                 setOtpVerify(res.data.otpVerify);
+                Swal.fire({
+                    title: 'OPT đã được gửi tới email!',
+                    text: 'Bạn hãy điền thông tin đăng ký và nhập mã OTP',
+                    icon: 'success',
+                    confirmButtonText: 'Hoàn tất',
+                    width: '50rem',
+                });
             })
-            .catch((err) => console.log(err));
+            .catch(() => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: 'Email của bạn không đúng!',
+                    width: '50rem',
+                });
+            });
     }
 
     function handleEmailCheck() {
@@ -57,7 +69,12 @@ export default function SignUpPage() {
     async function handleSubmit(e) {
         e.preventDefault();
         if (validEmail || validPass || validReWritePass) {
-            alert('Lỗi đăng ký!!!');
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Thông tin của bạn không đúng!',
+                width: '50rem',
+            });
             return;
         }
         var objResgister = {
@@ -72,18 +89,39 @@ export default function SignUpPage() {
         await request
             .post('auth/register', objResgister)
             .then((res) => {
-                console.log(res.data);
                 setEmail('');
                 setPass('');
                 setRewritePass('');
                 setOtp('');
-                alert('Tài khoản hợp lệ!\nBạn đã đăng ký thàng công. Hãy quay về đăng nhập.');
+                Swal.fire({
+                    title: 'Đăng kí thành công!',
+                    text: 'Tài khoản hợp lệ. Hãy quay về đăng nhập',
+                    icon: 'success',
+                    confirmButtonText: 'Hoàn tất',
+                    width: '50rem',
+                });
             })
-            .catch((error) => alert(error.response.data.msg));
-        // setSuccess(true);
+            .catch((error) => {
+                if (
+                    error.response.data.msg === 'Duplicate value entered for email field, please choose another value'
+                ) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Đã có tài khoản với email này!',
+                        width: '50rem',
+                    });
+                    setConfirmEmail(false);
+                } else if (error.response.data.msg === 'Incorrect OTP') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Mã OTP không đúng!',
+                        width: '50rem',
+                    });
+                }
+            });
     }
-
-    // useEffect(() => {}, [success]);
 
     return (
         <div className={classes.wrapper}>

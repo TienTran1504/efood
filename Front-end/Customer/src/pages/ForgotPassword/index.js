@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import request from '~/utils/request';
 import Images from '~/assets/images';
 import classes from '../Login/Login.module.scss';
+import Swal from 'sweetalert2';
 
 export default function ForgotPassword() {
     const [email, setEmail] = useState('');
@@ -26,10 +27,23 @@ export default function ForgotPassword() {
             .post('auth/otp', { email: email })
             .then((res) => {
                 setConfirmEmail(true);
-                console.log(res.data);
                 setOtpVerify(res.data.otpVerify);
+                Swal.fire({
+                    title: 'OPT đã được gửi tới email!',
+                    text: 'Bạn hãy điền mật khẩu và nhập mã OTP',
+                    icon: 'success',
+                    confirmButtonText: 'Hoàn tất',
+                    width: '50rem',
+                });
             })
-            .catch((err) => console.log(err));
+            .catch(() => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: 'Email của bạn không đúng!',
+                    width: '50rem',
+                });
+            });
     }
 
     function handleEmailCheck() {
@@ -75,8 +89,21 @@ export default function ForgotPassword() {
             setPass('');
             setRewritePass('');
             setOtp('');
-            alert('Thay đổi mật khẩu thành công!');
-        } else alert('Mã OTP không đúng!\nMời bạn nhập lại.');
+            Swal.fire({
+                title: 'Đổi mật khẩu thành công!',
+                text: 'Hãy quay về đăng nhập',
+                icon: 'success',
+                confirmButtonText: 'Hoàn tất',
+                width: '50rem',
+            });
+        } else if (res.response.data.msg === 'Incorrect OTP') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Mã OTP không đúng!',
+                width: '50rem',
+            });
+        }
     }
     return (
         <div className={classes.wrapper}>
@@ -156,7 +183,7 @@ export default function ForgotPassword() {
                             </p>
                             <p>
                                 <button id={classes.sub__btn} type="submit">
-                                    Đăng ký
+                                    Đổi mật khẩu
                                 </button>
                             </p>
                         </>

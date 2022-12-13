@@ -46,9 +46,11 @@ const USER_ITEMS = [
 function Header() {
     const [isOpen, setIsOpen] = useState(false);
     const [data, setData] = useState([]);
-    const [currentUser, setCurrentUser] = useState(() => {
+    const [currentUser, setCurrentUser] = useState(false);
+
+    useEffect(() => {
         const storageUserState = JSON.parse(localStorage.getItem('user-state'));
-        return storageUserState;
+        setCurrentUser(storageUserState);
     });
 
     const path = useLocation();
@@ -76,11 +78,7 @@ function Header() {
                 <div className={classes.actions}>
                     <ul className={classes['menu-list']}>
                         <li className={classes['menu-item']}>
-                            <Link
-                                to="/"
-                                className={`${path.pathname === '/' ? classes.active : ''}`}
-                                // onClick={() => setStateHomePage(false)}
-                            >
+                            <Link to="/" className={`${path.pathname === '/' ? classes.active : ''}`}>
                                 Home
                             </Link>
                         </li>
@@ -113,11 +111,7 @@ function Header() {
                     </ul>
 
                     {currentUser ? (
-                        // {true ? (
                         <Menu items={USER_ITEMS} handleLogOut={handleLogOut}>
-                            {/* <button className={classes['more-btn']}>
-                                <FontAwesomeIcon icon={faBars} />
-                            </button> */}
                             <div className={classes['current-user']}>
                                 <Image
                                     className={classes['user-avatar']}

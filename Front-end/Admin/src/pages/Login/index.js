@@ -31,13 +31,25 @@ export default function LoginPage() {
         await request
             .post('auth/login', objLogin)
             .then((res) => {
+                console.log(res.data);
                 localStorage.setItem('user-state', true);
                 localStorage.setItem('userId', res.data.user.id);
                 localStorage.setItem('token', res.data.token);
                 setCurrentUser(true);
+                Swal.fire({
+                    title: 'Đăng nhập thành công!',
+                    icon: 'success',
+                    confirmButtonText: 'Hoàn tất',
+                    width: '50rem',
+                });
             })
             .catch((error) => {
-                console.log(error.response.data.msg);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: 'Email hoặc mật khẩu của bạn không đúng!',
+                    width: '50rem',
+                });
             });
     }
     return (

@@ -119,6 +119,35 @@
     }
 }
 
+.responsive{
+    width: 100%;
+    background-color: #000;
+    display: none;
+
+    .container-text{
+        display: block;
+    }
+}
+
+@media (max-width: 700px) or (max-height: 600px) {
+    .contact{
+        display: none;
+    }
+
+    .responsive{
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        height: 700px;
+        color: white;
+
+        .container-text{
+            font-size: 3.4rem;
+            font-weight: 600;
+            color: white;
+        }
+    }
+}
 
 
 

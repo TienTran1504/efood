@@ -67,7 +67,11 @@ function Contact() {
 
     }
     return (
-        <div className={classes['contact']}>
+        <div>
+            <div className={classes['responsive']}>
+                <div className={classes['.container-text']}>HIỆN TẠI WEB CHƯA CÓ CHỨC NĂNG RESPONSIVE</div>   
+            </div>
+            <div className={classes['contact']}>
             <div className={classes['contact__body']}>
                 <h3 className={classes['heading__contact']}>CONTACT US</h3>
                 <p className={classes['paragraph__contact_line1']}>Have question about store, orders or your account</p>
@@ -101,6 +105,8 @@ function Contact() {
                 
             </div>
         </div>
+        </div>
+        
     )
 }
 

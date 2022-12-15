@@ -79,6 +79,12 @@ p {
     justify-content: center;
 }
 
+.buttonAddItem{
+    background: none;
+    color: white;
+}
+
+
 .btn-container button {
     padding: 2rem 3rem;
     height: 30px;
@@ -119,6 +125,10 @@ p {
     font-size: 50px;
     display: flex;
     margin-bottom: 10px;
+}
+
+.buttonAddItem ._icon:active {
+    color: #fe7c4b;
 }
 
 .section-center {

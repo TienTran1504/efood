@@ -5,12 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import DialogConfirm from '~/components/UiComponent/DialogConfirm';
 // import axios from 'axios';
-import items from './data';
+// import items from './data';
 import Categories from './Categories';
 import './product_style.css';
 import MenuSlider from '~/components/Layout/DefaultLayout/MenuSlider';
+import ModalFood from '~/components/UiComponent/foodModel';
 
 // const allCategories = ['all', ...new Set(items.map((item) => item.category))];
 
@@ -22,9 +23,12 @@ const headers = {
 
 
 
-const MenuList = ({ items }) => {
+
+const MenuList = ({ items, handleClickAddToCart }) => {
     const itemPerPage = 12;
     const pages = [];
+
+ 
 
     for (let i = 0; i < items.length; ) {
         const onePage = [];
@@ -35,11 +39,15 @@ const MenuList = ({ items }) => {
             <div className="section-center" key={i}>
                 {onePage.map((item) => {
                     const { id, title, image, rating, price } = item;
+                    console.log("check");
                     return (
                         <article key={id} className="menu-item">
                             <img src={image} alt={title} className="photo" />
                             <div className="item-hover">
-                                <FontAwesomeIcon icon={faShoppingCart} className="_icon" />
+                                <button className='buttonAddItem' type='button' onClick={()=>handleClickAddToCart(item)}>
+                                    <FontAwesomeIcon icon={faShoppingCart} className="_icon" />
+                                </button>
+                                
 
                                 <h4 className="price">{price} VND</h4>
                             </div>
@@ -69,30 +77,12 @@ const MenuList = ({ items }) => {
     );
 };
 
-// const convertToBase64 = (file) => {
-//     return new Promise((resolve, reject) => {
-//         const fileReader = new FileReader();
-//         fileReader.readAsDataURL(file);
-//         fileReader.onload = () => {
-//             resolve(fileReader.result);
-//         };
-//         fileReader.onerror = (error) => {
-//             reject(error);
-//         };
-//     });
-// };
 
 function Menu() {
-    // const setAllcategories = (items) => {
-    //     allCategories = ['all', ...new Set(items.map((item) => item.category))]
-    // }
     const [items, setItems] = useState([]);
 
     useEffect(()=>{
-        // const itemData = window.localStorage.getItem('FOODIT_DATA');
-        // if(itemData) setMenuItems(JSON.parse(itemData));
 
-        
         axios
             .get(`http://localhost:3000/api/v1/foods`, {headers: headers})
             .then((res)=>{
@@ -113,24 +103,65 @@ function Menu() {
             });
 
     }, []);
-    console.log(items);
+
+
 
     const [menuItems, setMenuItems] = useState(items);
-    console.log(menuItems);
     const [activeCategory, setActiveCategory] = useState('');
-    // const [categories, setCategories] = useState([]);
     const categories = ['All','Món nước', 'Cơm', 'Đồ uống', 'Tráng miệng', 'Ăn vặt'];
 
     const filterItems = (category) => {
         setActiveCategory(category);
         if (category === 'All') {
             setMenuItems(items);
+            // while(menuItems.length()===0){
+            //     setMenuItems(items);
+            // }
             return;
         }
         const newItems = items.filter((item) => item.category === category);
         setMenuItems(newItems);
     };
 
+    //comfirm dialog
+    // const [dialogConfirm, setDialog] = useState(false);
+    // const [idProduct, setIdProduct] = useState(null);
+    // const handlShowDialogConfirm = (isLoading)=>{
+    //     setDialog(isLoading);
+    // }
+    // const handleClickAddToCart = (itemId) => {
+    //     handlShowDialogConfirm(true);
+    //     setIdProduct(itemId);
+    //     console.log("thanh cong");
+    // };
+    // const areUSureDelete = (choose) => {
+    //     if(choose){     
+    //         setDialog(false);
+    //         // const newOrders = [];
+    //         // console.log(111);
+    //         // orders.forEach((order, index) => {
+    //         //     if (order.orderId !== idProduct) newOrders.push(order);
+    //         // });
+
+    //         // setOrders(newOrders);
+    //     }else{
+    //         setDialog(false);
+
+    //     }
+    // };
+    const [isOpen, setIsOpen] = useState(false);
+    const [data, setData] = useState([]);
+
+    const handleShowModalFood = (isShow) =>{
+        setIsOpen(isShow);
+    }
+
+    const handleClickAddToCart = (itemId) => {
+            handleShowModalFood(true);
+            setData(itemId);
+            console.log("thanh cong");
+        };
+    
     return (
         <div>
             <Slider
@@ -140,10 +171,15 @@ function Menu() {
                 link={sliderMenuItems.link}
             />
 
-            <div className="body__container">
+            <div className="body__container"  onLoad={()=>filterItems("All")}>
                 <Categories categories={categories} activeCategory={activeCategory} filterItems={filterItems} />
-                <MenuList items={menuItems} />
+                <MenuList 
+                    items={menuItems} 
+                    handleClickAddToCart={handleClickAddToCart}
+                />
             </div>
+            {/* {dialogConfirm && <DialogConfirm onDialog={areUSureDelete}/>} */}
+            {isOpen && <ModalFood setData={data} setIsOpen={setIsOpen} />}
         </div>
     );
 }

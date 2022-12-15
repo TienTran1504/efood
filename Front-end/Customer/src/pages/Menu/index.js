@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import DialogConfirm from '~/components/UiComponent/DialogConfirm';
 // import axios from 'axios';
 // import items from './data';
 import Categories from './Categories';

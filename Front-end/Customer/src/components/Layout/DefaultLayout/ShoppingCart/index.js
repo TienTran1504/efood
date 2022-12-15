@@ -53,36 +53,36 @@ const ShoppingCart = (props) => {
                 >
                     GIAO HÀNG TRỰC TUYẾN
                 </button>
-                {paymentMethod === 'Thanh toán khi nhận hàng' ? (
-                    <table className={classes['cart-table']}>
-                        <tbody>
-                            <tr className={`${classes['cart-row']} ${classes['cart-row--header']}`}>
-                                <td className={classes['cart-col']}>THÔNG TIN GIAO HÀNG</td>
-                            </tr>
-                            <tr className={classes['cart-row']}>
-                                <td className={classes['cart-col']}>
-                                    <FontAwesomeIcon icon={faUser} className={classes['icon']} />
-                                    <input
-                                        type="text"
-                                        name=""
-                                        size="50"
-                                        placeholder="Họ và tên người nhận"
-                                        className={classes['cart-input']}
-                                    />
-                                </td>
-                            </tr>
-                            <tr className={classes['cart-row']}>
-                                <td className={classes['cart-col']}>
-                                    <FontAwesomeIcon icon={faPhone} className={classes['icon']} />
-                                    <input
-                                        type="text"
-                                        name=""
-                                        size="50"
-                                        placeholder="Số điện thoại người nhận"
-                                        className={classes['cart-input']}
-                                    />
-                                </td>
-                            </tr>
+                <table className={classes['cart-table']}>
+                    <tbody>
+                        <tr className={`${classes['cart-row']} ${classes['cart-row--header']}`}>
+                            <td className={classes['cart-col']}>THÔNG TIN GIAO HÀNG</td>
+                        </tr>
+                        <tr className={classes['cart-row']}>
+                            <td className={classes['cart-col']}>
+                                <FontAwesomeIcon icon={faUser} className={classes['icon']} />
+                                <input
+                                    type="text"
+                                    name=""
+                                    size="50"
+                                    placeholder="Họ và tên người nhận"
+                                    className={classes['cart-input']}
+                                />
+                            </td>
+                        </tr>
+                        <tr className={classes['cart-row']}>
+                            <td className={classes['cart-col']}>
+                                <FontAwesomeIcon icon={faPhone} className={classes['icon']} />
+                                <input
+                                    type="text"
+                                    name=""
+                                    size="50"
+                                    placeholder="Số điện thoại người nhận"
+                                    className={classes['cart-input']}
+                                />
+                            </td>
+                        </tr>
+                        {paymentMethod === 'Thanh toán khi nhận hàng' && (
                             <tr className={classes['cart-row']}>
                                 <td className={classes['cart-col']}>
                                     <FontAwesomeIcon icon={faLocationDot} className={classes['icon']} />
@@ -95,93 +95,35 @@ const ShoppingCart = (props) => {
                                     />
                                 </td>
                             </tr>
-                            <tr className={classes['cart-row']}>
-                                <td className={classes['cart-col']}>
-                                    <FontAwesomeIcon icon={faPencil} className={classes['icon']} />
-                                    <textarea
-                                        type="text"
-                                        className={classes['cart-textarea']}
-                                        name=""
-                                        placeholder="Ghi chú..."
-                                        rows="11"
-                                        cols="50"
-                                    />
-                                </td>
-                            </tr>
-                            <tr className={`${classes['cart-row']} ${classes['cart-row--header']}`}>
-                                <td className={classes['cart-col']}>PHƯƠNG THỨC THANH TOÁN</td>
-                            </tr>
-                            <tr>
-                                <td className={classes['cart-col']}>
-                                    <FontAwesomeIcon
-                                        icon={faCircle}
-                                        className={classes['icon']}
-                                        style={{ color: '#E85D31' }}
-                                    />
-                                    <div className={classes['cart-input']}>{paymentMethod}</div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                ) : (
-                    <table className={classes['cart-table']}>
-                        <tbody>
-                            <tr className={`${classes['cart-row']} ${classes['cart-row--header']}`}>
-                                <td className={classes['cart-col']}>THÔNG TIN GIAO HÀNG</td>
-                            </tr>
-                            <tr className={classes['cart-row']}>
-                                <td className={classes['cart-col']}>
-                                    <FontAwesomeIcon icon={faUser} className={classes['icon']} />
-                                    <input
-                                        type="text"
-                                        name=""
-                                        size="50"
-                                        placeholder="Họ và tên người nhận"
-                                        className={classes['cart-input']}
-                                    />
-                                </td>
-                            </tr>
-                            <tr className={classes['cart-row']}>
-                                <td className={classes['cart-col']}>
-                                    <FontAwesomeIcon icon={faPhone} className={classes['icon']} />
-                                    <input
-                                        type="text"
-                                        name=""
-                                        size="50"
-                                        placeholder="Số điện thoại người nhận"
-                                        className={classes['cart-input']}
-                                    />
-                                </td>
-                            </tr>
-                            <tr className={classes['cart-row']}>
-                                <td className={classes['cart-col']}>
-                                    <FontAwesomeIcon icon={faPencil} className={classes['icon']} />
-                                    <textarea
-                                        type="text"
-                                        className={classes['cart-textarea']}
-                                        name=""
-                                        placeholder="Ghi chú..."
-                                        rows="11"
-                                        cols="50"
-                                    />
-                                </td>
-                            </tr>
-                            <tr className={`${classes['cart-row']} ${classes['cart-row--header']}`}>
-                                <td className={classes['cart-col']}>PHƯƠNG THỨC THANH TOÁN</td>
-                            </tr>
-                            <tr>
-                                <td className={classes['cart-col']}>
-                                    <FontAwesomeIcon
-                                        icon={faCircle}
-                                        className={classes['icon']}
-                                        style={{ color: '#E85D31' }}
-                                    />
-                                    <div className={classes['cart-input']}>{paymentMethod}</div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                )}
+                        )}
+                        <tr className={classes['cart-row']}>
+                            <td className={classes['cart-col']}>
+                                <FontAwesomeIcon icon={faPencil} className={classes['icon']} />
+                                <textarea
+                                    type="text"
+                                    className={classes['cart-textarea']}
+                                    name=""
+                                    placeholder="Ghi chú..."
+                                    rows="11"
+                                    cols="50"
+                                />
+                            </td>
+                        </tr>
+                        <tr className={`${classes['cart-row']} ${classes['cart-row--header']}`}>
+                            <td className={classes['cart-col']}>PHƯƠNG THỨC THANH TOÁN</td>
+                        </tr>
+                        <tr>
+                            <td className={classes['cart-col']}>
+                                <FontAwesomeIcon
+                                    icon={faCircle}
+                                    className={classes['icon']}
+                                    style={{ color: '#E85D31' }}
+                                />
+                                <div className={classes['cart-input']}>{paymentMethod}</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
             <div className={classes['cart-container--item']}>

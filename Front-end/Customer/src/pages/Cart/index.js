@@ -2,11 +2,6 @@ import ShoppingCart from '~/components/Layout/DefaultLayout/ShoppingCart/index.j
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-// const headers = {
-//     Authorization:
-//         'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mzk3NThlMGZmNDZiYjA3MjViMWZiNDYiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzExNjc4MTAsImV4cCI6MTY3Mzc1OTgxMH0.kNElTB-ggXNBh-KdalB3r0jlU8FomQxUR5Mj7Sv0h90',
-// };
-
 const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
 const headers = {
     Authorization: tokenAuth,

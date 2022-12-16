@@ -13,7 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 const ShoppingCart = (props) => {
-    const { cartItems, onAdd, onRemove } = props;
+    const { cartItems, onAdd, onRemove, createBill } = props;
     const itemsPrice = cartItems.reduce((a, c) => a + c.quantity * c.price, 0);
     const totalQuantity = cartItems.reduce((a, c) => a + c.quantity, 0);
     const [paymentMethod, setpaymentMethod] = useState('Thanh toán khi nhận hàng');
@@ -36,8 +36,10 @@ const ShoppingCart = (props) => {
         document.getElementById('online').style.backgroundColor = 'white';
         document.getElementById('online').style.color = '#ff0000';
         document.getElementById('online').style.border = '2px solid #ff0000';
-        setpaymentMethod('Thanh toán tại quầy');
+        setpaymentMethod('Thanh toán trực tiếp');
     };
+
+    const order = () => {};
 
     function numberWithDot(num) {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -221,6 +223,7 @@ const ShoppingCart = (props) => {
                     }
                     }`}
                     style={{ marginBottom: '30px' }}
+                    onClick={() => createBill(paymentMethod)}
                 >
                     ĐẶT HÀNG
                 </button>

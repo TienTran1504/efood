@@ -17,6 +17,8 @@
     width: 100%;
     font-weight: bold;
     transition: filter 0.2s;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .cart-btn--active {
@@ -31,6 +33,7 @@
 
 .cart-btn--disabled{
     opacity: 0.5;
+    pointer-events: none;
 }
 
 .cart-btn--disabled:hover{

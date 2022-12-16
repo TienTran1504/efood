@@ -71,10 +71,11 @@ function Profile() {
     }
 
     useEffect(() => {
+        const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
         const headers = {
-            Authorization:
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzkwYjU2MDU3MTczMWE0NGEyMzE3MTIiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzA1NzUyMDgsImV4cCI6MTY3MzE2NzIwOH0.bGor_YwVVKp2_jc8e0tLUCFLAXjQ6jyafCT4S8ywQPo',
+            Authorization: tokenAuth,
         };
+        console.log(headers);
         axios
             .get(`http://localhost:3000/api/v1/customer`, { headers: headers })
             .then((res) => {
@@ -93,17 +94,18 @@ function Profile() {
 
     function handleSubmit1(e) {
         e.preventDefault();
+        const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
         const headers = {
-            Authorization:
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzkwYjU2MDU3MTczMWE0NGEyMzE3MTIiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzA1NzUyMDgsImV4cCI6MTY3MzE2NzIwOH0.bGor_YwVVKp2_jc8e0tLUCFLAXjQ6jyafCT4S8ywQPo',
+            Authorization: tokenAuth,
         };
         const obj = {
             phone: Phone,
-            gender: Gender.charAt(0).toLowerCase() + Gender.slice(1),
+            gender: Gender.charAt(0).toUpperCase() + Gender.slice(1),
             address: Address,
             image: imgURL,
             birthday: moment(Birthday).format('DD/MM/YYYY'),
         };
+        console.log(obj);
         axios
             .patch(`http://localhost:3000/api/v1/customer/profile`, obj, { headers: headers })
             .then((res) => {

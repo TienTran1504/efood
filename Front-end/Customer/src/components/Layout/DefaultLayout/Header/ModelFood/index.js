@@ -43,7 +43,7 @@ function AddFoodToCart(){
       <div className={classes['centered']}>
         <div className={classes['modal']}>
           <div className={classes['modalHeader']}>
-          <h5 className={classes['heading']}>Add Food</h5>
+          <h5 className={classes['heading']}>ADD FOOD</h5>
           </div>
           <div className={classes['modalHeader__infor']}>
             <div className={classes['modalHeader__wrapper']} >

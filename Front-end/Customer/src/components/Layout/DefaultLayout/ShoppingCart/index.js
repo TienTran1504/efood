@@ -13,7 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 const ShoppingCart = (props) => {
-    const { cartItems, onAdd, onRemove } = props;
+    const { cartItems, onAdd, onRemove, createBill } = props;
     const itemsPrice = cartItems.reduce((a, c) => a + c.quantity * c.price, 0);
     const totalQuantity = cartItems.reduce((a, c) => a + c.quantity, 0);
     const [paymentMethod, setpaymentMethod] = useState('Thanh toán khi nhận hàng');
@@ -36,7 +36,25 @@ const ShoppingCart = (props) => {
         document.getElementById('online').style.backgroundColor = 'white';
         document.getElementById('online').style.color = '#ff0000';
         document.getElementById('online').style.border = '2px solid #ff0000';
-        setpaymentMethod('Thanh toán tại quầy');
+        setpaymentMethod('Thanh toán trực tiếp');
+    };
+
+    function PhoneNumberValid(number) {
+        return /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/.test(number);
+    }
+
+    const order = () => {
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        if (name === '') alert('Họ và tên người nhận không hợp lệ!');
+        else if (!PhoneNumberValid(phone)) alert('Số điện thoại không hợp lệ!');
+        else if (paymentMethod === 'Thanh toán khi nhận hàng' && document.getElementById('address').value === '')
+            alert('Địa chỉ không hợp lệ!');
+        else {
+            createBill(paymentMethod);
+            alert('Đặt hàng thành công!');
+            window.location.reload(false);
+        }
     };
 
     function numberWithDot(num) {
@@ -67,6 +85,7 @@ const ShoppingCart = (props) => {
                                     size="50"
                                     placeholder="Họ và tên người nhận"
                                     className={classes['cart-input']}
+                                    id="name"
                                 />
                             </td>
                         </tr>
@@ -79,6 +98,7 @@ const ShoppingCart = (props) => {
                                     size="50"
                                     placeholder="Số điện thoại người nhận"
                                     className={classes['cart-input']}
+                                    id="phone"
                                 />
                             </td>
                         </tr>
@@ -92,6 +112,7 @@ const ShoppingCart = (props) => {
                                         size="50"
                                         placeholder="Địa chỉ người nhận"
                                         className={classes['cart-input']}
+                                        id="address"
                                     />
                                 </td>
                             </tr>
@@ -106,6 +127,7 @@ const ShoppingCart = (props) => {
                                     placeholder="Ghi chú..."
                                     rows="11"
                                     cols="50"
+                                    id="note"
                                 />
                             </td>
                         </tr>
@@ -221,6 +243,7 @@ const ShoppingCart = (props) => {
                     }
                     }`}
                     style={{ marginBottom: '30px' }}
+                    onClick={() => order()}
                 >
                     ĐẶT HÀNG
                 </button>

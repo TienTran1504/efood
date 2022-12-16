@@ -17,7 +17,7 @@
 
     .modal {
         width: 600px;
-        height: 300px;
+        height: 340px;
         background: white;
         color: white;
         z-index: 100;
@@ -37,7 +37,7 @@
                 padding: 10px;
                 color: #2c3e50;
                 font-weight: 500;
-                font-size: 18px;
+                font-size: 25px;
                 text-align: center;
               }
             
@@ -67,9 +67,16 @@
                   display: flex;
                   padding: 10px 20px;
                   font-size: 20px;
+                  align-items: center;
+
+                  h5{
+                    font-size: 20px;
+                    margin-right: 4px;
+                    margin-bottom: 0;
+                  }
 
                   .modalHeader__list-descrp{
-                    font-size: 16px;
+                    font-size: 20px;
                     margin-left: 10px;
                   }
 
@@ -80,7 +87,7 @@
 
                     #current-quantity {
                       margin: 0 12px;
-                      font-size: 15px;
+                      font-size: 20px;
                     }
                   
                     #btn--add,
@@ -118,12 +125,12 @@
               .img__wrapper{
                 position: absolute;
                 display: block;
-                width: 60%;
-                height: 60%;
+                width: 80%;
+                height: 80%;
                 background-color: #ff3e4e;
                 margin: auto;
-                margin-top: 35px;
-                left: 25%;
+                margin-top: 20px;
+                left: 15%;
               }
 
               .img__wrapper img{

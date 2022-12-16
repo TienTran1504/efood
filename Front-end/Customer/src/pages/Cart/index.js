@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const headers = {
     Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzkwYjU2MDU3MTczMWE0NGEyMzE3MTIiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzA1MTU4NTIsImV4cCI6MTY3MzEwNzg1Mn0.b99hXW1dgsejSAZhWfyhY_wXLjQcztF6r3GmealBLAU',
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mzk3NThlMGZmNDZiYjA3MjViMWZiNDYiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzExNjc4MTAsImV4cCI6MTY3Mzc1OTgxMH0.kNElTB-ggXNBh-KdalB3r0jlU8FomQxUR5Mj7Sv0h90',
 };
 
 function Cart() {
@@ -37,10 +37,11 @@ function Cart() {
         }
     };
 
-    useEffect(() => {
-        const cartData = window.localStorage.getItem('CART_DATA');
-        if (cartData) setCartItems(JSON.parse(cartData));
+    const createBill = (method) => {
+        axios.post(`http://localhost:3000/api/v1/bills`, { method: method }, { headers: headers });
+    };
 
+    useEffect(() => {
         axios
             .get(`http://localhost:3000/api/v1/customer/cart`, { headers: headers })
             .then((res) => {
@@ -60,14 +61,14 @@ function Cart() {
             });
     }, []);
 
-    useEffect(() => {
-        window.localStorage.setItem('CART_DATA', JSON.stringify(cartItems));
-        // console.log(cartItems);
-    }, [cartItems]);
-
     return (
         <>
-            <ShoppingCart cartItems={cartItems} onAdd={onAdd} onRemove={onRemove} deliveryCost={20000}></ShoppingCart>
+            <ShoppingCart
+                cartItems={cartItems}
+                onAdd={onAdd}
+                onRemove={onRemove}
+                createBill={createBill}
+            ></ShoppingCart>
         </>
     );
 }

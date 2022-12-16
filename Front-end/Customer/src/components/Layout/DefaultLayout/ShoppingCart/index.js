@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react';
+import { React, useState } from 'react';
 import classes from './ShoppingCart.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import emptyCartImg from './empty-cart.jpg';

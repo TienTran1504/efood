@@ -1,5 +1,6 @@
 import classes from './Contact.module.scss';
 import React, { useState, useRef } from 'react';
+import axios from 'axios';
 
 function EmailValid(email) {
     var atposition = email.indexOf("@");
@@ -15,6 +16,7 @@ function EmailValid(email) {
 function Contact() {
     const [Name, setName] = useState('');
     const [Email, setEmail] = useState('');
+    const [Content, setContent] = useState('');
     const [checkNameValid, setCheckNameValid] = useState(false);
     const [checkEmailValid, setCheckEmailValid] = useState(false);
     const [saveSuccess, setSaveSuccess] = useState(false);
@@ -65,6 +67,25 @@ function Contact() {
             setSaveSuccess(false);
         }, 2000)
 
+        const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
+        const headers = {
+            Authorization: tokenAuth,
+        };
+        const obj = {
+            title: Name,
+            email: Email,
+            content: Content,
+        };
+        console.log(obj);
+        axios
+            .post(`http://localhost:3000/api/v1/auth/contact`, obj, { headers: headers })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
     }
     return (
         <div>
@@ -96,7 +117,10 @@ function Contact() {
                         />
                     </div>
                     <div className={classes['input_row_2']}>
-                        <textarea id="w3review" placeholder="Your message" className={classes['input__message']} name="w3review" rows="6" cols="50">
+                        <textarea 
+                        value={Content}
+                        onChange={(e) => setContent(e.target.value)}
+                        id="w3review" placeholder="Your message" className={classes['input__message']} name="w3review" rows="6" cols="50">
                         </textarea>
                     </div>
                     {!saveSuccess && <button onClick={handleSubmitRes} type="submit" className={classes['btn__submit']}>Send</button>}

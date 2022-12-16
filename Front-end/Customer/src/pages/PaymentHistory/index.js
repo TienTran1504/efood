@@ -7,9 +7,9 @@ function PaymentHistory(){
     const [bills, setBills]  = useState([]);
 
     useEffect(() => {
+        const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
         const headers = {
-            Authorization:
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzkwYjU2MDU3MTczMWE0NGEyMzE3MTIiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzA1NzUyMDgsImV4cCI6MTY3MzE2NzIwOH0.bGor_YwVVKp2_jc8e0tLUCFLAXjQ6jyafCT4S8ywQPo',
+            Authorization: tokenAuth,
         };
         axios
             .get(`http://localhost:3000/api/v1/bills/user`, { headers: headers })

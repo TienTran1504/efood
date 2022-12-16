@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import request from '~/utils/request';
 import Images from '~/assets/images';
 import classes from '../Login/Login.module.scss';
+import Swal from 'sweetalert2';
 
 export default function SignUpPage() {
     const [email, setEmail] = useState('');

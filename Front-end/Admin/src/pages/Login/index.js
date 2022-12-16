@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import request from '~/utils/request';
 import Images from '~/assets/images';
 import classes from './Login.module.scss';
+import Swal from 'sweetalert2';
 
 export default function LoginPage() {
     const loginNavigate = useNavigate();

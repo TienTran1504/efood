@@ -4,23 +4,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, useEffect, Fragment, useRef } from 'react';
 
 import request from '~/utils/request';
-import data from './mock-data.json';
 import ReadOnlyRow from './components/ReadOnlyRow';
 import EditableRow from './components/EditableRow';
 import Button from '~/components/Layout/DefaultLayout/Header/Button';
 import TypeOfFood from '~/components/TypeOf';
 import DialogConfirm from '~/components/UiComponent/DialogConfirm';
-import Users from '../Users';
 
 function Dashboard() {
-    const [orders, setOrders] = useState(data);
+    const [storageSave, setStorageSave] = useState(JSON.parse(localStorage.getItem('bills')));
+    const [orders, setOrders] = useState(JSON.parse(localStorage.getItem('bills')));
     const [total, setTotal] = useState(0);
     const [status, setStatus] = useState([
         { name: 'ORDER DELIVERED', icon: faSpinner, number: 0, color: 'blue' },
         { name: 'ORDER SHIPPING', icon: faTruck, number: 0, color: 'green' },
         { name: 'ORDER CANCELED', icon: faTimes, number: 0, color: 'red' },
     ]);
-
     const [editFormData, setEditFormData] = useState('');
     const [editorderId, setEditOrderId] = useState(null);
 
@@ -32,22 +30,22 @@ function Dashboard() {
 
     useEffect(() => {
         var newStatus = [...status];
+
         newStatus.forEach((st) => {
             st.number = 0;
         });
-
-        orders.forEach((value) => {
+        storageSave.forEach((value) => {
             if (value.status === 'Delivered') newStatus[0].number += 1;
             else if (value.status === 'Shipping') newStatus[1].number += 1;
             else if (value.status === 'Cancel') newStatus[2].number += 1;
         });
         setStatus(newStatus);
 
-        const total = orders.reduce((money, order) => {
+        const total = storageSave.reduce((money, order) => {
             return money + order.total * 1.0;
         }, 0);
         setTotal(total);
-    }, [orders]);
+    }, [storageSave]);
 
     const handleRefreshData = async () => {
         await request
@@ -65,9 +63,30 @@ function Dashboard() {
                     newBills = [...newBills, newbill];
                 });
                 setOrders(newBills);
-                console.log(orders);
+                setStorageSave(newBills);
+                localStorage.setItem('bills', JSON.stringify(newBills));
             })
             .catch((err) => console.log(err));
+    };
+
+    const handleFilterBills = (e) => {
+        var newBills = [];
+        var key = e.target.firstChild.innerText;
+        var status = '';
+
+        if (key === 'ORDER DELIVERED') {
+            status = 'Delivered';
+        } else if (key === 'ORDER SHIPPING') {
+            status = 'Shipping';
+        } else {
+            status = 'Cancel';
+        }
+
+        storageSave.forEach((value) => {
+            if (value.status === status) newBills = [...newBills, value];
+        });
+
+        setOrders(newBills);
     };
 
     const handleEditStatus = (e) => {
@@ -132,7 +151,7 @@ function Dashboard() {
             </div>
             <div className={classes.filter}>
                 {status.map((st, index) => (
-                    <TypeOfFood key={index} props={st} />
+                    <TypeOfFood key={index} props={st} handleFilterBills={handleFilterBills} />
                 ))}
             </div>
             <div className={classes['product-list']}>
@@ -142,7 +161,7 @@ function Dashboard() {
                         Refresh <FontAwesomeIcon icon={faRefresh} />
                     </Button>
                 </div>
-                <form className={classes['menu-form']} onSubmit={handleEditFormSubmit}>
+                <form onSubmit={handleEditFormSubmit}>
                     <table>
                         <thead>
                             <tr className={classes['title-form']}>

@@ -22,8 +22,8 @@ function Upload() {
         { name: 'Tráng miệng', icon: faIceCream, number: 0, color: 'green' },
         { name: 'Ăn vặt', icon: faIceCream, number: 0, color: 'yellow' },
     ]);
-
-    const [foods, setFoods] = useState(data);
+    const [storageSave, setStorageSave] = useState(JSON.parse(localStorage.getItem('products')));
+    const [foods, setFoods] = useState(JSON.parse(localStorage.getItem('products')));
     const [addFormData, setAddFormData] = useState({
         name: '',
         typeOf: '',
@@ -51,15 +51,15 @@ function Upload() {
             foodT.number = 0;
         });
 
-        foods.forEach((value) => {
-            if (value.typeOf === 'món nước') newFoodType[0].number += 1;
-            else if (value.typeOf === 'cơm') newFoodType[1].number += 1;
-            else if (value.typeOf === 'đồ uống') newFoodType[2].number += 1;
-            else if (value.typeOf === 'tráng miệng') newFoodType[3].number += 1;
-            else if (value.typeOf === 'ăn vặt') newFoodType[4].number += 1;
+        storageSave.forEach((value) => {
+            if (value.typeOf === 'Món nước') newFoodType[0].number += 1;
+            else if (value.typeOf === 'Cơm') newFoodType[1].number += 1;
+            else if (value.typeOf === 'Đồ uống') newFoodType[2].number += 1;
+            else if (value.typeOf === 'Tráng miệng') newFoodType[3].number += 1;
+            else if (value.typeOf === 'Ăn vặt') newFoodType[4].number += 1;
         });
         setFoodType(newFoodType);
-    }, [foods]);
+    }, [storageSave]);
 
     //Handle call api foods
     const handleRefreshData = async () => {
@@ -72,15 +72,26 @@ function Upload() {
                         id: value._id,
                         name: value.name,
                         typeOf: value.typeOf,
-                        price: value.price + 'đ',
+                        price: value.price,
                         image: value.image,
                     };
                     newFoods = [...newFoods, newFood];
                 });
                 setFoods(newFoods);
-                console.log(foods);
+                setStorageSave(newFoods);
+                localStorage.setItem('products', JSON.stringify(newFoods));
             })
             .catch((err) => console.log(err));
+    };
+
+    const handleFilterProducts = (e) => {
+        var newProducts = [];
+        var typeOf = e.target.firstChild.innerText;
+        storageSave.forEach((value) => {
+            if (value.typeOf === typeOf) newProducts = [...newProducts, value];
+        });
+        console.log(newProducts);
+        setFoods(newProducts);
     };
 
     //Converts the picture into base64
@@ -262,7 +273,7 @@ function Upload() {
 
             <div className={classes.filter}>
                 {foodType.map((payMenthod, index) => (
-                    <TypeFood key={index} props={payMenthod} />
+                    <TypeFood key={index} props={payMenthod} handleFilterProducts={handleFilterProducts} />
                 ))}
             </div>
 

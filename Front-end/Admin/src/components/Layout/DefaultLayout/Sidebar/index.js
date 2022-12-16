@@ -12,7 +12,7 @@ import defaultavatar from './sidar-img/logo.png';
 const obj = [
     {
         heading: 'DASHBOARD',
-        link: '/',
+        link: '/dashboard',
         icon: faChartSimple,
     },
     {
@@ -59,9 +59,12 @@ function Sidebar() {
     function hanldeLogout() {
         localStorage.removeItem('userId');
         localStorage.removeItem('token');
+        localStorage.removeItem('products');
+        localStorage.removeItem('user');
+        localStorage.removeItem('bills');
         localStorage.setItem('user-state', false);
 
-        usenavigate('/login');
+        usenavigate('/');
     }
     return (
         <div className={classes['navbar']}>
@@ -75,7 +78,7 @@ function Sidebar() {
                 </div>
             </div>
 
-            <span className={classes['nickname']}>AnhKhoi</span>
+            <span className={classes['nickname']}>Admin</span>
 
             <div className={classes['choose__avt']}>
                 <svg width="20" height="18" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">

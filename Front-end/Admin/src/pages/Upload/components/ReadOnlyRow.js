@@ -11,7 +11,7 @@ function ReadOnlyRow({ id, food, handleEditClick, handleDeleteClick }) {
             </td>
             <td>{food.name}</td>
             <td>{food.typeOf}</td>
-            <td>{food.price}</td>
+            <td>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(food.price)}</td>
             <td>
                 <button
                     className={`${classes['btn']} ${classes['icon-left']}`}

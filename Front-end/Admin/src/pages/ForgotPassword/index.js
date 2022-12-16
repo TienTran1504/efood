@@ -112,7 +112,7 @@ export default function ForgotPassword() {
             </div>
             <div className={classes.wrapper__form}>
                 <h2>Quên mật khẩu</h2>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className={classes.form__container}>
                     <p>
                         <input
                             type="text"
@@ -191,7 +191,7 @@ export default function ForgotPassword() {
                 </form>
                 <footer>
                     <p>
-                        <Link to="/login">Trở lại đăng nhập</Link>
+                        <Link to="/">Trở lại đăng nhập</Link>
                     </p>
                 </footer>
             </div>

@@ -7,9 +7,9 @@ import ChangePassword from '~/pages/ChangePassword';
 import SignUp from '~/pages/Register';
 
 const publicRoutes = [
-    { path: '/', component: Dashboard },
+    { path: '/', component: Login },
     { path: '/users', component: Users },
-    { path: '/login', component: Login },
+    { path: '/dashboard', component: Dashboard },
     { path: '/register', component: SignUp },
     { path: '/forgot', component: ForgotPassword },
     { path: '/changePass', component: ChangePassword },

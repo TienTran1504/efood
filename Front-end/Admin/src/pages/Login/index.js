@@ -18,7 +18,7 @@ export default function LoginPage() {
 
     useEffect(() => {
         if (currentUser) {
-            loginNavigate('/');
+            loginNavigate('/dashboard');
         }
     }, [currentUser]);
 
@@ -31,11 +31,84 @@ export default function LoginPage() {
 
         await request
             .post('auth/login', objLogin)
-            .then((res) => {
+            .then(async (res) => {
                 console.log(res.data);
                 localStorage.setItem('user-state', true);
                 localStorage.setItem('userId', res.data.user.id);
                 localStorage.setItem('token', res.data.token);
+                let timerInterval;
+                Swal.fire({
+                    title: 'Đang tải...',
+                    html: 'Vui lòng bạn hãy đợi một chút',
+                    timer: 20000,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval);
+                    },
+                }).then((result) => {
+                    /* Read more about handling dismissals below */
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        console.log('I was closed by the timer');
+                    }
+                });
+
+                await request
+                    .get('bills', { headers: { Authorization: 'Bearer ' + res.data.token } })
+                    .then((res) => {
+                        var newBills = [];
+                        res.data.sortedBills.forEach((value, index) => {
+                            var newbill = {
+                                orderId: value._id,
+                                payMethod: value.method,
+                                date: value.createdAt,
+                                status: value.status,
+                                total: value.total,
+                            };
+                            newBills = [...newBills, newbill];
+                        });
+                        localStorage.setItem('bills', JSON.stringify(newBills));
+                    })
+                    .catch((err) => console.log(err));
+
+                await request
+                    .get('foods', { headers: { Authorization: 'Bearer ' + res.data.token } })
+                    .then((res) => {
+                        var newFoods = [];
+                        res.data.sortedFoods.forEach((value, index) => {
+                            var newFood = {
+                                id: value._id,
+                                name: value.name,
+                                typeOf: value.typeOf,
+                                price: value.price,
+                                image: value.image,
+                            };
+                            newFoods = [...newFoods, newFood];
+                        });
+                        localStorage.setItem('products', JSON.stringify(newFoods));
+                    })
+                    .catch((err) => console.log(err));
+
+                await request
+                    .get('admin', { headers: { Authorization: 'Bearer ' + res.data.token } })
+                    .then((res) => {
+                        var newUsers = [];
+                        res.data.sortedUsers.forEach((value, index) => {
+                            var newUser = {
+                                id: value._id,
+                                name: value.name,
+                                email: value.email,
+                                gender: value.gender,
+                                typeOf: value.typeOf,
+                                image: value.image,
+                            };
+                            newUsers = [...newUsers, newUser];
+                        });
+                        localStorage.setItem('users', JSON.stringify(newUsers));
+                    })
+                    .catch((err) => console.log(err));
                 setCurrentUser(true);
                 Swal.fire({
                     title: 'Đăng nhập thành công!',
@@ -60,7 +133,7 @@ export default function LoginPage() {
             </div>
             <div className={classes.wrapper__form}>
                 <h2>Đăng nhập</h2>
-                <form action="/" onSubmit={handleSubmit} className={classes.form__container}>
+                <form onSubmit={handleSubmit} className={classes.form__container}>
                     <p>
                         <input
                             type="text"

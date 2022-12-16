@@ -20,7 +20,8 @@ function Users() {
         { name: 'Admin', icon: faUser, number: 0, color: 'red' },
     ]);
     //====================
-    const [users, setUsers] = useState(data);
+    const [storageSave, setStorageSave] = useState(JSON.parse(localStorage.getItem('users')));
+    const [users, setUsers] = useState(JSON.parse(localStorage.getItem('users')));
     const [editFormData, setEditFormData] = useState({
         id: '',
         name: '',
@@ -40,12 +41,12 @@ function Users() {
             role.number = 0;
         });
 
-        users.forEach((value) => {
+        storageSave.forEach((value) => {
             if (value.typeOf === 'Customer') newTypeRole[0].number += 1;
             else newTypeRole[1].number += 1;
         });
         setTypeRole(newTypeRole);
-    }, [users]);
+    }, [storageSave]);
 
     const handleRefreshData = async () => {
         await request
@@ -64,8 +65,20 @@ function Users() {
                     newUsers = [...newUsers, newUser];
                 });
                 setUsers(newUsers);
+                setStorageSave(newUsers);
+                localStorage.setItem('users', JSON.stringify(newUsers));
             })
             .catch((err) => console.log(err));
+    };
+
+    const handleFilterUsers = (e) => {
+        var newUsers = [];
+        var key = e.target.firstChild.innerText;
+
+        storageSave.forEach((value) => {
+            if (value.typeOf === key) newUsers = [...newUsers, value];
+        });
+        setUsers(newUsers);
     };
 
     const handleEditFormChange = (e) => {
@@ -139,7 +152,7 @@ function Users() {
         setDialog(isLoading);
     };
 
-    const [modalOpen, setModalOpen] = useState(false);
+    // const [modalOpen, setModalOpen] = useState(false);
     return (
         <div className={classes.wrapper}>
             <div className={classes.title}>
@@ -148,7 +161,7 @@ function Users() {
 
             <div className={classes.filter}>
                 {typeRole.map((role, index) => (
-                    <Role key={index} props={role} />
+                    <Role key={index} props={role} handleFilterUsers={handleFilterUsers} />
                 ))}
             </div>
             <div className={classes['product-list']}>

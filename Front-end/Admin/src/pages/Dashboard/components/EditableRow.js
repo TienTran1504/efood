@@ -28,7 +28,7 @@ function EditableRow({ id, order, handleEditStatus, handleCancelClick }) {
             <td>{id + 1}</td>
             <td>{order.orderId}</td>
             <td>{order.payMethod}</td>
-            <td>{order.date}</td>
+            <td>{order.date.split('T')[0]}</td>
             <td>
                 <ul>
                     {status.map((state, index) => (

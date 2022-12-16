@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import classes from './ShoppingCart.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import emptyCartImg from './empty-cart.jpg';
@@ -39,7 +39,23 @@ const ShoppingCart = (props) => {
         setpaymentMethod('Thanh toán trực tiếp');
     };
 
-    const order = () => {};
+    function PhoneNumberValid(number) {
+        return /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/.test(number);
+    }
+
+    const order = () => {
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        if (name === '') alert('Họ và tên người nhận không hợp lệ!');
+        else if (!PhoneNumberValid(phone)) alert('Số điện thoại không hợp lệ!');
+        else if (paymentMethod === 'Thanh toán khi nhận hàng' && document.getElementById('address').value === '')
+            alert('Địa chỉ không hợp lệ!');
+        else {
+            createBill(paymentMethod);
+            alert('Đặt hàng thành công!');
+            window.location.reload(false);
+        }
+    };
 
     function numberWithDot(num) {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -69,6 +85,7 @@ const ShoppingCart = (props) => {
                                     size="50"
                                     placeholder="Họ và tên người nhận"
                                     className={classes['cart-input']}
+                                    id="name"
                                 />
                             </td>
                         </tr>
@@ -81,6 +98,7 @@ const ShoppingCart = (props) => {
                                     size="50"
                                     placeholder="Số điện thoại người nhận"
                                     className={classes['cart-input']}
+                                    id="phone"
                                 />
                             </td>
                         </tr>
@@ -94,6 +112,7 @@ const ShoppingCart = (props) => {
                                         size="50"
                                         placeholder="Địa chỉ người nhận"
                                         className={classes['cart-input']}
+                                        id="address"
                                     />
                                 </td>
                             </tr>
@@ -108,6 +127,7 @@ const ShoppingCart = (props) => {
                                     placeholder="Ghi chú..."
                                     rows="11"
                                     cols="50"
+                                    id="note"
                                 />
                             </td>
                         </tr>
@@ -223,7 +243,7 @@ const ShoppingCart = (props) => {
                     }
                     }`}
                     style={{ marginBottom: '30px' }}
-                    onClick={() => createBill(paymentMethod)}
+                    onClick={() => order()}
                 >
                     ĐẶT HÀNG
                 </button>

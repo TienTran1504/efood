@@ -42,9 +42,6 @@ function Cart() {
     };
 
     useEffect(() => {
-        const cartData = window.localStorage.getItem('CART_DATA');
-        if (cartData) setCartItems(JSON.parse(cartData));
-
         axios
             .get(`http://localhost:3000/api/v1/customer/cart`, { headers: headers })
             .then((res) => {
@@ -63,11 +60,6 @@ function Cart() {
                 console.log(error);
             });
     }, []);
-
-    useEffect(() => {
-        window.localStorage.setItem('CART_DATA', JSON.stringify(cartItems));
-        // console.log(cartItems);
-    }, [cartItems]);
 
     return (
         <>

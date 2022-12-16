@@ -39,8 +39,9 @@ function Search({ setIsOpen, setData }) {
             Authorization:
                 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzgwN2ViNjllODIxYTMyMDA1N2ViZDAiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzAwODU1NTQsImV4cCI6MTY3MjY3NzU1NH0.CbfYvU3dRalURXHYfX8sFifDyINaJHe_iJZ3X1SxjNc',
         };
+        const numberLimit = 7;
         axios
-            .get(`http://localhost:3000/api/v1/foods/`, { headers: headers })
+            .get(`http://localhost:3000/api/v1/foods?limit=${numberLimit}`, { headers: headers })
             .then((res) => {
                 var temparray = searchValue.split(' ');
 

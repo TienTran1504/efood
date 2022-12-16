@@ -1,6 +1,7 @@
 require('dotenv').config();
 require('express-async-errors');
 
+const morgan = require('morgan');
 //extra security packages
 const helmet = require('helmet')
 const cors = require('cors')
@@ -21,6 +22,9 @@ const adminRouter = require('./routes/admin');// use for admin
 const foodsRouter = require('./routes/foods');
 const billsRouter = require('./routes/bills');
 const customerRouter = require('./routes/customer');
+
+//morgan
+app.use(morgan('tiny'));
 
 //parse form data
 app.use(express.urlencoded({ extended: false }));

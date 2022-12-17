@@ -11,8 +11,8 @@ import TypeOfFood from '~/components/TypeOf';
 import DialogConfirm from '~/components/UiComponent/DialogConfirm';
 
 function Dashboard() {
-    const [storageSave, setStorageSave] = useState(JSON.parse(localStorage.getItem('bills')));
-    const [orders, setOrders] = useState(JSON.parse(localStorage.getItem('bills')));
+    const [storageSave, setStorageSave] = useState(JSON.parse(localStorage.getItem('bills')) || []);
+    const [orders, setOrders] = useState(JSON.parse(localStorage.getItem('bills')) || []);
     const [total, setTotal] = useState(0);
     const [status, setStatus] = useState([
         { name: 'ORDER DELIVERED', icon: faSpinner, number: 0, color: 'blue' },
@@ -51,20 +51,23 @@ function Dashboard() {
         await request
             .get('bills', { headers: headers })
             .then((res) => {
-                var newBills = [];
-                res.data.sortedBills.forEach((value, index) => {
-                    var newbill = {
-                        orderId: value._id,
-                        payMethod: value.method,
-                        date: value.createdAt,
-                        status: value.status,
-                        total: value.total,
-                    };
-                    newBills = [...newBills, newbill];
-                });
-                setOrders(newBills);
-                setStorageSave(newBills);
-                localStorage.setItem('bills', JSON.stringify(newBills));
+                if (res.data.msg !== 'Dont have any bills to show') {
+                    var newBills = [];
+
+                    res.data.sortedBills.forEach((value, index) => {
+                        var newbill = {
+                            orderId: value._id,
+                            payMethod: value.method,
+                            date: value.createdAt,
+                            status: value.status,
+                            total: value.total,
+                        };
+                        newBills = [...newBills, newbill];
+                    });
+                    setOrders(newBills);
+                    setStorageSave(newBills);
+                    localStorage.setItem('bills', JSON.stringify(newBills));
+                }
             })
             .catch((err) => console.log(err));
     };

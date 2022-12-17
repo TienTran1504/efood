@@ -20,8 +20,8 @@ function Users() {
         { name: 'Admin', icon: faUser, number: 0, color: 'red' },
     ]);
     //====================
-    const [storageSave, setStorageSave] = useState(JSON.parse(localStorage.getItem('users')));
-    const [users, setUsers] = useState(JSON.parse(localStorage.getItem('users')));
+    const [storageSave, setStorageSave] = useState(JSON.parse(localStorage.getItem('users')) || []);
+    const [users, setUsers] = useState(JSON.parse(localStorage.getItem('users')) || []);
     const [editFormData, setEditFormData] = useState({
         id: '',
         name: '',

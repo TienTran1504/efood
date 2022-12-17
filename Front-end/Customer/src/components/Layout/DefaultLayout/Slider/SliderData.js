@@ -6,12 +6,12 @@ const sliderHomeItems = {
         { image: 'https://i.imgur.com/CUG0Aof.jpeg' },
         { image: 'https://i.imgur.com/mjicxPK.jpeg' },
     ],
-    height: '87.8vh',
-    // height: '50.3vh',
+    height: '88vh',
+
     slogan: {
-        heading__2: 'Are You Hungry ?',
-        heading__1: "Don't Wait !",
-        desc: 'Let start to order food now',
+        heading__2: 'Bạn đang đói ?',
+        heading__1: 'Còn chờ gì nữa !',
+        desc: 'Hãy vào menu order đi nào...',
         btn: 'Check Out Menu',
     },
     link: '/menu',
@@ -25,14 +25,8 @@ const sliderMenuItems = {
         { image: 'https://i.imgur.com/CUG0Aof.jpeg' },
         { image: 'https://i.imgur.com/mjicxPK.jpeg' },
     ],
-    height: '60vh',
-    slogan: {
-        heading__2: 'Are You Hungry ?',
-        heading__1: "Don't Wait !",
-        desc: 'Let start to order food now',
-        btn: 'Check Out Menu',
-    },
-    link: '/menu',
+    height: '58vh',
+    slogan: '',
 };
 
 export { sliderHomeItems, sliderMenuItems };

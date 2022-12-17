@@ -22,8 +22,8 @@ function Upload() {
         { name: 'Tráng miệng', icon: faIceCream, number: 0, color: 'green' },
         { name: 'Ăn vặt', icon: faIceCream, number: 0, color: 'yellow' },
     ]);
-    const [storageSave, setStorageSave] = useState(JSON.parse(localStorage.getItem('products')));
-    const [foods, setFoods] = useState(JSON.parse(localStorage.getItem('products')));
+    const [storageSave, setStorageSave] = useState(JSON.parse(localStorage.getItem('products')) || []);
+    const [foods, setFoods] = useState(JSON.parse(localStorage.getItem('products')) || []);
     const [addFormData, setAddFormData] = useState({
         name: '',
         typeOf: '',

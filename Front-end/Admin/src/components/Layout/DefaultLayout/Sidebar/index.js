@@ -60,7 +60,7 @@ function Sidebar() {
         localStorage.removeItem('userId');
         localStorage.removeItem('token');
         localStorage.removeItem('products');
-        localStorage.removeItem('user');
+        localStorage.removeItem('users');
         localStorage.removeItem('bills');
         localStorage.setItem('user-state', false);
 

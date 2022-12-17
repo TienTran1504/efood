@@ -19,15 +19,9 @@ const headers = {
         'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzkwYjU2MDU3MTczMWE0NGEyMzE3MTIiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzA1MTU4NTIsImV4cCI6MTY3MzEwNzg1Mn0.b99hXW1dgsejSAZhWfyhY_wXLjQcztF6r3GmealBLAU',
 };
 
-
-
-
-
 const MenuList = ({ items, handleClickAddToCart }) => {
     const itemPerPage = 12;
     const pages = [];
-
- 
 
     for (let i = 0; i < items.length; ) {
         const onePage = [];
@@ -38,15 +32,18 @@ const MenuList = ({ items, handleClickAddToCart }) => {
             <div className="section-center" key={i}>
                 {onePage.map((item) => {
                     const { id, title, image, rating, price } = item;
-                    console.log("check");
+                    console.log('check');
                     return (
                         <article key={id} className="menu-item">
                             <img src={image} alt={title} className="photo" />
                             <div className="item-hover">
-                                <button className='buttonAddItem' type='button' onClick={()=>handleClickAddToCart(item)}>
+                                <button
+                                    className="buttonAddItem"
+                                    type="button"
+                                    onClick={() => handleClickAddToCart(item)}
+                                >
                                     <FontAwesomeIcon icon={faShoppingCart} className="_icon" />
                                 </button>
-                                
 
                                 <h4 className="price">{price} VND</h4>
                             </div>
@@ -76,38 +73,33 @@ const MenuList = ({ items, handleClickAddToCart }) => {
     );
 };
 
-
 function Menu() {
     const [items, setItems] = useState([]);
 
-    useEffect(()=>{
-
+    useEffect(() => {
         axios
-            .get(`http://localhost:3000/api/v1/foods`, {headers: headers})
-            .then((res)=>{
-                setItems(res.data.sortedFoods.map((item)=>({
-                    id: item._id,
-                    title: item.name,
-                    image: item.image,
-                    price: item.price,
-                    rating: item.rating,
-                    category: item.typeOf,
-                })),
-            );
-            // setMenuItems(items);
-            
+            .get(`http://localhost:3000/api/v1/foods`, { headers: headers })
+            .then((res) => {
+                setItems(
+                    res.data.sortedFoods.map((item) => ({
+                        id: item._id,
+                        title: item.name,
+                        image: item.image,
+                        price: item.price,
+                        rating: item.rating,
+                        category: item.typeOf,
+                    })),
+                );
+                // setMenuItems(items);
             })
-            .catch((error)=>{
+            .catch((error) => {
                 console.log(error);
             });
-
     }, []);
-
-
 
     const [menuItems, setMenuItems] = useState(items);
     const [activeCategory, setActiveCategory] = useState('');
-    const categories = ['All','Món nước', 'Cơm', 'Đồ uống', 'Tráng miệng', 'Ăn vặt'];
+    const categories = ['All', 'Món nước', 'Cơm', 'Đồ uống', 'Tráng miệng', 'Ăn vặt'];
 
     const filterItems = (category) => {
         setActiveCategory(category);
@@ -134,7 +126,7 @@ function Menu() {
     //     console.log("thanh cong");
     // };
     // const areUSureDelete = (choose) => {
-    //     if(choose){     
+    //     if(choose){
     //         setDialog(false);
     //         // const newOrders = [];
     //         // console.log(111);
@@ -151,31 +143,27 @@ function Menu() {
     const [isOpen, setIsOpen] = useState(false);
     const [data, setData] = useState([]);
 
-    const handleShowModalFood = (isShow) =>{
+    const handleShowModalFood = (isShow) => {
         setIsOpen(isShow);
-    }
+    };
 
     const handleClickAddToCart = (itemId) => {
-            handleShowModalFood(true);
-            setData(itemId);
-            console.log("thanh cong");
-        };
-    
+        handleShowModalFood(true);
+        setData(itemId);
+        console.log('thanh cong');
+    };
+
     return (
         <div>
             <Slider
                 sliderPage={sliderMenuItems.sliderImage}
                 height={sliderMenuItems.height}
                 slogan={sliderMenuItems.slogan}
-                link={sliderMenuItems.link}
             />
 
-            <div className="body__container"  onLoad={()=>filterItems("All")}>
+            <div className="body__container" onLoad={() => filterItems('All')}>
                 <Categories categories={categories} activeCategory={activeCategory} filterItems={filterItems} />
-                <MenuList 
-                    items={menuItems} 
-                    handleClickAddToCart={handleClickAddToCart}
-                />
+                <MenuList items={menuItems} handleClickAddToCart={handleClickAddToCart} />
             </div>
             {/* {dialogConfirm && <DialogConfirm onDialog={areUSureDelete}/>} */}
             {isOpen && <ModalFood setData={data} setIsOpen={setIsOpen} />}

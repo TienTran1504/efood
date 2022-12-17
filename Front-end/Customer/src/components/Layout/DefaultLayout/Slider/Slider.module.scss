@@ -1,11 +1,10 @@
 .container__slider {
     display: block;
-    margin-top: 80px;
+    margin-top: 12vh;
     .container__slogan {
         position: absolute;
         z-index: 4;
-        width: 70%;
-        height: 70vh;
+        width: 60rem;
         display: flex;
         align-items: center;
         margin-left: 16rem;
@@ -17,7 +16,7 @@
             h1 {
                 color: white;
                 font-family: inherit;
-                font-size: 50px;
+                font-size: 40px;
             }
             h2 {
                 font-weight: 400;
@@ -29,11 +28,13 @@
                 color: #fd7c4b;
             }
             .box__btn {
+                display: flex;
+                justify-content: center;
                 background-color: var(--primary);
                 color: white;
                 margin-top: 1rem;
                 padding: 6px 16px;
-                width: 60%;
+                width: 18rem;
                 border-radius: 2rem;
             }
             .box__btn:hover,

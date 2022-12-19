@@ -11,8 +11,10 @@ import Categories from './Categories';
 import './product_style.css';
 import MenuSlider from '~/components/Layout/DefaultLayout/MenuSlider';
 import ModalFood from '~/components/UiComponent/foodModel';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
-// const allCategories = ['all', ...new Set(items.map((item) => item.category))];
+
 
 const headers = {
     Authorization:
@@ -32,7 +34,6 @@ const MenuList = ({ items, handleClickAddToCart }) => {
             <div className="section-center" key={i}>
                 {onePage.map((item) => {
                     const { id, title, image, rating, price } = item;
-                    console.log('check');
                     return (
                         <article key={id} className="menu-item">
                             <img src={image} alt={title} className="photo" />
@@ -75,7 +76,8 @@ const MenuList = ({ items, handleClickAddToCart }) => {
 
 function Menu() {
     const [items, setItems] = useState([]);
-
+    const [checkOpen, setCheckOpen] = useState(true);
+    const [menuItems, setMenuItems] = useState(items);
     useEffect(() => {
         axios
             .get(`http://localhost:3000/api/v1/foods`, { headers: headers })
@@ -90,56 +92,29 @@ function Menu() {
                         category: item.typeOf,
                     })),
                 );
-                // setMenuItems(items);
+                setCheckOpen(false)
+                
             })
             .catch((error) => {
                 console.log(error);
             });
     }, []);
 
-    const [menuItems, setMenuItems] = useState(items);
+    
     const [activeCategory, setActiveCategory] = useState('');
     const categories = ['All', 'Món nước', 'Cơm', 'Đồ uống', 'Tráng miệng', 'Ăn vặt'];
 
-    const filterItems = (category) => {
+    const filterItems = (category='All') => {
+        console.log(category)
         setActiveCategory(category);
         if (category === 'All') {
             setMenuItems(items);
-            // while(menuItems.length()===0){
-            //     setMenuItems(items);
-            // }
             return;
         }
         const newItems = items.filter((item) => item.category === category);
         setMenuItems(newItems);
     };
 
-    //comfirm dialog
-    // const [dialogConfirm, setDialog] = useState(false);
-    // const [idProduct, setIdProduct] = useState(null);
-    // const handlShowDialogConfirm = (isLoading)=>{
-    //     setDialog(isLoading);
-    // }
-    // const handleClickAddToCart = (itemId) => {
-    //     handlShowDialogConfirm(true);
-    //     setIdProduct(itemId);
-    //     console.log("thanh cong");
-    // };
-    // const areUSureDelete = (choose) => {
-    //     if(choose){
-    //         setDialog(false);
-    //         // const newOrders = [];
-    //         // console.log(111);
-    //         // orders.forEach((order, index) => {
-    //         //     if (order.orderId !== idProduct) newOrders.push(order);
-    //         // });
-
-    //         // setOrders(newOrders);
-    //     }else{
-    //         setDialog(false);
-
-    //     }
-    // };
     const [isOpen, setIsOpen] = useState(false);
     const [data, setData] = useState([]);
 
@@ -161,12 +136,16 @@ function Menu() {
                 slogan={sliderMenuItems.slogan}
             />
 
-            <div className="body__container" onLoad={() => filterItems('All')}>
+            <div className="body__container">
                 <Categories categories={categories} activeCategory={activeCategory} filterItems={filterItems} />
                 <MenuList items={menuItems} handleClickAddToCart={handleClickAddToCart} />
             </div>
-            {/* {dialogConfirm && <DialogConfirm onDialog={areUSureDelete}/>} */}
+
             {isOpen && <ModalFood setData={data} setIsOpen={setIsOpen} />}
+            <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={checkOpen}>
+                <CircularProgress color="inherit" /> 
+                {/* {setMenuItems(items)} */}
+            </Backdrop>
         </div>
     );
 }

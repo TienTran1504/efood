@@ -103,11 +103,13 @@ function Header() {
                                 Contact
                             </Link>
                         </li>
-                        <li className={classes['menu-item']}>
-                            <Link to="/cart" className={`${path.pathname.includes('/cart') ? classes.active : ''}`}>
-                                <FontAwesomeIcon icon={faCartShopping} />
-                            </Link>
-                        </li>
+                        {JSON.stringify(localStorage.getItem('token')).split('"').join('') !== 'null' && (
+                            <li className={classes['menu-item']}>
+                                <Link to="/cart" className={`${path.pathname.includes('/cart') ? classes.active : ''}`}>
+                                    <FontAwesomeIcon icon={faCartShopping} />
+                                </Link>
+                            </li>
+                        )}
                     </ul>
 
                     {currentUser ? (

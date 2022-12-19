@@ -13,14 +13,17 @@ const BillSchema = new mongoose.Schema({
         required: [true, 'Please provide total of bill'],
         match: [(/^\d+(\.\d{2})?$/), 'Please provide valid total'],
     },
+    message: {
+        type: String,
+    },
     orderList: {
         type: Array,
         default: [],
     },
     status: {
         type: String,
-        enum: ['Delivered', 'Shipping', 'Cancel'],
-        default: 'Cancel'
+        enum: ['Delivered', 'Shipping', 'Ordered', 'Canceled'],
+        default: 'Ordered'
     },
     createdBy: {
         type: mongoose.Types.ObjectId,

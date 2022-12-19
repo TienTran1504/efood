@@ -2,7 +2,8 @@ import ShoppingCart from '~/components/Layout/DefaultLayout/ShoppingCart/index.j
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
+const token = JSON.stringify(localStorage.getItem('token')).split('"').join('');
+const tokenAuth = 'Bearer ' + token;
 const headers = {
     Authorization: tokenAuth,
 };
@@ -37,28 +38,30 @@ function Cart() {
         }
     };
 
-    const createBill = (method) => {
-        axios.post(`http://localhost:3000/api/v1/bills`, { method: method }, { headers: headers });
+    const createBill = (method, message) => {
+        axios.post(`http://localhost:3000/api/v1/bills`, { method: method, message: message }, { headers: headers });
     };
 
     useEffect(() => {
-        axios
-            .get(`http://localhost:3000/api/v1/customer/cart`, { headers: headers })
-            .then((res) => {
-                setCartItems(
-                    res.data.orderList.map((item) => ({
-                        id: item.foodId,
-                        name: item.name,
-                        image: item.image,
-                        price: item.totalPrice / item.quantity,
-                        totalPrice: item.totalPrice,
-                        quantity: item.quantity,
-                    })),
-                );
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        if (token !== 'null') {
+            axios
+                .get(`http://localhost:3000/api/v1/customer/cart`, { headers: headers })
+                .then((res) => {
+                    setCartItems(
+                        res.data.orderList.map((item) => ({
+                            id: item.foodId,
+                            name: item.name,
+                            image: item.image,
+                            price: item.totalPrice / item.quantity,
+                            totalPrice: item.totalPrice,
+                            quantity: item.quantity,
+                        })),
+                    );
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
     }, []);
 
     return (

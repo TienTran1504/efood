@@ -10,7 +10,7 @@
 .cart-btn {
     text-decoration: none;
     background-color: transparent;
-    border: 2px solid #ff0000;
+    border: 2px solid #fe7c4b;
     padding: 12px 120px;
     border-radius: 50px;
     margin-top: 15px;
@@ -23,11 +23,11 @@
 
 .cart-btn--active {
     color: white;
-    background-color: #ff0000;
+    background-color: #fe7c4b;
 }
 
 .cart-btn--inactive {
-    color: #ff0000;
+    color: #fe7c4b;
     background-color: white;
 }
 
@@ -185,4 +185,8 @@
 .icon {
     position: absolute;
     font-size: 20px;
+}
+
+.item-name, .item-price {
+    font-weight: 500;
 }

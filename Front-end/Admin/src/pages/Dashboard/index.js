@@ -15,7 +15,7 @@ function Dashboard() {
     const [orders, setOrders] = useState(JSON.parse(localStorage.getItem('bills')) || []);
     const [total, setTotal] = useState(0);
     const [status, setStatus] = useState([
-        { name: 'Ordered', icon: faSpinner, number: 0, color: 'blue' },
+        { name: 'Ordered', icon: faSpinner, number: 0, color: 'purple' },
         { name: 'Shipping', icon: faTruck, number: 0, color: 'green' },
         { name: 'Delivered', icon: faCheckCircle, number: 0, color: 'blue' },
         { name: 'Canceled', icon: faTimes, number: 0, color: 'red' },
@@ -36,9 +36,10 @@ function Dashboard() {
             st.number = 0;
         });
         storageSave.forEach((value) => {
-            if (value.status === 'Delivered') newStatus[0].number += 1;
+            if (value.status === 'Ordered') newStatus[0].number += 1;
             else if (value.status === 'Shipping') newStatus[1].number += 1;
-            else if (value.status === 'Cancel') newStatus[2].number += 1;
+            else if (value.status === 'Delivered') newStatus[2].number += 1;
+            else if (value.status === 'Canceled') newStatus[3].number += 1;
         });
         setStatus(newStatus);
 
@@ -77,7 +78,7 @@ function Dashboard() {
     const handleFilterBills = (e) => {
         var newBills = [];
         var key = e.target.firstChild.innerText;
-        console.log(e);
+        console.log(key);
         storageSave.forEach((value) => {
             if (value.status === key) newBills = [...newBills, value];
         });
@@ -86,9 +87,9 @@ function Dashboard() {
     };
 
     const handleEditStatus = (e) => {
+        if (e === null) return;
         e.preventDefault();
         var fieldValue = e.target.innerHTML;
-        console.log(fieldValue);
         setEditFormData(fieldValue);
     };
 

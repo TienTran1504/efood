@@ -6,11 +6,13 @@ function ReadOnlyRow({ id, order, handleEditClick, handleDeleteClick }) {
     const statusRef = useRef();
 
     useEffect(() => {
-        if (order.status === 'Delivered') {
+        if (order.status === 'Ordered') {
+            statusRef.current.classList.add(classes.purple);
+        } else if (order.status === 'Delivered') {
             statusRef.current.classList.add(classes.blue);
         } else if (order.status === 'Shipping') {
             statusRef.current.classList.add(classes.green);
-        } else if (order.status === 'Cancel') {
+        } else if (order.status === 'Canceled') {
             statusRef.current.classList.add(classes.red);
         }
     }, [order.status]);

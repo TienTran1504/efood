@@ -12,7 +12,7 @@ const {
     ratingFood,
 } = require('../controllers/foods')
 
-// router.route('/').post(createFood).get(getAllFoods)
+router.route('/').post(createFood)//.get(getAllFoods)
 // router.route('/type').get(getFoodsByType)
 // router.route('/price').get(getFoodsByPrice)
 router.route('/:id').delete(deleteFood).patch(updateFood)//.get(getFood)

@@ -39,7 +39,7 @@ export default function LoginPage() {
                 let timerInterval;
                 Swal.fire({
                     title: 'Đang tải...',
-                    html: 'Vui lòng bạn hãy đợi một chút',
+                    html: 'Vui lòng bạn hãy trong giây lát',
                     timer: 20000,
                     timerProgressBar: true,
                     didOpen: () => {
@@ -58,18 +58,22 @@ export default function LoginPage() {
                 await request
                     .get('bills', { headers: { Authorization: 'Bearer ' + res.data.token } })
                     .then((res) => {
-                        var newBills = [];
-                        res.data.sortedBills.forEach((value, index) => {
-                            var newbill = {
-                                orderId: value._id,
-                                payMethod: value.method,
-                                date: value.createdAt,
-                                status: value.status,
-                                total: value.total,
-                            };
-                            newBills = [...newBills, newbill];
-                        });
-                        localStorage.setItem('bills', JSON.stringify(newBills));
+                        console.log(res.data);
+                        if (res.data.msg !== 'Dont have any bills to show') {
+                            var newBills = [];
+
+                            res.data.sortedBills.forEach((value, index) => {
+                                var newbill = {
+                                    orderId: value._id,
+                                    payMethod: value.method,
+                                    date: value.createdAt,
+                                    status: value.status,
+                                    total: value.total,
+                                };
+                                newBills = [...newBills, newbill];
+                            });
+                            localStorage.setItem('bills', JSON.stringify(newBills));
+                        }
                     })
                     .catch((err) => console.log(err));
 

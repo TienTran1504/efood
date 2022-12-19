@@ -22,22 +22,22 @@
             width: 100%;
             display: flex;
             justify-content: space-between;
-            padding: 0 100px;
-            padding-right: 180px;
+            padding: 0 30px;
+            padding-right: 115px;
             margin-bottom: 60px;
 
             .typefood__item{
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 240px;
+                width: 200px;
                 height: 65px;
                 background-color: #FE7C4B;
                 border: 1px solid black;
                 border-radius: 5px;
 
                 .typefood__item-part1{
-                    flex: 3;
+                    flex: 2;
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -51,7 +51,7 @@
                         flex: 1;
                         font-size: 17px;
                         align-self: start;
-                        padding-left: 25px;
+                        padding-left: 40px;
                     }
                 }
 

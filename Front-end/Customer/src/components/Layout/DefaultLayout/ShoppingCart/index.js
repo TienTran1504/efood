@@ -22,20 +22,20 @@ const ShoppingCart = (props) => {
     const totalPrice = itemsPrice + shippingPrice;
 
     const online = () => {
-        document.getElementById('online').style.backgroundColor = '#ff0000';
+        document.getElementById('online').style.backgroundColor = '#fe7c4b';
         document.getElementById('online').style.color = 'white';
         document.getElementById('offline').style.backgroundColor = 'white';
-        document.getElementById('offline').style.color = '#ff0000';
-        document.getElementById('offline').style.border = '2px solid #ff0000';
+        document.getElementById('offline').style.color = '#fe7c4b';
+        document.getElementById('offline').style.border = '2px solid #fe7c4b';
         setpaymentMethod('Thanh toán khi nhận hàng');
     };
 
     const offline = () => {
-        document.getElementById('offline').style.backgroundColor = '#ff0000';
+        document.getElementById('offline').style.backgroundColor = '#fe7c4b';
         document.getElementById('offline').style.color = 'white';
         document.getElementById('online').style.backgroundColor = 'white';
-        document.getElementById('online').style.color = '#ff0000';
-        document.getElementById('online').style.border = '2px solid #ff0000';
+        document.getElementById('online').style.color = '#fe7c4b';
+        document.getElementById('online').style.border = '2px solid #fe7c4b';
         setpaymentMethod('Thanh toán trực tiếp');
     };
 
@@ -46,14 +46,17 @@ const ShoppingCart = (props) => {
     const order = () => {
         const name = document.getElementById('name').value;
         const phone = document.getElementById('phone').value;
+        const message = document.getElementById('message').value;
+
         if (name === '') alert('Họ và tên người nhận không hợp lệ!');
         else if (!PhoneNumberValid(phone)) alert('Số điện thoại không hợp lệ!');
         else if (paymentMethod === 'Thanh toán khi nhận hàng' && document.getElementById('address').value === '')
             alert('Địa chỉ không hợp lệ!');
         else {
-            createBill(paymentMethod);
+            createBill(paymentMethod, message);
             alert('Đặt hàng thành công!');
             window.location.reload(false);
+            console.log(message);
         }
     };
 
@@ -127,7 +130,7 @@ const ShoppingCart = (props) => {
                                     placeholder="Ghi chú..."
                                     rows="11"
                                     cols="50"
-                                    id="note"
+                                    id="message"
                                 />
                             </td>
                         </tr>

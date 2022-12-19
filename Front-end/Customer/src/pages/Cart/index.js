@@ -38,8 +38,8 @@ function Cart() {
         }
     };
 
-    const createBill = (method) => {
-        axios.post(`http://localhost:3000/api/v1/bills`, { method: method }, { headers: headers });
+    const createBill = (method, message) => {
+        axios.post(`http://localhost:3000/api/v1/bills`, { method: method, message: message }, { headers: headers });
     };
 
     useEffect(() => {

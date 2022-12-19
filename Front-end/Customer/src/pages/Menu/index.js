@@ -16,10 +16,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 
 
-const headers = {
-    Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzkwYjU2MDU3MTczMWE0NGEyMzE3MTIiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzA1MTU4NTIsImV4cCI6MTY3MzEwNzg1Mn0.b99hXW1dgsejSAZhWfyhY_wXLjQcztF6r3GmealBLAU',
-};
 
 const MenuList = ({ items, handleClickAddToCart }) => {
     const itemPerPage = 12;
@@ -75,37 +71,55 @@ const MenuList = ({ items, handleClickAddToCart }) => {
 };
 
 function Menu() {
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState([]);// khai baos danh sach food
     const [checkOpen, setCheckOpen] = useState(true);
-    const [menuItems, setMenuItems] = useState(items);
+    const [menuItems, setMenuItems] = useState([]);
+
     useEffect(() => {
         axios
-            .get(`http://localhost:3000/api/v1/foods`, { headers: headers })
+            .get(`http://localhost:3000/api/v1/auth/foods`)
             .then((res) => {
-                setItems(
-                    res.data.sortedFoods.map((item) => ({
+                var newItems = [];
+                res.data.sortedFoods.forEach((item, index) => {
+                    
+                    var newItem = {
                         id: item._id,
                         title: item.name,
                         image: item.image,
                         price: item.price,
                         rating: item.rating,
                         category: item.typeOf,
-                    })),
-                );
-                setCheckOpen(false)
+                    };
+                    newItems = [...newItems, newItem];
+                });
+
+                
+                
+                setItems(newItems);
+                if(checkOpen){
+                    setMenuItems(newItems);
+                }
+                // console.log(res.data);
+                localStorage.setItem('listFoods',JSON.stringify(newItems));
+                setCheckOpen(false);
                 
             })
             .catch((error) => {
                 console.log(error);
             });
-    }, []);
-
+        //lưu vào storage 
+        
+    }, [items]);
     
+    
+    
+
     const [activeCategory, setActiveCategory] = useState('');
     const categories = ['All', 'Món nước', 'Cơm', 'Đồ uống', 'Tráng miệng', 'Ăn vặt'];
 
+
     const filterItems = (category='All') => {
-        console.log(category)
+        // console.log(category)
         setActiveCategory(category);
         if (category === 'All') {
             setMenuItems(items);
@@ -138,13 +152,12 @@ function Menu() {
 
             <div className="body__container">
                 <Categories categories={categories} activeCategory={activeCategory} filterItems={filterItems} />
-                <MenuList items={menuItems} handleClickAddToCart={handleClickAddToCart} />
+                <MenuList items={menuItems} key={1} handleClickAddToCart={handleClickAddToCart} />
             </div>
 
             {isOpen && <ModalFood setData={data} setIsOpen={setIsOpen} />}
             <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={checkOpen}>
                 <CircularProgress color="inherit" /> 
-                {/* {setMenuItems(items)} */}
             </Backdrop>
         </div>
     );

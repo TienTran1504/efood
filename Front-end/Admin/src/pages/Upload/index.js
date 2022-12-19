@@ -1,7 +1,6 @@
 import classes from './Upload.module.scss';
 import { faBowlFood, faBowlRice, faIceCream, faMugHot, faRefresh } from '@fortawesome/free-solid-svg-icons';
 import React, { useState, useEffect, Fragment } from 'react';
-import data from './mock-data.json';
 import ReadOnlyRow from './components/ReadOnlyRow';
 import EditableRow from './components/EditableRow';
 import Button from '~/components/Layout/DefaultLayout/Header/Button';

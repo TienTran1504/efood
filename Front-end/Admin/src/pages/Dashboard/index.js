@@ -1,5 +1,5 @@
 import classes from './Dashboard.module.scss';
-import { faMoneyBill, faRefresh, faSpinner, faTimes, faTruck } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faMoneyBill, faRefresh, faSpinner, faTimes, faTruck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, useEffect, Fragment, useRef } from 'react';
 
@@ -15,9 +15,10 @@ function Dashboard() {
     const [orders, setOrders] = useState(JSON.parse(localStorage.getItem('bills')) || []);
     const [total, setTotal] = useState(0);
     const [status, setStatus] = useState([
-        { name: 'ORDER DELIVERED', icon: faSpinner, number: 0, color: 'blue' },
-        { name: 'ORDER SHIPPING', icon: faTruck, number: 0, color: 'green' },
-        { name: 'ORDER CANCELED', icon: faTimes, number: 0, color: 'red' },
+        { name: 'Ordered', icon: faSpinner, number: 0, color: 'purple' },
+        { name: 'Shipping', icon: faTruck, number: 0, color: 'green' },
+        { name: 'Delivered', icon: faCheckCircle, number: 0, color: 'blue' },
+        { name: 'Canceled', icon: faTimes, number: 0, color: 'red' },
     ]);
     const [editFormData, setEditFormData] = useState('');
     const [editorderId, setEditOrderId] = useState(null);
@@ -35,9 +36,10 @@ function Dashboard() {
             st.number = 0;
         });
         storageSave.forEach((value) => {
-            if (value.status === 'Delivered') newStatus[0].number += 1;
+            if (value.status === 'Ordered') newStatus[0].number += 1;
             else if (value.status === 'Shipping') newStatus[1].number += 1;
-            else if (value.status === 'Cancel') newStatus[2].number += 1;
+            else if (value.status === 'Delivered') newStatus[2].number += 1;
+            else if (value.status === 'Canceled') newStatus[3].number += 1;
         });
         setStatus(newStatus);
 
@@ -51,6 +53,7 @@ function Dashboard() {
         await request
             .get('bills', { headers: headers })
             .then((res) => {
+                console.log(res.data);
                 if (res.data.msg !== 'Dont have any bills to show') {
                     var newBills = [];
 
@@ -75,27 +78,18 @@ function Dashboard() {
     const handleFilterBills = (e) => {
         var newBills = [];
         var key = e.target.firstChild.innerText;
-        var status = '';
-
-        if (key === 'ORDER DELIVERED') {
-            status = 'Delivered';
-        } else if (key === 'ORDER SHIPPING') {
-            status = 'Shipping';
-        } else {
-            status = 'Cancel';
-        }
-
+        console.log(key);
         storageSave.forEach((value) => {
-            if (value.status === status) newBills = [...newBills, value];
+            if (value.status === key) newBills = [...newBills, value];
         });
 
         setOrders(newBills);
     };
 
     const handleEditStatus = (e) => {
+        if (e === null) return;
         e.preventDefault();
         var fieldValue = e.target.innerHTML;
-        console.log(fieldValue);
         setEditFormData(fieldValue);
     };
 

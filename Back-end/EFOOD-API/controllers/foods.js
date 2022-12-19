@@ -2,78 +2,78 @@ const Food = require('../models/Food')
 const User = require('../models/User')
 const { StatusCodes } = require('http-status-codes')
 const { BadRequestError, NotFoundError, UnauthenticatedError } = require('../errors')
-// {{URL}}/foods
-const getAllFoods = async (req, res) => {
-    const { search, limit } = req.query;
-    const foods = await Food.find({}).sort('createdAt')
-    let sortedFoods = [...foods];
-    if (search) {
-        sortedFoods = sortedFoods.filter((food) => {
-            return food.name.startsWith(search);
-        })
-    }
-    if (limit) {
-        sortedFoods = sortedFoods.slice(0, Number(limit));
-    }
-    if (sortedFoods.length < 1) {
-        return res.status(StatusCodes.OK).json({ msg: "No foods match your search" });
-    }
-    res.status(StatusCodes.OK).json({ sortedFoods, count: sortedFoods.length });
-}
-// {{URL}}/foods/:id
-const getFood = async (req, res) => {
-    const { params: { id: foodId } } = req; // req.user.userId, req.params.id
+// // {{URL}}/foods
+// const getAllFoods = async (req, res) => {
+//     const { search, limit } = req.query;
+//     const foods = await Food.find({}).sort('createdAt')
+//     let sortedFoods = [...foods];
+//     if (search) {
+//         sortedFoods = sortedFoods.filter((food) => {
+//             return food.name.startsWith(search);
+//         })
+//     }
+//     if (limit) {
+//         sortedFoods = sortedFoods.slice(0, Number(limit));
+//     }
+//     if (sortedFoods.length < 1) {
+//         return res.status(StatusCodes.OK).json({ msg: "No foods match your search" });
+//     }
+//     res.status(StatusCodes.OK).json({ sortedFoods, count: sortedFoods.length });
+// }
+// // {{URL}}/foods/:id
+// const getFood = async (req, res) => {
+//     const { params: { id: foodId } } = req; // req.user.userId, req.params.id
 
-    const food = await Food.findOne({
-        _id: foodId,
-    })
-    if (!food) {
-        throw new NotFoundError(`No food with id ${foodId}`)
-    }
-    res.status(StatusCodes.OK).json({ food })
-}
-// {{URL}}/foods/type
-const getFoodsByType = async (req, res) => {
-    const { typeOf } = req.body;
-    if (!typeOf) {
-        throw new BadRequestError('Please provide type food')
-    }
-    const foods = await Food.find({
-        typeOf
-    })
-    if (!foods) {
-        throw new NotFoundError(`No food with type ${type}`)
-    }
-    res.status(StatusCodes.OK).json({ foods, countLength: foods.length })
-}
-// {{URL}}/foods/price
-const getFoodsByPrice = async (req, res) => {
-    const { numericFilters } = req.query;
-    const numberFilters = numericFilters.split('&lt;').join('<');
-    const queryObject = {}
-    if (!numberFilters) {
-        throw new BadRequestError('Please provide numericFilters')
-    }
-    const operatorMap = {
-        '>': '$gt',
-        '>=': '$gte',
-        '=': '$eq',
-        '<': '$lt',
-        '<=': '$lte',
-    }
-    const regEx = /\b(>|>=|=|<|<=)\b/g
-    let filters = numberFilters.replace(regEx, (match) => `-${operatorMap[match]}-`)
-    console.log(filters);
-    const options = ['price', 'rating'];
-    filters = filters.split(',').forEach((item) => {
-        const [field, operator, value] = item.split('-') // tách ra vd price $gt 30
-        if (options.includes(field)) {
-            queryObject[field] = { [operator]: Number(value) }
-        }
-    })
-    const foods = await Food.find(queryObject)
-    res.status(StatusCodes.OK).json({ foods, countLength: foods.length })
-}
+//     const food = await Food.findOne({
+//         _id: foodId,
+//     })
+//     if (!food) {
+//         throw new NotFoundError(`No food with id ${foodId}`)
+//     }
+//     res.status(StatusCodes.OK).json({ food })
+// }
+// // {{URL}}/foods/type
+// const getFoodsByType = async (req, res) => {
+//     const { typeOf } = req.body;
+//     if (!typeOf) {
+//         throw new BadRequestError('Please provide type food')
+//     }
+//     const foods = await Food.find({
+//         typeOf
+//     })
+//     if (!foods) {
+//         throw new NotFoundError(`No food with type ${type}`)
+//     }
+//     res.status(StatusCodes.OK).json({ foods, countLength: foods.length })
+// }
+// // {{URL}}/foods/price
+// const getFoodsByPrice = async (req, res) => {
+//     const { numericFilters } = req.query;
+//     const numberFilters = numericFilters.split('&lt;').join('<');
+//     const queryObject = {}
+//     if (!numberFilters) {
+//         throw new BadRequestError('Please provide numericFilters')
+//     }
+//     const operatorMap = {
+//         '>': '$gt',
+//         '>=': '$gte',
+//         '=': '$eq',
+//         '<': '$lt',
+//         '<=': '$lte',
+//     }
+//     const regEx = /\b(>|>=|=|<|<=)\b/g
+//     let filters = numberFilters.replace(regEx, (match) => `-${operatorMap[match]}-`)
+//     console.log(filters);
+//     const options = ['price', 'rating'];
+//     filters = filters.split(',').forEach((item) => {
+//         const [field, operator, value] = item.split('-') // tách ra vd price $gt 30
+//         if (options.includes(field)) {
+//             queryObject[field] = { [operator]: Number(value) }
+//         }
+//     })
+//     const foods = await Food.find(queryObject)
+//     res.status(StatusCodes.OK).json({ foods, countLength: foods.length })
+// }
 // {{URL}}/foods
 const createFood = async (req, res) => {
     const userCheck = await User.findOne({ _id: req.user.userId });
@@ -177,10 +177,10 @@ const deleteFood = async (req, res) => {
     }
 }
 module.exports = {
-    getFoodsByPrice,
-    getFoodsByType,
-    getAllFoods,
-    getFood,
+    // getFoodsByPrice,
+    // getFoodsByType,
+    // getAllFoods,
+    // getFood,
     createFood,
     updateFood,
     deleteFood,

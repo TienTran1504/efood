@@ -4,7 +4,6 @@ import React, { useState, useEffect, Fragment } from 'react';
 
 import request from '~/utils/request';
 import Role from '~/components/TypeOf';
-import data from './mock-data.json';
 import ReadOnlyRow from './components/ReadOnlyRow';
 import EditableRow from './components/EditableRow';
 import DialogConfirm from '~/components/UiComponent/DialogConfirm';

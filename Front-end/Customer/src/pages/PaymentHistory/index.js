@@ -1,10 +1,16 @@
 import classes from './PaymentHistory.module.scss';
 import Sidebar from '~/components/Layout/DefaultLayout/Sidebar';
-import { useEffect, useState } from 'react';
+import React, { useState, useEffect, Fragment, useRef } from 'react';
 import axios from 'axios';
+import { faSpinner, faTimes, faTruck, faCoins } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 function PaymentHistory(){
     const [bills, setBills]  = useState([]);
+    const [ordered, setOrdered] = useState(0);
+    const [shipping, setShipping] = useState(0);
+    const [canceled, setCancled] = useState(0);
 
     useEffect(() => {
         const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
@@ -14,7 +20,19 @@ function PaymentHistory(){
         axios
             .get(`http://localhost:3000/api/v1/bills/user`, { headers: headers })
             .then((res) => {
-                console.log(res.data.bills.total);
+                console.log(res.data.bills);
+                res.data.bills.map((item, index) =>{
+                    if(item.status == 'Ordered')
+                    {
+                        setOrdered(ordered + 1);
+                    }
+                    else if(item.status == 'Canceled'){
+                        setCancled(canceled + 1);
+                    }
+                    else if(item.status == 'Shipping'){
+                        setShipping(shipping + 1);
+                    }
+                });
                 setBills(res.data.bills);
             })
             .catch((error) => {
@@ -31,6 +49,35 @@ function PaymentHistory(){
                 <Sidebar/>
                 <div className={classes['contain__main']}>
                     <h2 className={classes['content__title']}>LỊCH SỬ ĐƠN HÀNG</h2>
+                    <div className={classes['content__typefood']}>
+                        <div className={classes['typefood__item']}>
+                            <div className={classes['typefood__item-part1']}>
+                                <span className={classes['item__status']}>ORDERED DELIVERED</span>
+                                <span className={classes['item__quantity']}>{ordered}</span>
+                            </div>
+                            <div className={classes['typefood__item-part2']}>
+                                <FontAwesomeIcon icon={faSpinner} />
+                            </div>
+                        </div>
+                        <div className={classes['typefood__item']}>
+                        <div className={classes['typefood__item-part1']}>
+                                <span className={classes['item__status']}>ORDERED SHIPPING</span>
+                                <span className={classes['item__quantity']}>{shipping}</span>
+                            </div>
+                            <div className={classes['typefood__item-part2']}>
+                                <FontAwesomeIcon icon={faTruck} />
+                            </div>
+                        </div>
+                        <div className={classes['typefood__item']}>
+                        <div className={classes['typefood__item-part1']}>
+                                <span className={classes['item__status']}>ORDERED CANCELED</span>
+                                <span className={classes['item__quantity']}>{canceled}</span>
+                            </div>
+                            <div className={classes['typefood__item-part2']}>
+                                <FontAwesomeIcon icon={faTimes} />
+                            </div>
+                        </div>
+                    </div>
                     <div className={classes['content']}>   
                         <table className={classes['content__table']}>
                             <tbody>
@@ -40,23 +87,22 @@ function PaymentHistory(){
                             <tr className={classes['content__table-list-heading']}>
                                 <th className={classes['STT']}>STT</th>
                                 <th className={classes['method']}>Phương thức thanh toán</th>
-                                <th className={classes['nameproduct']}>Tên sản phẩm</th>
-                                <th className={classes['amount']}>Số lượng</th>
                                 <th className={classes['total']}>Tổng Tiền</th>
+                                <th className={classes['statusproduct']}>Trạng thái</th>
+                                <th className={classes['feedback']}>Đánh giá</th>
                             </tr>
                             {
                                 bills.map((item, idx) => (
                             <tr key={idx}
                                 className={classes['Item']}>
                                 <td className={classes['STTitem']}>{idx + 1}</td>  
-                                <td className={classes['methodItem']}>{item.method==="cod"?"Thanh toán khi nhận hàng":"Thanh toán tại quầy"}</td>
-                                <td className={classes['nameItem']}>
-                                    {item.orderList.map((itemfood, idxfood) => (
-                                        <span className={classes['foodItem']} key={idxfood}>{itemfood.name}</span>
-                                    ))}
+                                <td className={classes['methodItem']}>{item.method}</td>
+                                <td className={classes['totalItem']}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.total)}</td>
+                                <td className={classes['statusproduct']}>{item.status}</td>
+                                <td className={classes['feedback']}>
+                                {item.status == 'Ordered' && <button className={classes['feedbackbtn']}>Rate</button>}
+                                {item.status !== 'Ordered' && <button disabled className={classes['feedbackbtn']}>Rate</button>} 
                                 </td>
-                                <td className={classes['amountItem']}>{item.orderList.length}</td>
-                                <td className={classes['totalItem']}>{item.total}đ</td>
                             </tr>
                             )
                             )
@@ -64,10 +110,22 @@ function PaymentHistory(){
                             </tbody>
                         </table>
                     </div>
+
+                    <div className={classes['box-btn']}>
+                        <div className={classes['bonus-point']}>
+                            <span id={classes['btn-submit-title']}>BONUS POINT</span>
+                            <span id={classes['btn-submit-money']}>1200</span>
+                        </div>
+                        <div id={classes['btn-submit-icon']}>
+                            <FontAwesomeIcon icon={faCoins} />
+                        </div>
+                    </div>
                 </div>
             </div>
+            
+            
+            
         </div>
-        
     )
 }
 

@@ -30,11 +30,11 @@ function EmailValid(email) {
 
 function Profile() {
     const [Name, setName] = useState('');
+    const [Nickname, setNickName] = useState(Name);
     const [Phone, setPhone] = useState('');
     const [Email, setEmail] = useState('');
     const [Gender, setGender] = useState('');
     const [Address, setAddress] = useState('');
-
     const [Birthday, setBirthday] = useState(moment().format('YYYY-DD-MM'));
     const [checkNameValid, setCheckNameValid] = useState(false);
     const [checkPhoneValid, setCheckPhoneValid] = useState(false);
@@ -49,6 +49,7 @@ function Profile() {
     const EmailInput = useRef();
     const GenderInput = useRef();
     const AddressInput = useRef();
+    
 
     const convertToBase64 = (file) => {
         return new Promise((resolve, reject) => {
@@ -79,8 +80,8 @@ function Profile() {
         axios
             .get(`http://localhost:3000/api/v1/customer`, { headers: headers })
             .then((res) => {
-                //console.log(res.data.birthday);
                 setName(res.data.userName);
+                setNickName(res.data.userName);
                 setEmail(res.data.email);
                 setGender(res.data.gender.charAt(0).toUpperCase() + res.data.gender.slice(1));
                 setAddress(res.data.address);
@@ -94,6 +95,7 @@ function Profile() {
 
     function handleSubmit1(e) {
         e.preventDefault();
+        setNickName(Name);
         const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
         const headers = {
             Authorization: tokenAuth,
@@ -316,7 +318,7 @@ function Profile() {
                                 </div>
                             </div>
 
-                            <span className={classes['nickname']}>{Name}</span>
+                            <span className={classes['nickname']}>{Nickname}</span>
 
                             <div className={classes['choose__avt']}>
                                 <svg width="20" height="18" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">

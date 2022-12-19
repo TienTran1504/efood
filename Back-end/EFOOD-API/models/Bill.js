@@ -22,8 +22,8 @@ const BillSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['Delivered', 'Shipping', 'Cancel'],
-        default: 'Cancel'
+        enum: ['Delivered', 'Shipping', 'Ordered', 'Canceled'],
+        default: 'Ordered'
     },
     createdBy: {
         type: mongoose.Types.ObjectId,

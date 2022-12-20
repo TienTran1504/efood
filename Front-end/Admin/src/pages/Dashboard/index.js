@@ -168,7 +168,7 @@ function Dashboard() {
                                 <th>Order Date</th>
                                 <th>Status</th>
                                 <th>Total</th>
-                                <th>Action</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>

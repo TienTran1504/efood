@@ -32,34 +32,36 @@ export default function DialogConfirm({ onDialog }) {
                 }}
             >
                 {/* <h2>Are you sure ?</h2> */}
-                <h3>Bạn chắc chắn muốn xóa ?</h3>
+                <h3>Xác nhận xoá ?!</h3>
                 {/* <h3>{message}</h3> */}
 
                 <div style={{ display: 'flex', alignItems: 'center', color: 'white' }}>
                     <button
                         onClick={() => onDialog(true)}
                         style={{
-                            backgroundColor: 'red',
+                            backgroundColor: '#fd7c4b',
                             padding: '10px 50px',
                             marginRight: '10px',
                             borderRadius: '5px',
                             color: 'white',
                             cursor: 'pointer',
+                            fontWeight: 'bold',
                         }}
                     >
-                        yes
+                        Delete
                     </button>
                     <button
                         onClick={() => onDialog(false)}
                         style={{
-                            backgroundColor: 'Green',
+                            backgroundColor: '#fd7c4b',
                             padding: '10px 50px',
                             borderRadius: '5px',
                             color: 'white',
                             cursor: 'pointer',
+                            fontWeight: 'bold',
                         }}
                     >
-                        No
+                        Cancel
                     </button>
                 </div>
             </div>

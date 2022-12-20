@@ -2,12 +2,12 @@ import classes from './PaymentHistory.module.scss';
 import Sidebar from '~/components/Layout/DefaultLayout/Sidebar';
 import React, { useState, useEffect, } from 'react';
 import axios from 'axios';
-import { faSpinner, faTimes, faTruck, faCoins, faCheckCircle} from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faTimes, faTruck, faCoins, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
-function PaymentHistory(){
-    const [bills, setBills]  = useState([]);
+function PaymentHistory() {
+    const [bills, setBills] = useState([]);
     const [ordered, setOrdered] = useState(0);
     const [delivered, setDelivered] = useState(0);
     const [shipping, setShipping] = useState(0);
@@ -22,18 +22,17 @@ function PaymentHistory(){
             .get(`http://localhost:3000/api/v1/bills/user`, { headers: headers })
             .then((res) => {
                 console.log(res.data.bills);
-                res.data.bills.map((item, index) =>{
-                    if(item.status == 'Ordered')
-                    {
+                res.data.bills.map((item, index) => {
+                    if (item.status === 'Ordered') {
                         setOrdered(ordered => ordered + 1);
                     }
-                    else if(item.status == 'Delivered'){
+                    else if (item.status === 'Delivered') {
                         setDelivered(delivered => delivered + 1);
                     }
-                    else if(item.status == 'Canceled'){
+                    else if (item.status === 'Canceled') {
                         setCancled(canceled => canceled + 1);
                     }
-                    else if(item.status == 'Shipping'){
+                    else if (item.status === 'Shipping') {
                         setShipping(shipping => shipping + 1);
                     }
                 });
@@ -43,21 +42,21 @@ function PaymentHistory(){
                 console.log(error);
             });
     }, []);
-    
+
     return (
         <div>
             <div className={classes['responsive']}>
-                <div className={classes['.container-text']}>HIỆN TẠI WEB CHƯA CÓ CHỨC NĂNG RESPONSIVE</div>   
+                <div className={classes['.container-text']}>HIỆN TẠI WEB CHƯA CÓ CHỨC NĂNG RESPONSIVE</div>
             </div>
             <div className={classes['main']}>
-                <Sidebar/>
+                <Sidebar />
                 <div className={classes['contain__main']}>
                     <h2 className={classes['content__title']}>LỊCH SỬ ĐƠN HÀNG</h2>
                     <div className={classes['content__typefood']}>
                         <div className={classes['typefood__item']}>
                             <div className={classes['typefood__item-part1']}>
                                 <span className={classes['item__status']}>ORDERED</span>
-                                <span className={classes['item__quantity']}>{ordered/2}</span>
+                                <span className={classes['item__quantity']}>{ordered / 2}</span>
                             </div>
                             <div className={classes['typefood__item-part2']}>
                                 <FontAwesomeIcon icon={faSpinner} />
@@ -91,37 +90,37 @@ function PaymentHistory(){
                             </div>
                         </div>
                     </div>
-                    <div className={classes['content']}>   
+                    <div className={classes['content']}>
                         <table className={classes['content__table']}>
                             <tbody>
-                            <tr className={classes['content__table-title']}>
-                                <th colSpan="5">Orders List</th>
-                            </tr>
-                            <tr className={classes['content__table-list-heading']}>
-                                <th className={classes['STT']}>STT</th>
-                                <th className={classes['method']}>Phương thức thanh toán</th>
-                                <th className={classes['createAt']}>Ngày tạo</th>
-                                <th className={classes['total']}>Tổng Tiền</th>
-                                <th className={classes['statusproduct']}>Trạng thái</th>
-                                <th className={classes['feedback']}>Đánh giá</th>
-                            </tr>
-                            {
-                                bills.map((item, idx) => (
-                            <tr key={idx}
-                                className={classes['Item']}>
-                                <td className={classes['STTitem']}>{idx + 1}</td>  
-                                <td className={classes['methodItem']}>{item.method}</td>
-                                <td className={classes['createDay']}>{item.createdAt.split('T')[0]}</td>
-                                <td className={classes['totalItem']}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.total)}</td>
-                                <td className={classes['statusproduct']}>{(item.status == 'Ordered' && 'Đã đặt') || (item.status == 'Delivered' && 'Đã giao') || (item.status == 'Shipping' && 'Đang giao') || (item.status == 'Canceled' && 'Đã hủy')}</td>
-                                <td className={classes['feedback']}>
-                                {item.status == 'Ordered' && <button className={classes['feedbackbtn']}>Rate</button>}
-                                {item.status !== 'Ordered' && <button disabled className={classes['feedbackbtn']}>Rate</button>} 
-                                </td>
-                            </tr>
-                            )
-                            )
-                            }
+                                <tr className={classes['content__table-title']}>
+                                    <th colSpan="5">Orders List</th>
+                                </tr>
+                                <tr className={classes['content__table-list-heading']}>
+                                    <th className={classes['STT']}>STT</th>
+                                    <th className={classes['method']}>Phương thức thanh toán</th>
+                                    <th className={classes['createAt']}>Ngày tạo</th>
+                                    <th className={classes['total']}>Tổng Tiền</th>
+                                    <th className={classes['statusproduct']}>Trạng thái</th>
+                                    <th className={classes['feedback']}>Đánh giá</th>
+                                </tr>
+                                {
+                                    bills.map((item, idx) => (
+                                        <tr key={idx}
+                                            className={classes['Item']}>
+                                            <td className={classes['STTitem']}>{idx + 1}</td>
+                                            <td className={classes['methodItem']}>{item.method}</td>
+                                            <td className={classes['createDay']}>{item.createdAt.split('T')[0]}</td>
+                                            <td className={classes['totalItem']}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.total)}</td>
+                                            <td className={classes['statusproduct']}>{(item.status === 'Ordered' && 'Ordered') || (item.status === 'Delivered' && 'Delivered') || (item.status === 'Shipping' && 'Shipping') || (item.status === 'Canceled' && 'Canceled')}</td>
+                                            <td className={classes['feedback']}>
+                                                {item.status === 'Ordered' && <button className={classes['feedbackbtn']}>Rating</button>}
+                                                {item.status !== 'Ordered' && <button disabled className={classes['feedbackbtn']}>Rating</button>}
+                                            </td>
+                                        </tr>
+                                    )
+                                    )
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -137,9 +136,9 @@ function PaymentHistory(){
                     </div>
                 </div>
             </div>
-            
-            
-            
+
+
+
         </div>
     )
 }

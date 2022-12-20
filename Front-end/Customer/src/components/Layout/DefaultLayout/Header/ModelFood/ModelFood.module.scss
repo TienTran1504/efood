@@ -7,9 +7,9 @@
     left: 50%;
     transform: translate(-50%, -50%);
     position: absolute;
-    }
-  
-  .centered {
+}
+
+.centered {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -39,109 +39,106 @@
                 font-weight: 500;
                 font-size: 25px;
                 text-align: center;
-              }
-            
-          }
+            }
+        }
 
-          .modalHeader__infor{
+        .modalHeader__infor {
             position: absolute;
             display: flex;
             width: 100%;
             height: 65%;
             z-index: 100;
 
-            .modalHeader__wrapper{
-              width: 100%;
-              height: 95%;
-
-              .modalHeader__list{
-                display: block;
+            .modalHeader__wrapper {
                 width: 100%;
-                height: 70%;
-                list-style: none;
-                padding-left: 20px;
-                margin-top: 20px;
-  
-                .modalHeader__list-item{
-                  color: black;
-                  display: flex;
-                  padding: 10px 20px;
-                  font-size: 20px;
-                  align-items: center;
+                height: 95%;
 
-                  h5{
-                    font-size: 20px;
-                    margin-right: 4px;
-                    margin-bottom: 0;
-                  }
+                .modalHeader__list {
+                    display: block;
+                    width: 100%;
+                    height: 70%;
+                    list-style: none;
+                    padding-left: 20px;
+                    margin-top: 20px;
 
-                  .modalHeader__list-descrp{
-                    font-size: 20px;
-                    margin-left: 10px;
-                  }
+                    .modalHeader__list-item {
+                        color: black;
+                        display: flex;
+                        padding: 10px 20px;
+                        font-size: 20px;
+                        align-items: center;
 
-                  .item-quantity {
-                    padding-left: 15px;
-                    display: flex;
-                    align-items: center;
+                        h5 {
+                            font-size: 20px;
+                            margin-right: 4px;
+                            margin-bottom: 0;
+                        }
 
-                    #current-quantity {
-                      margin: 0 12px;
-                      font-size: 20px;
+                        .modalHeader__list-descrp {
+                            font-size: 20px;
+                            margin-left: 10px;
+                        }
+
+                        .item-quantity {
+                            padding-left: 15px;
+                            display: flex;
+                            align-items: center;
+
+                            #current-quantity {
+                                margin: 0 12px;
+                                font-size: 20px;
+                            }
+
+                            #btn--add,
+                            #btn--remove {
+                                text-decoration: none;
+                                background-color: transparent;
+                                transition: color 0.2s;
+                                font-size: 18px;
+                            }
+
+                            #btn--add:hover,
+                            #btn--remove:hover {
+                                cursor: pointer;
+                                color: #fd7c4b;
+                            }
+
+                            #btn--remove--disabled {
+                                text-decoration: none;
+                                background-color: transparent;
+                                color: grey;
+                                transition: color 0.2s;
+                                font-size: 18px;
+                            }
+                        }
                     }
-                  
-                    #btn--add,
-                    #btn--remove {
-                        text-decoration: none;
-                        background-color: transparent;
-                        transition: color 0.2s;
-                        font-size: 18px;
-                    }
-                    
-                    #btn--add:hover,
-                    #btn--remove:hover {
-                        cursor: pointer;
-                        color: #ff0000;
-                    }
-
-                    #btn--remove--disabled{
-                        text-decoration: none;
-                        background-color: transparent;
-                        color: grey;
-                        transition: color 0.2s;
-                        font-size: 18px;
-                    }
-                  }
                 }
-              }
-
             }
 
-            .modalHeader__img{
-              width: 100%;
-              height: 100%;
-              position: relative;
-
-              .img__wrapper{
-                position: absolute;
-                display: block;
-                width: 80%;
-                height: 80%;
-                background-color: #ff3e4e;
-                margin: auto;
-                margin-top: 20px;
-                left: 15%;
-              }
-
-              .img__wrapper img{
+            .modalHeader__img {
                 width: 100%;
                 height: 100%;
-              }
-            }
-           
-          }
+                position: relative;
 
-          .closeBtn {
+                .img__wrapper {
+                    position: absolute;
+                    display: block;
+                    width: 80%;
+                    height: 80%;
+                    background-color: #ff3e4e;
+                    margin: auto;
+                    margin-top: 20px;
+                    left: 15%;
+                }
+
+                .img__wrapper img {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+
+        .closeBtn {
             cursor: pointer;
             font-weight: 500;
             padding: 4px 8px;
@@ -158,14 +155,16 @@
             align-self: flex-end;
             margin-top: -7px;
             margin-right: -7px;
-          }
+        }
 
-          .closeBtn:hover {
+        .closeBtn:hover {
             box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+            color: #fff;
+            background-color: #fd7c4b;
             transform: translate(-4px, 4px);
-          }
+        }
 
-          .modalActions {
+        .modalActions {
             position: absolute;
             bottom: 2px;
             margin-bottom: 10px;
@@ -186,17 +185,17 @@
                     font-size: 16px;
                     border: none;
                     color: #fff;
-                    background: #ff0000;
+                    background: #fd7c4b;
                     transition: all 0.25s ease;
-                  }
-                  
-                  .addBtn:hover {
+                }
+
+                .addBtn:hover {
                     box-shadow: 0 10px 20px -10px rgba(255, 62, 78, 0.6);
                     background: rgba(255, 62, 78, 0.6);
                     transform: translateY(-5px);
-                  }
-                  
-                  .cancelBtn {
+                }
+
+                .cancelBtn {
                     margin-top: 10px;
                     cursor: pointer;
                     font-weight: 500;
@@ -207,33 +206,15 @@
                     color: #2c3e50;
                     background: #b7b6b6;
                     transition: all 0.25s ease;
-                  }
-                  
-                  .cancelBtn:hover {
+                }
+
+                .cancelBtn:hover {
                     box-shadow: none;
                     transform: none;
                     color: #fff;
                     background: rgb(42, 42, 42);
-                  }
-              }
-          }
-      }
-  }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+                }
+            }
+        }
+    }
+}

@@ -126,7 +126,7 @@ function Users() {
     };
 
     const handleDeleteClick = (userId) => {
-        handlShowDialogConfirm(true);
+        handleShowDialogConfirm(true);
         setIdUser(userId);
     };
 
@@ -147,7 +147,7 @@ function Users() {
         setDialog(false);
     };
 
-    const handlShowDialogConfirm = (isLoading) => {
+    const handleShowDialogConfirm = (isLoading) => {
         setDialog(isLoading);
     };
 

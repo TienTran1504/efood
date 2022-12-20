@@ -31,3 +31,35 @@ input {
 a[href] {
     text-decoration: none;
 }
+
+.responsive__style {
+    display: none;
+    .responsive__logo {
+        width: 30rem;
+        img {
+            width: 100%;
+            border-radius: 50%;
+        }
+    }
+    .responsive__content {
+        background-color: #fe7c4b;
+        padding: 0.2rem 1rem;
+        border-radius: 1rem;
+        font-size: 3rem;
+        font-weight: 500;
+    }
+}
+
+@media screen and (max-width: 1300px) {
+    .App {
+        display: none;
+    }
+    .responsive__style {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100vh;
+        background-color: #333;
+    }
+}

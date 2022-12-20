@@ -45,9 +45,6 @@ function PaymentHistory() {
 
     return (
         <div>
-            <div className={classes['responsive']}>
-                <div className={classes['.container-text']}>HIỆN TẠI WEB CHƯA CÓ CHỨC NĂNG RESPONSIVE</div>
-            </div>
             <div className={classes['main']}>
                 <Sidebar />
                 <div className={classes['contain__main']}>

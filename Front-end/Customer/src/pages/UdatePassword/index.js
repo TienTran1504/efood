@@ -2,25 +2,21 @@ import classes from './UpdatePassword.module.scss';
 import Sidebar from '~/components/Layout/DefaultLayout/Sidebar';
 import React, { useState, useRef, useEffect } from 'react';
 import bgrImg from './userprofile-img/bgr2.jpg';
-import avatar from './userprofile-img/meome.jpg';
+import Images from '~/assets/images';
 import axios from 'axios';
 
-function PassworkValid(password) 
-{
-    if(password.length >= 6)
-    {
+function PassworkValid(password) {
+    if (password.length >= 6) {
         return true;
     }
-        return false;
+    return false;
 }
 
-function CheckPassEqual(password1, password2)
-{
-    if(password2 !== password1)
-    {
+function CheckPassEqual(password1, password2) {
+    if (password2 !== password1) {
         return false;
     }
-        return true;
+    return true;
 }
 
 function UpdatePassword() {
@@ -122,7 +118,7 @@ function UpdatePassword() {
         else {
             setCheckNewPassValid(false);
         }
-        
+
         setSaveSuccess(true);
         setTimeout(() => {
             setSaveSuccess(false);
@@ -135,99 +131,96 @@ function UpdatePassword() {
         const headers = {
             Authorization: tokenAuth,
         };
-        axios.get(`http://localhost:3000/api/v1/customer`, {headers : headers}).then((res) => {
+        axios.get(`http://localhost:3000/api/v1/customer`, { headers: headers }).then((res) => {
             setName(res.data.userName);
         }).catch(error => {
-          console.log(error)
+            console.log(error)
         })
     }, [])
 
     return (
         <div>
-            <div className={classes['responsive']}>
-                <div className={classes['.container-text']}>HIỆN TẠI WEB CHƯA CÓ CHỨC NĂNG RESPONSIVE</div>   
-            </div>
             <div className={classes['main']}>
-            <Sidebar />
+                <Sidebar />
 
-            <div className={classes['contain__main']}>
-                <div className={classes['content']}>
-                    <div className={classes['background__contain']}>
-                        <img
-                            src={bgrImg}
-                            alt="Background Image"
-                            className={classes['content__background']}
-                        />
-                    </div>
-                    <div className={classes['content__information']}>
-                        <div className={classes['content__information-label']}>
-                            <h2>ĐỔI MẬT KHẨU</h2>
+                <div className={classes['contain__main']}>
+                    <div className={classes['content']}>
+                        <div className={classes['background__contain']}>
+                            <img
+                                src={bgrImg}
+                                alt="Background Image"
+                                className={classes['content__background']}
+                            />
                         </div>
-                        <form className={classes['content__form']}>
-                            <div className={classes['content__form-text']}>
-                                <div className={classes['content__form-start']}>
-                                    <label htmlFor="inputCrt"></label>
-                                    Mật khẩu hiện tại
-                                </div>
-                                <input 
-                                id="inputCrt" 
-                                type="password" 
-                                className={classes['content__form-input']} 
-                                placeholder="Nhập mật khẩu hiện tại"
-                                ref={CurrentPassInput}
-                                value={CurrentPass}
-                                onChange={(e) => setCurrentPass(e.target.value)}
-                                />
+                        <div className={classes['content__information']}>
+                            <div className={classes['content__information-label']}>
+                                <h2>ĐỔI MẬT KHẨU</h2>
                             </div>
-                            <div className={classes['content__form-text']}>
-                                <div className={classes['content__form-start']}>
-                                    <label htmlFor="inputnew"></label>
-                                    Nhập mật khẩu mới
+                            <form className={classes['content__form']}>
+                                <div className={classes['content__form-text']}>
+                                    <div className={classes['content__form-start']}>
+                                        <label htmlFor="inputCrt"></label>
+                                        Mật khẩu hiện tại
+                                    </div>
+                                    <input
+                                        id="inputCrt"
+                                        type="password"
+                                        className={classes['content__form-input']}
+                                        placeholder="Nhập mật khẩu hiện tại"
+                                        ref={CurrentPassInput}
+                                        value={CurrentPass}
+                                        onChange={(e) => setCurrentPass(e.target.value)}
+                                    />
                                 </div>
-                                <input
-                                 id="inputnew"
-                                 type="password" 
-                                 className={classes['content__form-input']} 
-                                 placeholder="Nhập mật khẩu mới"
-                                 ref={NewPassInput}
-                                 value={NewPass}
-                                 onChange={(e) => setNewPass(e.target.value)}
-                                 />
-                            </div>
-                            <div className={classes['content__form-text']}>
-                                <div className={classes['content__form-start']}>
-                                    <label htmlFor="againnew"></label>
-                                    Xác nhận mật khẩu mới
+                                <div className={classes['content__form-text']}>
+                                    <div className={classes['content__form-start']}>
+                                        <label htmlFor="inputnew"></label>
+                                        Nhập mật khẩu mới
+                                    </div>
+                                    <input
+                                        id="inputnew"
+                                        type="password"
+                                        className={classes['content__form-input']}
+                                        placeholder="Nhập mật khẩu mới"
+                                        ref={NewPassInput}
+                                        value={NewPass}
+                                        onChange={(e) => setNewPass(e.target.value)}
+                                    />
                                 </div>
-                                <input 
-                                id="againnew" 
-                                type="password" 
-                                className={classes['content__form-input']} 
-                                placeholder="Xác nhận mật khẩu mới"
-                                ref={AgainPassInput}
-                                value={AgainPass}
-                                onChange={(e) => setAgainPass(e.target.value)}
-                                />
-                            </div>
+                                <div className={classes['content__form-text']}>
+                                    <div className={classes['content__form-start']}>
+                                        <label htmlFor="againnew"></label>
+                                        Xác nhận mật khẩu mới
+                                    </div>
+                                    <input
+                                        id="againnew"
+                                        type="password"
+                                        className={classes['content__form-input']}
+                                        placeholder="Xác nhận mật khẩu mới"
+                                        ref={AgainPassInput}
+                                        value={AgainPass}
+                                        onChange={(e) => setAgainPass(e.target.value)}
+                                    />
+                                </div>
 
-                            {!saveSuccess && <button onClick={handleSubmit2} type="submit" className={classes['save__btn']}>LƯU THAY ĐỔI</button>}
-                            {saveSuccess  && <button onClick={handleSubmit2} type="submit" className={`${classes['save__btn']} ${classes['save__btn--successful']}`}>LƯU THÀNH CÔNG</button>}
-                        </form>
-                    </div>
-
-                    <div className={classes['content__avt']}>
-                        <div>
-                            <img src={avatar} alt="Ảnh nền" className={classes['background']}></img>
+                                {!saveSuccess && <button onClick={handleSubmit2} type="submit" className={classes['save__btn']}>LƯU THAY ĐỔI</button>}
+                                {saveSuccess && <button onClick={handleSubmit2} type="submit" className={`${classes['save__btn']} ${classes['save__btn--successful']}`}>LƯU THÀNH CÔNG</button>}
+                            </form>
                         </div>
+
+                        <div className={classes['content__avt']}>
+                            <div>
+                                <img src={Images.noImage} alt="Ảnh nền" className={classes['background']}></img>
+                            </div>
+                        </div>
+
+                        <span className={classes['nickname']}>{name}</span>
+
                     </div>
-
-                    <span className={classes['nickname']}>{name}</span>
-
                 </div>
             </div>
         </div>
-        </div>
-        
+
     )
 }
 

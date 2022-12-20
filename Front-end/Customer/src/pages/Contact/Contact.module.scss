@@ -1,32 +1,32 @@
-.contact{
+.contact {
     width: 100%;
     height: 50%;
 
-    .contact__body{
+    .contact__body {
         margin-top: 120px;
         text-align: center;
         font-size: 22px;
 
-        .heading__contact{
+        .heading__contact {
             font-size: 24px;
             margin-bottom: 25px;
         }
 
-        .contact__body p{
+        .contact__body p {
             line-height: 1px;
         }
 
-        .paragraph__contact_line1{
+        .paragraph__contact_line1 {
             color: black;
             margin-bottom: 0;
         }
 
-        .paragraph__contact_line2{
+        .paragraph__contact_line2 {
             color: black;
             margin-bottom: 35px;
         }
-        
-        .input__row_1{
+
+        .input__row_1 {
             display: flex;
             width: 52%;
             align-items: center;
@@ -34,7 +34,8 @@
             justify-content: space-around;
             margin-bottom: 14px;
 
-            .input__email, .input__name{
+            .input__email,
+            .input__name {
                 padding-left: 10px;
                 font-size: 21px;
                 width: 48%;
@@ -43,41 +44,41 @@
                 border: 1px solid #3a3838;
             }
 
-            .input__email{
+            .input__email {
                 margin-right: 5px;
             }
 
-            .input__name{
+            .input__name {
                 margin-left: 5px;
             }
         }
-        
-        .input__row_2{
+
+        .input__row_2 {
             width: 50%;
             margin-bottom: 70px;
             margin: auto;
         }
 
-        .input__message{
+        .input__message {
             padding-top: 5px;
             padding-left: 10px;
             font-size: 21px;
             width: 50.6%;
-            color:black;
+            color: black;
             border: 1px solid #3a3838;
             outline: none;
             word-wrap: break-word;
         }
 
-        .input__message::placeholder{
-            font-family: "Roboto", sans-serif;
+        .input__message::placeholder {
+            font-family: 'Roboto', sans-serif;
         }
 
-        ::placeholder{
+        ::placeholder {
             font-size: 21px;
         }
 
-        .btn__submit{
+        .btn__submit {
             width: 100px;
             height: 40px;
             font-size: 20px;
@@ -88,73 +89,32 @@
             margin: auto;
             margin-top: 14px;
             margin-bottom: 30px;
-            background-color: black;
+            background-color: var(--primary);
             font-weight: 500;
         }
-        
-        .btn__submit:hover{
-            color: black;
-            background-color: #a9a9a9;
+
+        .btn__submit:hover {
+            opacity: 0.8;
             cursor: pointer;
         }
 
-        .btn__submit--successful{
+        .btn__submit--successful {
             background-color: rgb(118, 111, 244);
             width: 200px;
-            animation: sendcml ease-in-out .5s;
+            animation: sendcml ease-in-out 0.5s;
         }
 
-        .btn__submit--successful:hover{
+        .btn__submit--successful:hover {
             background-color: #ff0000;
         }
 
         @keyframes sendcml {
-            from{
+            from {
                 opacity: 0;
             }
-            to{
+            to {
                 opacity: 100%;
             }
         }
     }
 }
-
-.responsive{
-    width: 100%;
-    background-color: #000;
-    display: none;
-
-    .container-text{
-        display: block;
-    }
-}
-
-@media (max-width: 700px) or (max-height: 600px) {
-    .contact{
-        display: none;
-    }
-
-    .responsive{
-        justify-content: center;
-        align-items: center;
-        display: flex;
-        height: 700px;
-        color: white;
-
-        .container-text{
-            font-size: 3.4rem;
-            font-weight: 600;
-            color: white;
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-

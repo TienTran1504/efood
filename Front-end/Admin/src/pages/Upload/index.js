@@ -63,7 +63,7 @@ function Upload() {
     //Handle call api foods
     const handleRefreshData = async () => {
         await request
-            .get('foods', { headers: headers })
+            .get('auth/foods', { headers: headers })
             .then((res) => {
                 var newFoods = [];
                 res.data.sortedFoods.forEach((value, index) => {

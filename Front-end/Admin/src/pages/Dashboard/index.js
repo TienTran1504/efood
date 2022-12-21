@@ -22,6 +22,7 @@ function Dashboard() {
     ]);
     const [editFormData, setEditFormData] = useState('');
     const [editorderId, setEditOrderId] = useState(null);
+    const [editTable, setEditTable] = useState(false);
 
     const [dialogConfirm, setDialog] = useState(false);
     const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
@@ -87,6 +88,7 @@ function Dashboard() {
     };
 
     const handleEditStatus = (e) => {
+        console.log(e);
         if (e === null) return;
         e.preventDefault();
         var fieldValue = e.target.innerHTML;
@@ -102,19 +104,23 @@ function Dashboard() {
             .patch('bills/' + editorderId, { status: editFormData }, { headers: headers })
             .then((res) => {
                 setOrders(newOrders);
+                setStorageSave(newOrders);
                 setEditOrderId(null);
             })
             .catch((err) => console.log(err));
+        setEditTable(false);
     };
 
     const handleEditClick = (e, order) => {
         e.preventDefault();
         setEditOrderId(order.orderId);
         setEditFormData(order.status);
+        setEditTable(true);
     };
 
     const handleCancelClick = (state) => {
         setEditOrderId(null);
+        setEditTable(false);
     };
 
     const handlShowDialogConfirm = (isLoading) => {
@@ -135,6 +141,7 @@ function Dashboard() {
                 .then((res) => {
                     newOrders.splice(index, 1);
                     setOrders(newOrders);
+                    setStorageSave(newOrders);
                 })
                 .catch((res) => console.log(res));
         }
@@ -174,7 +181,7 @@ function Dashboard() {
                         <tbody>
                             {orders.map((order, index) => (
                                 <Fragment key={index}>
-                                    {editorderId === order.orderId ? (
+                                    {editTable ? (
                                         <EditableRow
                                             id={index}
                                             order={order}

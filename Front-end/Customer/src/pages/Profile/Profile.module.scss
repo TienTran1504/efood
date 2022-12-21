@@ -1,16 +1,16 @@
-.main{
+.main {
     display: flex;
     height: 753px;
 
-    .contain__main{
+    .contain__main {
         height: 100%;
         width: 90%;
 
-        .content{
+        .content {
             position: relative;
             height: 95vh;
 
-            .background__contain{
+            .background__contain {
                 margin: 0 auto;
                 width: 95%;
                 text-align: center;
@@ -18,13 +18,13 @@
                 background-color: aqua;
             }
 
-            .content__background{
+            .content__background {
                 width: 100%;
                 height: 100%;
                 background-size: auto;
             }
 
-            .content__information{
+            .content__information {
                 background-color: #fff;
                 box-shadow: 3px 5px 10px rgb(0 0 0 / 20%);
                 border-top: 1px solid rgb(178, 171, 171);
@@ -36,42 +36,42 @@
                 bottom: 9%;
                 width: 95%;
 
-                .content__form{
+                .content__form {
                     grid-column-gap: 140px;
                     -webkit-column-gap: 140px;
                     column-gap: 140px;
                     display: grid;
                     font-size: 15px;
-                    grid-template-columns: repeat(2,1fr);
+                    grid-template-columns: repeat(2, 1fr);
                     height: 100%;
                     width: 100%;
                     font-size: 19px;
 
-                    .content__form-text{
+                    .content__form-text {
                         display: block;
 
-                        .content__form-start{
+                        .content__form-start {
                             align-items: center;
                             display: flex;
                             font-weight: 600;
                             gap: 4px;
-                            
-                            .content__form-start p{
+
+                            .content__form-start p {
                                 margin-bottom: 8px;
                             }
                         }
 
-                        .content__form-start label{
+                        .content__form-start label {
                             display: block;
-                            position: absolute  ;
+                            position: absolute;
                             width: 148px;
-                            height: 22px;   
+                            height: 22px;
                             transform: translateX(-10px);
                             transform: translateY(-10px);
                             caret-color: transparent;
                         }
 
-                        .content__form-input{
+                        .content__form-input {
                             margin-top: 4px;
                             border: none;
                             font-size: 18px;
@@ -81,14 +81,15 @@
                             outline: none;
                         }
 
-                        input[type=date]:invalid::-webkit-datetime-edit {
+                        input[type='date']:invalid::-webkit-datetime-edit {
                             color: #999;
                         }
                     }
 
-                    .save__btn{
-                        background-color: red;
-                        border: 3px solid red;
+                    .save__btn {
+                        background-color: #fe7c4b;
+                        border: 3px solid #fe7c4b;
+                        border-radius: 4px;
                         color: #fff;
                         cursor: pointer;
                         font-family: inherit;
@@ -96,46 +97,46 @@
                         font-weight: 600;
                         right: 0;
                         top: 103%;
-                        transition: all .3s;
+                        transition: all 0.3s;
                         width: 200px;
                         height: 40px;
                         position: absolute;
                     }
 
-                    .save__btn:hover{
+                    .save__btn:hover {
                         background-color: black;
                         color: white;
                         border-color: black;
                     }
 
-                    .save__btn--successful{
+                    .save__btn--successful {
                         background-color: rgb(118, 118, 243);
                         width: 200px;
                         animation: SuccessBtn ease-in-out 3s;
                     }
 
-                    .save__btn--successful:hover{
+                    .save__btn--successful:hover {
                         background-color: rgb(118, 118, 243);
                         width: 200px;
                     }
-                    
+
                     @keyframes SuccessBtn {
-                        from{
+                        from {
                             opacity: 0.5;
                         }
-                        to{
+                        to {
                             opacity: 1;
                         }
                     }
                 }
 
-                ::placeholder{
+                ::placeholder {
                     font-size: 18px;
                     color: #000;
                 }
             }
-            
-            .content__avt{
+
+            .content__avt {
                 background-color: #000;
                 border: 1px solid #fff;
                 border-radius: 50%;
@@ -146,15 +147,15 @@
                 top: 35%;
                 width: 130px;
                 z-index: 1;
-                
-                .background{
+
+                .background {
                     object-fit: cover;
                     width: 130px;
                     height: 130px;
                 }
             }
 
-            .nickname{
+            .nickname {
                 z-index: 1;
                 font-weight: 600;
                 position: absolute;
@@ -163,7 +164,7 @@
                 top: 41%;
             }
 
-            .choose__avt{
+            .choose__avt {
                 height: 40px;
                 align-items: center;
                 background-color: #fff;
@@ -179,16 +180,15 @@
                 z-index: 2;
             }
 
-            .choose__avt:hover{
+            .choose__avt:hover {
                 background-color: rgb(221, 238, 253);
             }
-            
-            input[type="file"]
-            {
+
+            input[type='file'] {
                 display: none;
             }
-            
-            .choose__avt label{
+
+            .choose__avt label {
                 display: block;
                 position: absolute;
                 width: 40px;
@@ -197,49 +197,6 @@
                 z-index: 1;
                 cursor: pointer;
             }
-           
         }
     }
 }
-
-.responsive{    
-    width: 100%;
-    background-color: #000;
-    display: none;
-
-    .container-text{
-        display: block;
-    }
-}
-
-@media (max-width: 880px) or (max-height: 500px) {
-    .main{
-        display: none;
-    }
-
-    .responsive{
-        justify-content: center;
-        align-items: center;
-        display: flex;
-        height: 700px;
-        color: white;
-
-        .container-text{
-            font-size: 3.4rem;
-            font-weight: 600;
-            color: white;
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-

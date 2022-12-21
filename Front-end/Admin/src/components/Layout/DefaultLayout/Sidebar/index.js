@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 
-import { faChartSimple, faBox, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faChartSimple, faBox, faArrowRightFromBracket, faAddressBook } from '@fortawesome/free-solid-svg-icons';
 
 import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -25,6 +25,12 @@ const obj = [
         link: '/users',
         icon: faUser,
     },
+    {
+        heading: 'CONTACTS',
+        link: '/contacts',
+        icon: faAddressBook,
+    },
+
 ];
 
 function Sidebar() {

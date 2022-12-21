@@ -1,4 +1,4 @@
-import { faPencil, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useRef, useEffect, memo } from 'react';
 import classes from './RowStyle.module.scss';
@@ -50,7 +50,7 @@ function ReadOnlyRow({ id, order, handleEditClick, handleDeleteClick }) {
                     type="button"
                     onClick={() => handleDeleteClick(order.orderId)}
                 >
-                    <FontAwesomeIcon icon={faTimes} />
+                    <FontAwesomeIcon icon={faTrash} />
                 </button>
             </td>
         </tr>

@@ -1,5 +1,5 @@
-import classes from './Users.module.scss';
-import { faRefresh, faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
+import classes from './Contacts.module.scss';
+import { faAddressCard, faRefresh, faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
 import React, { useState, useEffect, Fragment } from 'react';
 
 import request from '~/utils/request';
@@ -10,12 +10,12 @@ import DialogConfirm from '~/components/UiComponent/DialogConfirm';
 import Button from '~/components/Layout/DefaultLayout/Header/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-function Users() {
+function Contacts() {
     //add for process delete modal
     const [idUser, setIdUser] = useState(null);
     const [dialogConfirm, setDialog] = useState(false);
     const [typeRole, setTypeRole] = useState([
-        { name: 'Customer', icon: faUsers, number: 0, color: 'blue' },
+        { name: 'Contacts', icon: faAddressCard, number: 0, color: 'blue' },
         { name: 'Admin', icon: faUser, number: 0, color: 'red' },
     ]);
     //====================
@@ -211,4 +211,4 @@ function Users() {
     );
 }
 
-export default Users;
+export default Contacts;

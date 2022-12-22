@@ -5,8 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-// import axios from 'axios';
-// import items from './data';
 import Categories from './Categories';
 import './product_style.css';
 import MenuSlider from '~/components/Layout/DefaultLayout/MenuSlider';
@@ -73,8 +71,9 @@ const MenuList = ({ items, handleClickAddToCart }) => {
 function Menu() {
     const [items, setItems] = useState([]);// khai baos danh sach food
     const [checkOpen, setCheckOpen] = useState(true);
+    const [isFirstLoad, setIsFirstLoad] = useState(true);
     const [menuItems, setMenuItems] = useState([]);
-
+    const categories = ['All', 'Món nước', 'Cơm', 'Đồ uống', 'Tráng miệng', 'Ăn vặt', 'Giảm dần'];
     useEffect(() => {
         axios
             .get(`http://localhost:3000/api/v1/auth/foods`)
@@ -98,6 +97,7 @@ function Menu() {
                 setItems(newItems);
                 if(checkOpen){
                     setMenuItems(newItems);
+
                 }
                 // console.log(res.data);
                 localStorage.setItem('listFoods',JSON.stringify(newItems));
@@ -115,14 +115,20 @@ function Menu() {
     
 
     const [activeCategory, setActiveCategory] = useState('');
-    const categories = ['All', 'Món nước', 'Cơm', 'Đồ uống', 'Tráng miệng', 'Ăn vặt'];
+    
 
 
-    const filterItems = (category='All') => {
+    const filterItems = (category, isSorted) => {
+        setIsFirstLoad(false);
         // console.log(category)
         setActiveCategory(category);
         if (category === 'All') {
             setMenuItems(items);
+            return;
+        }else if(category === 'Giảm dần'){
+            const newItems = [...items].sort((a, b) => b.price - a.price);
+            console.log(newItems);
+            setMenuItems(newItems);
             return;
         }
         const newItems = items.filter((item) => item.category === category);
@@ -151,7 +157,7 @@ function Menu() {
             />
 
             <div className="body__container">
-                <Categories categories={categories} activeCategory={activeCategory} filterItems={filterItems} />
+                <Categories categories={categories} activeCategory={activeCategory} filterItems={filterItems} isFirstLoad={isFirstLoad} />
                 <MenuList items={menuItems} key={1} handleClickAddToCart={handleClickAddToCart} />
             </div>
 

@@ -8,6 +8,8 @@ const headers = {
     Authorization: tokenAuth,
 };
 
+console.log(headers);
+
 function Cart() {
     const [cartItems, setCartItems] = useState([]);
     const onAdd = (product) => {

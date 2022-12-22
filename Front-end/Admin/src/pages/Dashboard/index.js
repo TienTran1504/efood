@@ -105,6 +105,7 @@ function Dashboard() {
             .then((res) => {
                 setOrders(newOrders);
                 setStorageSave(newOrders);
+                localStorage.setItem('bills', JSON.stringify(newOrders));
                 setEditOrderId(null);
             })
             .catch((err) => console.log(err));
@@ -142,6 +143,7 @@ function Dashboard() {
                     newOrders.splice(index, 1);
                     setOrders(newOrders);
                     setStorageSave(newOrders);
+                    localStorage.setItem('bills', JSON.stringify(newOrders));
                 })
                 .catch((res) => console.log(res));
         }

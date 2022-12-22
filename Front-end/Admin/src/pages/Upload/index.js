@@ -63,7 +63,7 @@ function Upload() {
     //Handle call api foods
     const handleRefreshData = async () => {
         await request
-            .get('auth/foods', { headers: headers })
+            .get('auth/foods')
             .then((res) => {
                 var newFoods = [];
                 res.data.sortedFoods.forEach((value, index) => {
@@ -151,7 +151,8 @@ function Upload() {
                 };
                 const newFoods = [...foods, newFood];
                 setFoods(newFoods);
-
+                setStorageSave(newFoods);
+                localStorage.setItem('products', JSON.stringify(newFoods));
                 setModalOpen(false);
                 alert('Thêm món ăn hoàn tất');
             })
@@ -183,6 +184,7 @@ function Upload() {
     const handleEditFormSubmit = async (e) => {
         e.preventDefault();
 
+        console.log(editFoodId);
         const editedContact = {
             name: editFormData.name,
             typeOf: editFormData.typeOf,
@@ -192,7 +194,7 @@ function Upload() {
         const newFoods = [...foods];
         const index = foods.findIndex((food) => food.id === editFoodId);
         newFoods[index] = editedContact;
-        newFoods[index].price = newFoods[index].price.replace('đ', '');
+        newFoods[index].price = newFoods[index].price;
 
         const res = await request
             .patch(
@@ -206,8 +208,10 @@ function Upload() {
                 { headers: headers },
             )
             .then((res) => {
-                newFoods[index].price = newFoods[index].price + 'đ';
+                newFoods[index].price = newFoods[index];
                 setFoods(newFoods);
+                setStorageSave(newFoods);
+                localStorage.setItem('products', JSON.stringify(newFoods));
                 setEditFoodId(null);
             })
             .catch((err) => console.log(err));
@@ -250,6 +254,8 @@ function Upload() {
                 .then((res) => {
                     newFoods.splice(index, 1);
                     setFoods(newFoods);
+                    setStorageSave(newFoods);
+                    localStorage.setItem('products', JSON.stringify(newFoods));
                 })
                 .catch((res) => console.log(res));
         }

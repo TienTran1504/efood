@@ -17,7 +17,6 @@ const headers = {
 console.log(token);
 
 const ModalFood = ({ setIsOpen, setData }) => {
-  
 
   const [quantityNumber, setquantityNumber] = useState(1);
 
@@ -40,16 +39,15 @@ const ModalFood = ({ setIsOpen, setData }) => {
     const obj = {
       quantity: quantityNumber,
     }
-    if (token !== null) {
-      axios.post(`http://localhost:3000/api/v1/customer/cart/${setData._id}`, obj, { headers: headers }).then((res) => {
+    if (token != null) {
+      axios.post(`http://localhost:3000/api/v1/customer/cart/${setData.id}`, obj, { headers: headers }).then((res) => {
         console.log(res);
       }).catch(error => {
-        
         console.log(error);
         alert("Bạn chưa đăng nhập !!!");
         window.location.href = "http://localhost:3001/login";
       })
-    } 
+    }
   }
 
   return (

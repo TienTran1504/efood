@@ -44,6 +44,7 @@ export default function DialogFeedback({items, IsOpen}) {
         if (fbProduct === '') alert('Vui lòng để lại nhận xét!');
         else if(fbStore==='') alert('Vui lòng để lại nhận xét cho cửa hàng!');
         IsOpen(false);
+        // window.location.reload(false);
     }
     return (
         <div

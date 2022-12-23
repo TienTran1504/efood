@@ -68,10 +68,11 @@ const ShoppingCart = (props) => {
         else {
             createBill(paymentMethod, message);
             alert('Đặt hàng thành công!');
-            // window.location.reload(false);
             console.log(message);
             document.getElementById('order').style.display='none';
             document.getElementById('Feedback').style.display='block';
+            //refesh //
+            window.location.reload(false);
         }
     };
 

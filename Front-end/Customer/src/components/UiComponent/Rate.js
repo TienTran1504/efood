@@ -99,7 +99,6 @@ export default function Rate({product, onDialog}) {
         {RatingMessage(rating)}
         <div style={{position: "relative"}}>
           <button onClick={()=>onDialog(true)}  style={{backgroundColor: "#C0C0C0", padding: "10px 50px", marginRight:"10px",borderRadius:"5px", color:"black", cursor:"pointer" }}>Xác nhận</button>
-          <button onClick={()=>onDialog(false)} style={{backgroundColor: "#C0C0C0",padding: "10px 50px", borderRadius:"5px", color: "black", cursor:"pointer"}}>Bỏ qua</button>
         </div>
       </div>
     </div>

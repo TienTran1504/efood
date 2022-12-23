@@ -127,7 +127,7 @@ export default function DialogFeedback({items, IsOpen}) {
 
                 </div>
             </div>
-            <button type='submit' className='submitFeedback' onClick={console.log("submit")}>Submit</button>
+            <button type='submit' className='submitFeedback' onClick={()=>IsOpen(false)}>Submit</button>
         </div>
         {statusRate&&<Rate product={IdProduct} key={1} onDialog={handleRating}/>}
         </div>

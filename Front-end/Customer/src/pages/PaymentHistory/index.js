@@ -111,8 +111,8 @@ function PaymentHistory() {
                                             <td className={classes['totalItem']}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.total)}</td>
                                             <td className={classes['statusproduct']}>{(item.status === 'Ordered' && 'Ordered') || (item.status === 'Delivered' && 'Delivered') || (item.status === 'Shipping' && 'Shipping') || (item.status === 'Canceled' && 'Canceled')}</td>
                                             <td className={classes['feedback']}>
-                                                {item.status === 'Ordered' && <button className={classes['feedbackbtn']}>Rating</button>}
-                                                {item.status !== 'Ordered' && <button disabled className={classes['feedbackbtn']}>Rating</button>}
+                                                {item.status === 'Delivered' && <button className={classes['feedbackbtn']}>Rating</button>}
+                                                {item.status !== 'Delivered' && <button disabled className={classes['feedbackbtn']}>Rating</button>}
                                             </td>
                                         </tr>
                                     )

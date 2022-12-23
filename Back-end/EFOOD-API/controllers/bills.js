@@ -111,7 +111,7 @@ const updateBill = async (req, res) => {
             { new: true, runValidators: true }
         )
 
-        if (status === 'delivered') {
+        if (status === 'Delivered') {
             const billFind = await Bill.findOne({ _id: billId });
             req.body.total = Math.round(billFind.total / 10);
             const user = await User.findOneAndUpdate(

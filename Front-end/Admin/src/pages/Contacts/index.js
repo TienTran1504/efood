@@ -1,11 +1,10 @@
 import classes from './Contacts.module.scss';
-import { faAddressCard, faRefresh, faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard, faRefresh, faUser } from '@fortawesome/free-solid-svg-icons';
 import React, { useState, useEffect, Fragment } from 'react';
 
 import request from '~/utils/request';
 import Role from '~/components/TypeOf';
 import ReadOnlyRow from './components/ReadOnlyRow';
-import EditableRow from './components/EditableRow';
 import DialogConfirm from '~/components/UiComponent/DialogConfirm';
 import Button from '~/components/Layout/DefaultLayout/Header/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -155,7 +154,7 @@ function Contacts() {
     return (
         <div className={classes.wrapper}>
             <div className={classes.title}>
-                <p className={classes['title-name']}>USERS MANAGEMENT</p>
+                <p className={classes['title-name']}>CONTACTS MANAGEMENT</p>
             </div>
 
             <div className={classes.filter}>
@@ -165,7 +164,7 @@ function Contacts() {
             </div>
             <div className={classes['product-list']}>
                 <div className={classes['product-list-content']}>
-                    <h4 className={classes['product-list-title']}>Users List</h4>
+                    <h4 className={classes['product-list-title']}>Contacts List</h4>
                     <Button primary type="button" className={classes['product-list-btn']} onClick={handleRefreshData}>
                         Refresh <FontAwesomeIcon icon={faRefresh} />
                     </Button>
@@ -177,29 +176,21 @@ function Contacts() {
                                 <th>#</th>
                                 <th>Name</th>
                                 <th>Email</th>
-                                <th>Gender</th>
-                                <th>Role</th>
+                                <th>Date</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {users.map((user, index) => (
                                 <Fragment key={index}>
-                                    {editUserId === user.id ? (
-                                        <EditableRow
-                                            index={index + 1}
-                                            editFormData={editFormData}
-                                            handleEditFormChange={handleEditFormChange}
-                                            handleCancelClick={handleCancelClick}
-                                        />
-                                    ) : (
-                                        <ReadOnlyRow
-                                            index={index + 1}
-                                            user={user}
-                                            handleEditClick={handleEditClick}
-                                            handleDeleteClick={handleDeleteClick}
-                                        />
-                                    )}
+
+                                    <ReadOnlyRow
+                                        index={index + 1}
+                                        user={user}
+                                        handleEditClick={handleEditClick}
+                                        handleDeleteClick={handleDeleteClick}
+                                    />
+
                                 </Fragment>
                             ))}
                         </tbody>

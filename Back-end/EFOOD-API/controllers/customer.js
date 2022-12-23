@@ -18,7 +18,8 @@ const getUserInfor = async (req, res) => {
         address: user.address,
         typeOf: user.typeOf,
         orderList: user.orderList,
-        orderPrice: user.orderPrice
+        orderPrice: user.orderPrice,
+        bonus: user.bonus,
     })
 }
 

@@ -13,6 +13,19 @@ const BillSchema = new mongoose.Schema({
         required: [true, 'Please provide total of bill'],
         match: [(/^\d+(\.\d{2})?$/), 'Please provide valid total'],
     },
+    receiver: {
+        type: String,
+        required: [true, 'Please provide name of the receiver'],
+    },
+    phone: {
+        type: String,
+        match: [/(84|0[3|5|7|8|9])+([0-9]{8})\b/g, "Please provide valid phone number"],
+        required: [true, 'Please provide phone of the receiver'],
+    },
+    address: {
+        type: String,
+        required: [true, 'Please provide address of the receiver'],
+    },
     message: {
         type: String,
     },
@@ -25,6 +38,7 @@ const BillSchema = new mongoose.Schema({
         enum: ['Delivered', 'Shipping', 'Ordered', 'Canceled'],
         default: 'Ordered'
     },
+
     createdBy: {
         type: mongoose.Types.ObjectId,
         ref: 'User',

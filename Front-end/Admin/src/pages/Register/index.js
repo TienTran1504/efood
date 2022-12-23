@@ -94,6 +94,7 @@ export default function SignUpPage() {
                 setPass('');
                 setRewritePass('');
                 setOtp('');
+                setConfirmEmail(false);
                 Swal.fire({
                     title: 'Đăng kí thành công!',
                     text: 'Tài khoản hợp lệ. Hãy quay về đăng nhập',
@@ -112,12 +113,23 @@ export default function SignUpPage() {
                         text: 'Đã có tài khoản với email này!',
                         width: '50rem',
                     });
+                    setEmail('');
+                    setPass('');
+                    setRewritePass('');
+                    setOtp('');
                     setConfirmEmail(false);
                 } else if (error.response.data.msg === 'Incorrect OTP') {
                     Swal.fire({
                         icon: 'error',
                         title: 'Lỗi',
                         text: 'Mã OTP không đúng!',
+                        width: '50rem',
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: error.response.data.msg,
                         width: '50rem',
                     });
                 }
@@ -131,7 +143,7 @@ export default function SignUpPage() {
             </div>
             <div className={classes.wrapper__form}>
                 <h2>Đăng Ký</h2>
-                <form onSubmit={handleSubmit} className={classes.form__container}>
+                <form onSubmit={handleSubmit}>
                     <p>
                         <input
                             type="text"
@@ -223,7 +235,7 @@ export default function SignUpPage() {
                 </form>
                 <footer>
                     <p>
-                        Bạn đã có tài khoản? <Link to="/">Đăng nhập</Link>
+                        Bạn đã có tài khoản? <Link to="/login">Đăng nhập</Link>
                     </p>
                 </footer>
             </div>

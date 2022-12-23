@@ -9,12 +9,7 @@ import {
   faMinusCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
-const token = JSON.stringify(localStorage.getItem('token')).split('"').join('');
-const tokenAuth = 'Bearer ' + token;
-const headers = {
-    Authorization: tokenAuth,
-};
-console.log(token);
+
 
 const ModalFood = ({ setIsOpen, setData }) => {
 
@@ -33,21 +28,38 @@ const ModalFood = ({ setIsOpen, setData }) => {
   }
 
   function AddFoodToCart() {
+    const token = JSON.stringify(localStorage.getItem('token')).split('"').join('');
+    const tokenAuth = 'Bearer ' + token;
+    const headers = {
+      Authorization: tokenAuth,
+    };
+
+    console.log(token);
     setIsOpen(false);
 
     // const headers = { 'Authorization': "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzgwN2ViNjllODIxYTMyMDA1N2ViZDAiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzAwODU1NTQsImV4cCI6MTY3MjY3NzU1NH0.CbfYvU3dRalURXHYfX8sFifDyINaJHe_iJZ3X1SxjNc" };
     const obj = {
       quantity: quantityNumber,
     }
-    if (token != null) {
+    if(token !== null){
       axios.post(`http://localhost:3000/api/v1/customer/cart/${setData.id}`, obj, { headers: headers }).then((res) => {
-        console.log(res);
+        console.log("token is " + res);
       }).catch(error => {
         console.log(error);
-        alert("Bạn chưa đăng nhập !!!");
-        window.location.href = "http://localhost:3001/login";
+
+  
+        
+        if(error.response.status === 401){
+          alert("Bạn chưa đăng nhập !!!");
+          window.location.href = "http://localhost:3001/login";
+        }else if(error.response.status===400){
+          alert("món này đã có trong giỏ hàng rồi");
+        }else{
+          alert("Thêm thành công !!!");
+        }
       })
     }
+    
   }
 
   return (

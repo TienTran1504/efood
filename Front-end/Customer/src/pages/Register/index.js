@@ -94,6 +94,7 @@ export default function SignUpPage() {
                 setPass('');
                 setRewritePass('');
                 setOtp('');
+                setConfirmEmail(false);
                 Swal.fire({
                     title: 'Đăng kí thành công!',
                     text: 'Tài khoản hợp lệ. Hãy quay về đăng nhập',
@@ -112,12 +113,23 @@ export default function SignUpPage() {
                         text: 'Đã có tài khoản với email này!',
                         width: '50rem',
                     });
+                    setEmail('');
+                    setPass('');
+                    setRewritePass('');
+                    setOtp('');
                     setConfirmEmail(false);
                 } else if (error.response.data.msg === 'Incorrect OTP') {
                     Swal.fire({
                         icon: 'error',
                         title: 'Lỗi',
                         text: 'Mã OTP không đúng!',
+                        width: '50rem',
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: error.response.data.msg,
                         width: '50rem',
                     });
                 }

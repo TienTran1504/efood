@@ -2,6 +2,7 @@ import { React, useState } from 'react';
 import classes from './ShoppingCart.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import emptyCartImg from './empty-cart.jpg';
+import DialogFeedback from '~/components/UiComponent/DialogFeedback';
 import {
     faPhone,
     faUser,
@@ -20,6 +21,17 @@ const ShoppingCart = (props) => {
     const shippingPrice =
         paymentMethod === 'Thanh toán khi nhận hàng' ? (totalQuantity > 0 ? 10000 + 5000 * totalQuantity : 0) : 0;
     const totalPrice = itemsPrice + shippingPrice;
+
+
+    //dialog feedback
+    const [isOpen, setIsOpen] = useState(false);
+    const handlefeedback = (choose) =>{
+        if(choose) setIsOpen(false);
+        else{
+            setIsOpen(false);
+        }
+        
+    }
 
     const online = () => {
         document.getElementById('online').style.backgroundColor = '#fe7c4b';
@@ -44,6 +56,7 @@ const ShoppingCart = (props) => {
     }
 
     const order = () => {
+        
         const name = document.getElementById('name').value;
         const phone = document.getElementById('phone').value;
         const message = document.getElementById('message').value;
@@ -55,15 +68,17 @@ const ShoppingCart = (props) => {
         else {
             createBill(paymentMethod, message);
             alert('Đặt hàng thành công!');
-            window.location.reload(false);
+            // window.location.reload(false);
             console.log(message);
+            document.getElementById('order').style.display='none';
+            document.getElementById('Feedback').style.display='block';
         }
     };
 
     function numberWithDot(num) {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     }
-
+    console.log(cartItems);
     return (
         <div className={classes['cart-container']}>
             <div className={classes['cart-container--item']}>
@@ -247,10 +262,23 @@ const ShoppingCart = (props) => {
                     }`}
                     style={{ marginBottom: '30px' }}
                     onClick={() => order()}
+                    id='order'
                 >
                     ĐẶT HÀNG
                 </button>
+                <button
+                    className={`${classes['cart-btn']} ${classes['cart-btn--active']} ${
+                        cartItems.length !== 0 ? classes['cart-btn--enabled'] : classes['cart-btn--disabled']
+                    }
+                    }`}
+                    style={{ marginBottom: '30px', display:'none' }}
+                    id='Feedback'
+                    onClick={()=>setIsOpen(true)}
+                >
+                    Đánh giá
+                </button>
             </div>
+            {isOpen&&<DialogFeedback key={1} IsOpen={handlefeedback} items={cartItems}/>}
         </div>
     );
 };

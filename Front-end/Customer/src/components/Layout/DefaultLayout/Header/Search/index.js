@@ -35,9 +35,9 @@ function Search({ setIsOpen, setData }) {
 
         var arraySuggestFood = [];
         // encodeURIcomponent để mã hoá những ký tự đặc biệt thành ký tự hợp lệ trên URL vd &,?,...
+        const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
         const headers = {
-            Authorization:
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzgwN2ViNjllODIxYTMyMDA1N2ViZDAiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzAwODU1NTQsImV4cCI6MTY3MjY3NzU1NH0.CbfYvU3dRalURXHYfX8sFifDyINaJHe_iJZ3X1SxjNc',
+            Authorization: tokenAuth,
         };
         const numberLimit = 7;
         axios

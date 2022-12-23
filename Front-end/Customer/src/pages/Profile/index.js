@@ -66,7 +66,6 @@ function Profile() {
 
     if (selectedImage !== null) {
         convertToBase64(selectedImage).then((data) => {
-            // console.log(data);
             setimgURL(data);
         });
     }
@@ -76,7 +75,6 @@ function Profile() {
         const headers = {
             Authorization: tokenAuth,
         };
-        console.log(headers);
         axios
             .get(`http://localhost:3000/api/v1/customer`, { headers: headers })
             .then((res) => {

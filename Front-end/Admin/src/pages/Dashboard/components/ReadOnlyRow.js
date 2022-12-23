@@ -6,6 +6,13 @@ function ReadOnlyRow({ id, order, handleEditClick, handleDeleteClick }) {
     const statusRef = useRef();
 
     useEffect(() => {
+        if (statusRef.current.classList.length > 1) {
+            statusRef.current.classList.remove(classes.purple);
+            statusRef.current.classList.remove(classes.blue);
+            statusRef.current.classList.remove(classes.green);
+            statusRef.current.classList.remove(classes.red);
+        }
+
         if (order.status === 'Ordered') {
             statusRef.current.classList.add(classes.purple);
         } else if (order.status === 'Delivered') {

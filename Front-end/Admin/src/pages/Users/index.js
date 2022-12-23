@@ -102,6 +102,8 @@ function Users() {
             .patch('admin/' + editUserId, { typeOf: editFormData.typeOf }, { headers: headers })
             .then((res) => {
                 setUsers(newUsers);
+                setStorageSave(newUsers);
+                localStorage.setItem('users', JSON.stringify(newUsers));
                 setEditUserId(null);
             })
             .catch((err) => console.log(err));
@@ -143,6 +145,8 @@ function Users() {
 
             newUsers.splice(index, 1);
             setUsers(newUsers);
+            setStorageSave(newUsers);
+            localStorage.setItem('users', JSON.stringify(newUsers));
         }
         setDialog(false);
     };

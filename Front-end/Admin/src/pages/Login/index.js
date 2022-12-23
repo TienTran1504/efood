@@ -78,7 +78,7 @@ export default function LoginPage() {
                     .catch((err) => console.log(err));
 
                 await request
-                    .get('foods', { headers: { Authorization: 'Bearer ' + res.data.token } })
+                    .get('auth/foods')
                     .then((res) => {
                         var newFoods = [];
                         res.data.sortedFoods.forEach((value, index) => {

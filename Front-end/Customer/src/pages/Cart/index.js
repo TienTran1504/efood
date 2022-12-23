@@ -40,8 +40,12 @@ function Cart() {
         }
     };
 
-    const createBill = (method, message) => {
-        axios.post(`http://localhost:3000/api/v1/bills`, { method: method, message: message }, { headers: headers });
+    const createBill = (receiver, phone, address, method, message) => {
+        axios.post(
+            `http://localhost:3000/api/v1/bills`,
+            { receiver: receiver, phone: phone, address: address, method: method, message: message },
+            { headers: headers },
+        );
     };
 
     useEffect(() => {

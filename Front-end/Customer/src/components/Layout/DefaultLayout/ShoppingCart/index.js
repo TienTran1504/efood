@@ -21,7 +21,6 @@ const ShoppingCart = (props) => {
         paymentMethod === 'Thanh toán khi nhận hàng' ? (totalQuantity > 0 ? 10000 + 5000 * totalQuantity : 0) : 0;
     const totalPrice = itemsPrice + shippingPrice;
 
-
     const online = () => {
         document.getElementById('online').style.backgroundColor = '#fe7c4b';
         document.getElementById('online').style.color = 'white';
@@ -48,17 +47,15 @@ const ShoppingCart = (props) => {
         const name = document.getElementById('name').value;
         const phone = document.getElementById('phone').value;
         const message = document.getElementById('message').value;
+        const address = document.getElementById('address').value;
 
         if (name === '') alert('Họ và tên người nhận không hợp lệ!');
         else if (!PhoneNumberValid(phone)) alert('Số điện thoại không hợp lệ!');
-        else if (paymentMethod === 'Thanh toán khi nhận hàng' && document.getElementById('address').value === '')
-            alert('Địa chỉ không hợp lệ!');
+        else if (paymentMethod === 'Thanh toán khi nhận hàng' && address.length < 6) alert('Địa chỉ không hợp lệ!');
         else {
-            createBill(paymentMethod, message);
+            createBill(name, phone, address, paymentMethod, message);
             alert('Đặt hàng thành công!');
             window.location.reload(false);
-            console.log(message);
-
         }
     };
 

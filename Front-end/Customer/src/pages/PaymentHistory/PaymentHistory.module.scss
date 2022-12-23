@@ -1,10 +1,10 @@
 .main {
     display: flex;
-    height: 753px;
+    height: 720px;
     background-color: white;
 
     .contain__main {
-        height: 90%;
+        height: 100%;
         width: 90%;
         position: relative;
 
@@ -12,7 +12,7 @@
             margin-left: 2%;
             margin-top: 2%;
             font-size: 30px;
-            margin-bottom: 80px;
+            margin-bottom: 20px;
         }
 
         .content__typefood {
@@ -24,7 +24,7 @@
             justify-content: space-between;
             padding: 0 30px;
             padding-right: 115px;
-            margin-bottom: 60px;
+            margin-bottom: 40px;
 
             .typefood__item {
                 display: flex;
@@ -206,7 +206,7 @@
     background-color: #fe7c4b;
     color: white;
     right: 7.5%;
-    bottom: 10%;
+    bottom: -10%;
     width: 200px;
     height: 70px;
     font-weight: 600;

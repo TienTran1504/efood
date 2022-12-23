@@ -12,6 +12,7 @@ function PaymentHistory() {
     const [delivered, setDelivered] = useState(0);
     const [shipping, setShipping] = useState(0);
     const [canceled, setCancled] = useState(0);
+    const [bonusPoint, setBonusPoint] = useState(0);
 
     useEffect(() => {
         const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
@@ -21,7 +22,7 @@ function PaymentHistory() {
         axios
             .get(`http://localhost:3000/api/v1/bills/user`, { headers: headers })
             .then((res) => {
-                console.log(res.data.bills);
+                // console.log(res.data);
                 res.data.bills.map((item, index) => {
                     if (item.status === 'Ordered') {
                         setOrdered(ordered => ordered + 1);
@@ -37,6 +38,22 @@ function PaymentHistory() {
                     }
                 });
                 setBills(res.data.bills);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, []);
+
+    useEffect(() => {
+        const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
+        const headers = {
+            Authorization: tokenAuth,
+        };
+        axios
+            .get(`http://localhost:3000/api/v1/customer`, { headers: headers })
+            .then((res) => {
+                console.log(res.data);
+                setBonusPoint(res.data.bonus);
             })
             .catch((error) => {
                 console.log(error);
@@ -62,7 +79,7 @@ function PaymentHistory() {
                         <div className={classes['typefood__item']}>
                             <div className={classes['typefood__item-part1']}>
                                 <span className={classes['item__status']}>DELIVERED</span>
-                                <span className={classes['item__quantity']}>{delivered}</span>
+                                <span className={classes['item__quantity']}>{delivered / 2}</span>
                             </div>
                             <div className={classes['typefood__item-part2']}>
                                 <FontAwesomeIcon icon={faCheckCircle} />
@@ -71,7 +88,7 @@ function PaymentHistory() {
                         <div className={classes['typefood__item']}>
                             <div className={classes['typefood__item-part1']}>
                                 <span className={classes['item__status']}>SHIPPING</span>
-                                <span className={classes['item__quantity']}>{shipping}</span>
+                                <span className={classes['item__quantity']}>{shipping / 2}</span>
                             </div>
                             <div className={classes['typefood__item-part2']}>
                                 <FontAwesomeIcon icon={faTruck} />
@@ -80,7 +97,7 @@ function PaymentHistory() {
                         <div className={classes['typefood__item']}>
                             <div className={classes['typefood__item-part1']}>
                                 <span className={classes['item__status']}>CANCELED</span>
-                                <span className={classes['item__quantity']}>{canceled}</span>
+                                <span className={classes['item__quantity']}>{canceled / 2}</span>
                             </div>
                             <div className={classes['typefood__item-part2']}>
                                 <FontAwesomeIcon icon={faTimes} />
@@ -125,7 +142,7 @@ function PaymentHistory() {
                     <div className={classes['box-btn']}>
                         <div className={classes['bonus-point']}>
                             <span id={classes['btn-submit-title']}>BONUS POINT</span>
-                            <span id={classes['btn-submit-money']}>1200</span>
+                            <span id={classes['btn-submit-money']}>{bonusPoint}</span>
                         </div>
                         <div id={classes['btn-submit-icon']}>
                             <FontAwesomeIcon icon={faCoins} />

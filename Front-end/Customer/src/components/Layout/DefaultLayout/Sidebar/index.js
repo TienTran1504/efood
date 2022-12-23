@@ -12,6 +12,7 @@ import {
     faHouse,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const obj = [
     {
@@ -37,7 +38,19 @@ const obj = [
 ]
 
 function Sidebar() {
-    const path = useLocation()
+    const usenavigate = useNavigate();
+    const path = useLocation();
+
+    function hanldeLogout() {
+        localStorage.removeItem('userId');
+        localStorage.removeItem('token');
+        localStorage.removeItem('products');
+        localStorage.removeItem('users');
+        localStorage.removeItem('bills');
+        localStorage.setItem('user-state', false);
+
+        usenavigate('/login');
+    }
 
     return (
         <div className={classes['navbar']}>
@@ -63,10 +76,10 @@ function Sidebar() {
             </ul>
 
             <div className={classes['navbar__logout']}>
-                <a href="#" className={classes['navbar__logout-link']}>
+                <div onClick={hanldeLogout} className={classes['navbar__logout-link']}>
                     <FontAwesomeIcon className={classes['navbar__item-icon-logout']} icon={faArrowRightFromBracket} />
                     LOG OUT
-                </a>
+                </div>
             </div>
         </div>
     )

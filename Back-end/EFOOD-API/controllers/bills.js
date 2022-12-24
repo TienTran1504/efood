@@ -102,12 +102,18 @@ const feedbackBill = async (req, res) => {
     if (billCheck.status !== 'Delivered') {
         throw new BadRequestError(`The status bill is invalid (must be Delivered but it is ${billCheck.status})`)
     }
+    if (billCheck.feedbackStatus === 'True') {
+        throw new BadRequestError(`This bill has already feedbacked`);
+    }
     const bill = await Bill.findByIdAndUpdate(
         {
             _id: id,
             createdBy: userCheck._id
         },
-        { feedback: feedback },
+        {
+            feedback: feedback,
+            feedbackStatus: 'True',
+        },
         { new: true, runValidators: true }
     )
     res.status(StatusCodes.OK).json({ bill })

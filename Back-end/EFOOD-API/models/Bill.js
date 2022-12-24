@@ -41,6 +41,11 @@ const BillSchema = new mongoose.Schema({
     feedback: {
         type: String,
     },
+    feedbackStatus: {
+        type: String,
+        enum: ['True', 'False'],
+        deafault: 'False',
+    },
     createdBy: {
         type: mongoose.Types.ObjectId,
         ref: 'User',

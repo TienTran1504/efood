@@ -174,11 +174,12 @@
                             border-radius: 3px;
                             color: white;
                             display: block;
-                            padding: 8px 10px;
-                            width: 70%;
-                            height: 80%;
+                            padding: 6px 12px;
+                            width: 80%;
+                            height: 100%;
                             line-height: 20px;
                             border: 1px solid white;
+                            margin-top: 10px;
                         }
 
                         .feedbackbtn:hover {
@@ -199,7 +200,12 @@
         }
     }
 }
-
+tr {
+    align-items: center;
+}
+td {
+    padding: 4px 0;
+}
 .box-btn {
     position: absolute;
     display: flex;

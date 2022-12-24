@@ -65,15 +65,15 @@ function PaymentHistory() {
             });
     }, []);
 
-    const onDialog = (choose)=>{
-        if(choose){
+    const onDialog = (choose) => {
+        if (choose) {
             setIsOpen(false);
-        }else{
+        } else {
             setIsOpen(false);
         }
     }
-    
-    const handleFeedBack = (listProduct) =>{
+
+    const handleFeedBack = (listProduct) => {
         setListProduct(listProduct);
         setIsOpen(true);
     }
@@ -139,16 +139,21 @@ function PaymentHistory() {
                                 {
                                     bills.map((item, idx) => (
                                         <tr key={idx}
-                                            className={classes['Item']}>
+                                            className={classes['Item']} style={{ marginBottom: '4px' }}>
                                             <td className={classes['STTitem']}>{idx + 1}</td>
                                             <td className={classes['methodItem']}>{item.method}</td>
                                             <td className={classes['createDay']}>{item.createdAt.split('T')[0]}</td>
-                                            <td className={classes['totalItem']}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.total)}</td>
-                                            <td className={classes['statusproduct']}>{(item.status === 'Ordered' && 'Ordered') || (item.status === 'Delivered' && 'Delivered') || (item.status === 'Shipping' && 'Shipping') || (item.status === 'Canceled' && 'Canceled')}</td>
+                                            <td className={classes['totalItem']} style={{ fontWeight: 'bold' }}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.total)}</td>
+                                            <td className={classes['statusproduct']}>
+                                                {(item.status === 'Ordered' && <button disabled style={{ fontWeight: 'bold', boxSizing: 'border-box', backgroundColor: '#6672e4', padding: '0 32px', borderRadius: '6px', color: '#000' }}>Ordered</button>) ||
+                                                    (item.status === 'Delivered' && <button disabled style={{ fontWeight: 'bold', boxSizing: 'border-box', backgroundColor: '#38eca0', padding: '0 26px', borderRadius: '6px', color: '#000' }}>Delivered</button>) ||
+                                                    (item.status === 'Shipping' && <button disabled style={{ fontWeight: 'bold', backgroundColor: '#4b93fe', padding: '0 29px', borderRadius: '6px', color: '#000' }}>Shipping</button>) ||
+                                                    (item.status === 'Canceled' && <button disabled style={{ fontWeight: 'bold', backgroundColor: '#da4848', padding: '0 28px', borderRadius: '6px', color: '#000' }}>Canceled</button>)}
+                                            </td>
                                             <td className={classes['feedback']}>
                                                 {console.log(item.orderList)}
-                                                {item.status === 'Delivered' && <button className={classes['feedbackbtn']} onClick={()=>handleFeedBack(item.orderList)}>Rating</button>}
-                                                {item.status !== 'Delivered' && <button disabled className={classes['feedbackbtn']}>Rating</button>}
+                                                {item.status === 'Delivered' && <button className={classes['feedbackbtn']} onClick={() => handleFeedBack(item.orderList)} style={{ borderRadius: '6px' }}>Rating</button>}
+                                                {item.status !== 'Delivered' && <button disabled className={classes['feedbackbtn']} style={{ borderRadius: '6px' }}>Rating</button>}
                                             </td>
                                         </tr>
                                     )
@@ -169,7 +174,7 @@ function PaymentHistory() {
                     </div>
                 </div>
             </div>
-            {IsOpen&&<DialogFeedback items={ListProduct} IsOpen={onDialog} />}
+            {IsOpen && <DialogFeedback items={ListProduct} IsOpen={onDialog} />}
 
 
         </div>

@@ -253,6 +253,10 @@ function Profile() {
                                         ref={EmailInput}
                                         value={Email}
                                         onChange={(e) => setEmail(e.target.value)}
+                                        readOnly
+                                        style={{
+                                            color: 'gray'
+                                        }}
                                     ></input>
                                 </div>
                                 <div className={classes['content__form-text']}>

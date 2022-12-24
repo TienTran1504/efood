@@ -55,10 +55,12 @@
         text-decoration: none;
     }
     & a:hover {
+        color: #fff;
         opacity: 0.6;
     }
     font-weight: 500;
 }
+
 .cart {
     color: #fff;
     cursor: pointer;

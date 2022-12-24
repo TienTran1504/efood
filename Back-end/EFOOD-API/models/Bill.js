@@ -38,7 +38,9 @@ const BillSchema = new mongoose.Schema({
         enum: ['Delivered', 'Shipping', 'Ordered', 'Canceled'],
         default: 'Ordered'
     },
-
+    feedback: {
+        type: String,
+    },
     createdBy: {
         type: mongoose.Types.ObjectId,
         ref: 'User',

@@ -87,6 +87,32 @@ const createBill = async (req, res) => {
         throw new NotFoundError(`No food in cart`)
     }
 }
+const feedbackBill = async (req, res) => {
+    const { feedback } = req.body;
+    const { id } = req.params;
+    const userCheck = await User.findOne({ _id: req.user.userId });
+    const billCheck = await Bill.findOne({ _id: id });
+
+    if (!userCheck) {
+        throw new NotFoundError(`Dont find any user ${userCheck._id}`)
+    }
+    if (!billCheck) {
+        throw new NotFoundError(`No bill with id ${id}`)
+    }
+    if (billCheck.status !== 'Delivered') {
+        throw new BadRequestError(`The status bill is invalid (must be Delivered but it is ${billCheck.status})`)
+    }
+    const bill = await Bill.findByIdAndUpdate(
+        {
+            _id: id,
+            createdBy: userCheck._id
+        },
+        { feedback: feedback },
+        { new: true, runValidators: true }
+    )
+    res.status(StatusCodes.OK).json({ bill })
+}
+
 //{{URL}}/bills/:id
 const updateBill = async (req, res) => {
     const userCheck = await User.findOne({ _id: req.user.userId });
@@ -96,7 +122,6 @@ const updateBill = async (req, res) => {
             user: { userId },
             params: { id: billId },
         } = req;
-        console.log(req.body);
         if (status === '') {
             throw new BadRequestError('status fields cannot be empty');
         }
@@ -164,6 +189,7 @@ module.exports = {
     createBill,
     updateBill,
     deleteBill,
+    feedbackBill,
 }
 /* main flow:
 Khi createBill thì sẽ check xem người đó có thêm item trong cart chưa nếu rồi thì sẽ thêm giá và orderList vô model Bill

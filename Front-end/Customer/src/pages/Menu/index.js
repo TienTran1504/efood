@@ -145,7 +145,6 @@ function Menu() {
     const handleClickAddToCart = (itemId) => {
         handleShowModalFood(true);
         setData(itemId);
-        console.log('thanh cong');
     };
 
     return (

@@ -4,6 +4,7 @@ import React, { useState, useEffect, } from 'react';
 import axios from 'axios';
 import { faSpinner, faTimes, faTruck, faCoins, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import DialogFeedback from '~/components/UiComponent/DialogFeedback';//feedback Dialog
 
 
 function PaymentHistory() {
@@ -13,6 +14,10 @@ function PaymentHistory() {
     const [shipping, setShipping] = useState(0);
     const [canceled, setCancled] = useState(0);
     const [bonusPoint, setBonusPoint] = useState(0);
+    const [IsOpen, setIsOpen] = useState(false);
+    const [ListProduct, setListProduct] = useState(null);
+
+
 
     useEffect(() => {
         const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
@@ -59,6 +64,19 @@ function PaymentHistory() {
                 console.log(error);
             });
     }, []);
+
+    const onDialog = (choose)=>{
+        if(choose){
+            setIsOpen(false);
+        }else{
+            setIsOpen(false);
+        }
+    }
+    
+    const handleFeedBack = (listProduct) =>{
+        setListProduct(listProduct);
+        setIsOpen(true);
+    }
 
     return (
         <div>
@@ -128,7 +146,8 @@ function PaymentHistory() {
                                             <td className={classes['totalItem']}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.total)}</td>
                                             <td className={classes['statusproduct']}>{(item.status === 'Ordered' && 'Ordered') || (item.status === 'Delivered' && 'Delivered') || (item.status === 'Shipping' && 'Shipping') || (item.status === 'Canceled' && 'Canceled')}</td>
                                             <td className={classes['feedback']}>
-                                                {item.status === 'Delivered' && <button className={classes['feedbackbtn']}>Rating</button>}
+                                                {console.log(item.orderList)}
+                                                {item.status === 'Delivered' && <button className={classes['feedbackbtn']} onClick={()=>handleFeedBack(item.orderList)}>Rating</button>}
                                                 {item.status !== 'Delivered' && <button disabled className={classes['feedbackbtn']}>Rating</button>}
                                             </td>
                                         </tr>
@@ -150,7 +169,7 @@ function PaymentHistory() {
                     </div>
                 </div>
             </div>
-
+            {IsOpen&&<DialogFeedback items={ListProduct} IsOpen={onDialog} />}
 
 
         </div>

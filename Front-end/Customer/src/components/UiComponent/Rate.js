@@ -2,25 +2,25 @@ import React, { useState } from 'react'
 import { Rating } from 'react-simple-star-rating'
 import axios from 'axios';
 
-const token = JSON.stringify(localStorage.getItem('token')).split('"').join('');
-const tokenAuth = 'Bearer ' + token;
-const headers = {
-    Authorization: tokenAuth,
-};
+// const token = JSON.stringify(localStorage.getItem('token')).split('"').join('');
+// const tokenAuth = 'Bearer ' + token;
+// const headers = {
+//     Authorization: tokenAuth,
+// };
 
 
 
 function checkRating(ratingValue){
   var message;
-  switch (ratingValue) {
-    case 1:
-      message = "cảm ơn đánh giá cửa bạn"
-      break;
+  // switch (ratingValue) {
+  //   case 1:
+  //     message = "cảm ơn đánh giá cửa bạn"
+  //     break;
   
-    default:
-      message = "chua danh gia??"
-      break;
-  }
+  //   default:
+  //     message = "chua danh gia??"
+  //     break;
+  // }
 
 
   return (
@@ -53,14 +53,26 @@ export default function Rate({product, onDialog}) {
 
   // Catch Rating value
   const handleRating = (rate) => {
-    axios.patch(
-      `http://localhost:3000/api/v1/foods/rating/${product.id}`,
-      { headers: headers },
-    );
-    RatingMessage(rate)
-    setRating(rate)
+      RatingMessage(rate)
+      setRating(rate)
     // Some logic
     
+  }
+  const conFirmRating = ()=>{
+    onDialog(true)
+    const token = JSON.stringify(localStorage.getItem('token')).split('"').join('');
+    const tokenAuth = 'Bearer ' + token;
+    const headers = {
+      Authorization: tokenAuth,
+    };
+    console.log(token);
+    if(token !== null){
+      axios.patch(`http://localhost:3000/api/v1/foods/rating/${product}`,{rating}, { headers: headers }).then((res) => {
+        console.log("token is " + res);
+      }).catch(error => {
+        console.log(error);
+      })
+    }
   }
 
   return (
@@ -98,7 +110,7 @@ export default function Rate({product, onDialog}) {
         />
         {RatingMessage(rating)}
         <div style={{position: "relative"}}>
-          <button onClick={()=>onDialog(true)}  style={{backgroundColor: "#C0C0C0", padding: "10px 50px", marginRight:"10px",borderRadius:"5px", color:"black", cursor:"pointer" }}>Xác nhận</button>
+          <button onClick={conFirmRating}  style={{backgroundColor: "#C0C0C0", padding: "10px 50px", marginRight:"10px",borderRadius:"5px", color:"black", cursor:"pointer" }}>Xác nhận</button>
         </div>
       </div>
     </div>

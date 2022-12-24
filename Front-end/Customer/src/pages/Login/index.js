@@ -56,7 +56,7 @@ export default function LoginPage() {
     return (
         <div className={classes.wrapper}>
             <div className={classes.wrapper__logo}>
-                <img src={Images.logoImage} alt="none" />
+                <img src={Images.logoImage} alt="none"/>
             </div>
             <div className={classes.wrapper__form}>
                 <h2>Đăng nhập</h2>

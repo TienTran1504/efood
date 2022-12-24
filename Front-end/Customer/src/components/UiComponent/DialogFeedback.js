@@ -20,6 +20,7 @@ const headers = {
 
 
 export default function DialogFeedback({items, IsOpen}) {
+    
     const [statusRate, setStatusRate ] = useState(false);
     const [IdProduct, setIdProduct ] = useState(null);
     console.log(items);
@@ -38,12 +39,25 @@ export default function DialogFeedback({items, IsOpen}) {
     }
 
     const confirmSubmit = () => {
-        const fbProduct = document.getElementById('fbProduct').value;
-        const fbStore = document.getElementById('fbStore').value;
-
-        if (fbProduct === '') alert('Vui lòng để lại nhận xét!');
-        else if(fbStore==='') alert('Vui lòng để lại nhận xét cho cửa hàng!');
-        IsOpen(false);
+        const token = JSON.stringify(localStorage.getItem('token')).split('"').join('');
+        const tokenAuth = 'Bearer ' + token;
+        const headers = {
+            Authorization: tokenAuth,
+        };
+        if(token!== null){
+            console.log("submit")
+            const fbProduct = document.getElementById('fbProduct').value;
+            const fbStore = document.getElementById('fbStore').value;
+    
+            if (fbProduct === '') alert('Vui lòng để lại nhận xét!');
+            else if(fbStore ==='') alert('Vui lòng để lại nhận xét cho cửa hàng!');
+            else {
+                IsOpen(false); 
+                alert("submit complete"); 
+            }
+        }
+        
+        
         // window.location.reload(false);
     }
     return (
@@ -81,7 +95,7 @@ export default function DialogFeedback({items, IsOpen}) {
                                             </div>
                                         </div>
                                         <div className='infoRight'>
-                                            <FontAwesomeIcon icon={faStar} style={{marginRight:'10px', cursor:'pointer'}} onClick={()=>ratingFeedback(item.id)}/>
+                                            <FontAwesomeIcon icon={faStar} style={{marginRight:'10px', cursor:'pointer'}} onClick={()=>ratingFeedback(item.foodId)}/>
                                             <FontAwesomeIcon icon={faFileLines} style={{marginRight:'10px', cursor:'pointer'}} />
                                         </div>
                                     </td>
@@ -128,7 +142,7 @@ export default function DialogFeedback({items, IsOpen}) {
 
                 </div>
             </div>
-            <button type='submit' className='submitFeedback' onClick={()=>IsOpen(false)}>Submit</button>
+            <button type='submit' className='submitFeedback' onClick={confirmSubmit}>Submit</button>
         </div>
         {statusRate&&<Rate product={IdProduct} key={1} onDialog={handleRating}/>}
         </div>

@@ -24,6 +24,7 @@ function UpdatePassword() {
     const [CurrentPass, setCurrentPass] = useState('');
     const [NewPass, setNewPass] = useState('');
     const [AgainPass, setAgainPass] = useState('');
+    const [imgURL, setimgURL] = useState('');
     const [checkCurrentPassValid, setCheckCurrentPassValid] = useState(false);
     const [checkNewPassValid, setCheckNewPassValid] = useState(false);
     const [checkAgainPassValid, setCheckAgainPassValid] = useState(false);
@@ -133,6 +134,7 @@ function UpdatePassword() {
         };
         axios.get(`http://localhost:3000/api/v1/customer`, { headers: headers }).then((res) => {
             setName(res.data.userName);
+            setimgURL(res.data.image);
         }).catch(error => {
             console.log(error)
         })
@@ -210,7 +212,7 @@ function UpdatePassword() {
 
                         <div className={classes['content__avt']}>
                             <div>
-                                <img src={Images.noImage} alt="Ảnh nền" className={classes['background']}></img>
+                                <img src={imgURL} alt="Ảnh nền" className={classes['background']}></img>
                             </div>
                         </div>
 

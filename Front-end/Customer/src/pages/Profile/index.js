@@ -85,6 +85,7 @@ function Profile() {
                 setAddress(res.data.address);
                 setPhone(res.data.phone);
                 setBirthday(moment(res.data.birthday).format('YYYY-MM-DD'));
+                setimgURL(res.data.image);
             })
             .catch((error) => {
                 console.log(error);
@@ -310,7 +311,7 @@ function Profile() {
                         <div className={classes['content__avt']}>
                             <div>
                                 <img
-                                    src={selectedImage !== null ? URL.createObjectURL(selectedImage) : Images.noImage}
+                                    src={selectedImage !== null ? URL.createObjectURL(selectedImage) : imgURL}
                                     alt="Ảnh nền"
                                     className={classes['background']}
                                 ></img>

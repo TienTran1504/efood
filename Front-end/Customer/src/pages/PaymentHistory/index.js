@@ -1,11 +1,10 @@
 import classes from './PaymentHistory.module.scss';
 import Sidebar from '~/components/Layout/DefaultLayout/Sidebar';
-import React, { useState, useEffect, } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { faSpinner, faTimes, faTruck, faCoins, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DialogFeedback from '~/components/UiComponent/DialogFeedback';//feedback Dialog
-
 
 function PaymentHistory() {
     const [bills, setBills] = useState([]);
@@ -16,48 +15,40 @@ function PaymentHistory() {
     const [bonusPoint, setBonusPoint] = useState(0);
     const [IsOpen, setIsOpen] = useState(false);
     const [ListProduct, setListProduct] = useState(null);
-
-
+    const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
+    const headers = {
+        Authorization: tokenAuth,
+    };
 
     useEffect(() => {
-        const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
-        const headers = {
-            Authorization: tokenAuth,
-        };
-        axios
-            .get(`http://localhost:3000/api/v1/bills/user`, { headers: headers })
-            .then((res) => {
-                // console.log(res.data);
-                res.data.bills.map((item, index) => {
-                    if (item.status === 'Ordered') {
-                        setOrdered(ordered => ordered + 1);
-                    }
-                    else if (item.status === 'Delivered') {
-                        setDelivered(delivered => delivered + 1);
-                    }
-                    else if (item.status === 'Canceled') {
-                        setCancled(canceled => canceled + 1);
-                    }
-                    else if (item.status === 'Shipping') {
-                        setShipping(shipping => shipping + 1);
-                    }
-                });
-                setBills(res.data.bills);
-            })
-            .catch((error) => {
-                console.log(error);
+        async function getData(){ 
+            const data = await axios.get(`http://localhost:3000/api/v1/bills/user`, { headers: headers });
+            setBills(data.data.bills);
+            data.data.bills.map((item, index) => {
+                if (item.status === 'Ordered') {
+                    setOrdered(ordered => ordered + 1);
+                }
+                else if (item.status === 'Delivered') {
+                    setDelivered(delivered => delivered + 1);
+                }
+                else if (item.status === 'Canceled') {
+                    setCancled(canceled => canceled + 1);
+                }
+                else if (item.status === 'Shipping') {
+                    setShipping(shipping => shipping + 1);
+                }
             });
+        }
+           
+        getData();
     }, []);
 
+
     useEffect(() => {
-        const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
-        const headers = {
-            Authorization: tokenAuth,
-        };
+        console.log("haha");
         axios
             .get(`http://localhost:3000/api/v1/customer`, { headers: headers })
             .then((res) => {
-                console.log(res.data);
                 setBonusPoint(res.data.bonus);
             })
             .catch((error) => {
@@ -88,7 +79,7 @@ function PaymentHistory() {
                         <div className={classes['typefood__item']}>
                             <div className={classes['typefood__item-part1']}>
                                 <span className={classes['item__status']}>ORDERED</span>
-                                <span className={classes['item__quantity']}>{ordered / 2}</span>
+                                <span className={classes['item__quantity']}>{ordered}</span>
                             </div>
                             <div className={classes['typefood__item-part2']}>
                                 <FontAwesomeIcon icon={faSpinner} />
@@ -97,7 +88,7 @@ function PaymentHistory() {
                         <div className={classes['typefood__item']}>
                             <div className={classes['typefood__item-part1']}>
                                 <span className={classes['item__status']}>DELIVERED</span>
-                                <span className={classes['item__quantity']}>{delivered / 2}</span>
+                                <span className={classes['item__quantity']}>{delivered}</span>
                             </div>
                             <div className={classes['typefood__item-part2']}>
                                 <FontAwesomeIcon icon={faCheckCircle} />
@@ -106,7 +97,7 @@ function PaymentHistory() {
                         <div className={classes['typefood__item']}>
                             <div className={classes['typefood__item-part1']}>
                                 <span className={classes['item__status']}>SHIPPING</span>
-                                <span className={classes['item__quantity']}>{shipping / 2}</span>
+                                <span className={classes['item__quantity']}>{shipping}</span>
                             </div>
                             <div className={classes['typefood__item-part2']}>
                                 <FontAwesomeIcon icon={faTruck} />
@@ -115,7 +106,7 @@ function PaymentHistory() {
                         <div className={classes['typefood__item']}>
                             <div className={classes['typefood__item-part1']}>
                                 <span className={classes['item__status']}>CANCELED</span>
-                                <span className={classes['item__quantity']}>{canceled / 2}</span>
+                                <span className={classes['item__quantity']}>{canceled}</span>
                             </div>
                             <div className={classes['typefood__item-part2']}>
                                 <FontAwesomeIcon icon={faTimes} />
@@ -151,7 +142,6 @@ function PaymentHistory() {
                                                     (item.status === 'Canceled' && <button disabled style={{ fontWeight: 'bold', backgroundColor: '#da4848', padding: '0 28px', borderRadius: '6px', color: '#000' }}>Canceled</button>)}
                                             </td>
                                             <td className={classes['feedback']}>
-                                                {console.log(item.orderList)}
                                                 {item.status === 'Delivered' && <button className={classes['feedbackbtn']} onClick={() => handleFeedBack(item.orderList)} style={{ borderRadius: '6px' }}>Rating</button>}
                                                 {item.status !== 'Delivered' && <button disabled className={classes['feedbackbtn']} style={{ borderRadius: '6px' }}>Rating</button>}
                                             </td>

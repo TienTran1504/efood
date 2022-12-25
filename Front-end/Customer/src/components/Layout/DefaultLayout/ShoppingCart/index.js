@@ -53,7 +53,7 @@ const ShoppingCart = (props) => {
         else if (!PhoneNumberValid(phone)) alert('Số điện thoại không hợp lệ!');
         else if (paymentMethod === 'Thanh toán khi nhận hàng' && address.length < 6) alert('Địa chỉ không hợp lệ!');
         else {
-            createBill(name, phone, address, paymentMethod, message);
+            createBill(name, phone, address, paymentMethod, message, totalPrice);
             alert('Đặt hàng thành công!');
             window.location.reload(false);
         }

@@ -66,7 +66,7 @@ const createBill = async (req, res) => {
     if (user.orderList.length > 0) {
         req.body.createdBy = req.user.userId;
         req.body.orderList = user.orderList;
-        req.body.total = user.orderPrice;
+        // req.body.total = user.orderPrice;
         req.body.orderPrice = 0;
         const bill = await Bill.create({ ...req.body });
 

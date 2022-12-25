@@ -41,25 +41,22 @@ const ModalFood = ({ setIsOpen, setData }) => {
     const obj = {
       quantity: quantityNumber,
     }
-    if(token !== null){
+    if (token !== null) {
       axios.post(`http://localhost:3000/api/v1/customer/cart/${setData.id}`, obj, { headers: headers }).then((res) => {
-        console.log("token is " + res);
+        console.log(setData)
       }).catch(error => {
         console.log(error);
-
-  
-        
-        if(error.response.status === 401){
+        if (error.response.status === 401) {
           alert("Bạn chưa đăng nhập !!!");
           window.location.href = "http://localhost:3001/login";
-        }else if(error.response.status===400){
-          alert("món này đã có trong giỏ hàng rồi");
-        }else{
+        } else if (error.response.status === 400) {
+          alert("Sản phẩm đã tồn tại trong giỏ hàng");
+        } else {
           alert("Thêm thành công !!!");
         }
       })
     }
-    
+
   }
 
   return (
@@ -75,7 +72,7 @@ const ModalFood = ({ setIsOpen, setData }) => {
               <ul className={classes['modalHeader__list']}>
                 <li className={classes['modalHeader__list-item']}>
                   <h5>Tên món :</h5>
-                  <span className={classes['modalHeader__list-descrp']}>{setData.name}</span>
+                  <span className={classes['modalHeader__list-descrp']}>{setData.title}</span>
                 </li>
                 <li className={classes['modalHeader__list-item']}>
                   <h5>Giá&emsp;&emsp;&ensp; :</h5>

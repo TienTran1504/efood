@@ -35,6 +35,7 @@ const USER_ITEMS = [
     {
         icon: <FontAwesomeIcon icon={faSignOut} />,
         title: 'Sign out',
+        to: '/login',
         separate: true,
         logOut: true,
     },

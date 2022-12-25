@@ -19,7 +19,7 @@ const MenuList = ({ items, handleClickAddToCart }) => {
     const itemPerPage = 12;
     const pages = [];
 
-    for (let i = 0; i < items.length; ) {
+    for (let i = 0; i < items.length;) {
         const onePage = [];
         for (let j = 0; j < itemPerPage && i < items.length; j++, i++) {
             onePage.push(items[i]);
@@ -80,7 +80,7 @@ function Menu() {
             .then((res) => {
                 var newItems = [];
                 res.data.sortedFoods.forEach((item, index) => {
-                    
+
                     var newItem = {
                         id: item._id,
                         title: item.name,
@@ -92,30 +92,30 @@ function Menu() {
                     newItems = [...newItems, newItem];
                 });
 
-                
-                
+
+
                 setItems(newItems);
-                if(checkOpen){
+                if (checkOpen) {
                     setMenuItems(newItems);
 
                 }
                 // console.log(res.data);
-                localStorage.setItem('listFoods',JSON.stringify(newItems));
+                localStorage.setItem('listFoods', JSON.stringify(newItems));
                 setCheckOpen(false);
-                
+
             })
             .catch((error) => {
                 console.log(error);
             });
         //lưu vào storage 
-        
+
     }, [items]);
-    
-    
-    
+
+
+
 
     const [activeCategory, setActiveCategory] = useState('');
-    
+
 
 
     const filterItems = (category, isSorted) => {
@@ -125,9 +125,8 @@ function Menu() {
         if (category === 'All') {
             setMenuItems(items);
             return;
-        }else if(category === 'Giảm dần'){
+        } else if (category === 'Giảm dần') {
             const newItems = [...items].sort((a, b) => b.price - a.price);
-            console.log(newItems);
             setMenuItems(newItems);
             return;
         }
@@ -162,7 +161,7 @@ function Menu() {
 
             {isOpen && <ModalFood setData={data} setIsOpen={setIsOpen} />}
             <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={checkOpen}>
-                <CircularProgress color="inherit" /> 
+                <CircularProgress color="inherit" />
             </Backdrop>
         </div>
     );

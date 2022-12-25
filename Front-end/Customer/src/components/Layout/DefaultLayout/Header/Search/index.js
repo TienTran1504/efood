@@ -41,7 +41,7 @@ function Search({ setIsOpen, setData }) {
         };
         const numberLimit = 7;
         axios
-            .get(`http://localhost:3000/api/v1/auth/foods?limit=${numberLimit}`, { headers: headers })
+            .get(`http://localhost:3000/api/v1/auth/foods?limit=${numberLimit}&search=${searchValue}`, { headers: headers })
             .then((res) => {
                 var temparray = searchValue.split(' ');
 
@@ -93,7 +93,6 @@ function Search({ setIsOpen, setData }) {
                                     setIsOpen(true);
                                     setShowResult(false);
                                     setData(result);
-                                    console.log(result);
                                 }}
                             >
                                 <FoodItem data={result} />

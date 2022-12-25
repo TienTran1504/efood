@@ -5,6 +5,8 @@ import axios from 'axios';
 import { faSpinner, faTimes, faTruck, faCoins, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DialogFeedback from '~/components/UiComponent/DialogFeedback';//feedback Dialog
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function PaymentHistory() {
     const [bills, setBills] = useState([]);
@@ -128,6 +130,11 @@ function PaymentHistory() {
                                     <th className={classes['feedback']}>Đánh giá</th>
                                 </tr>
                                 {
+                                    bills.length == 0 ? 
+                                        <Backdrop style={{zIndex: 3}} className={classes.backdrop} open>
+                                            <CircularProgress color="inherit" /> 
+                                        </Backdrop>
+                                    : 
                                     bills.map((item, idx) => (
                                         <tr key={idx}
                                             className={classes['Item']} style={{ marginBottom: '4px' }}>

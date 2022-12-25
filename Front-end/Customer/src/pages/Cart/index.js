@@ -1,6 +1,8 @@
 import ShoppingCart from '~/components/Layout/DefaultLayout/ShoppingCart/index.js';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const token = JSON.stringify(localStorage.getItem('token')).split('"').join('');
 const tokenAuth = 'Bearer ' + token;
@@ -8,10 +10,9 @@ const headers = {
     Authorization: tokenAuth,
 };
 
-console.log(headers);
-
 function Cart() {
     const [cartItems, setCartItems] = useState([]);
+    const [loading, setLoading] = useState(true);
     const onAdd = (product) => {
         const exist = cartItems.find((x) => x.id === product.id);
         if (exist) {
@@ -41,15 +42,23 @@ function Cart() {
     };
 
     const createBill = (receiver, phone, address, method, message, total) => {
+        setLoading(true);
         axios.post(
             `http://localhost:3000/api/v1/bills`,
             { receiver: receiver, phone: phone, address: address, method: method, message: message, total: total },
             { headers: headers },
         );
+
+        setTimeout(function () {
+            setLoading(false);
+            alert('Đặt hàng thành công!');
+            window.location.reload(false);
+        }, 5000);
     };
 
     useEffect(() => {
         if (token !== 'null') {
+            setLoading(true);
             axios
                 .get(`http://localhost:3000/api/v1/customer/cart`, { headers: headers })
                 .then((res) => {
@@ -63,6 +72,10 @@ function Cart() {
                             quantity: item.quantity,
                         })),
                     );
+
+                    setTimeout(function () {
+                        setLoading(false);
+                    }, 2000);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -78,6 +91,10 @@ function Cart() {
                 onRemove={onRemove}
                 createBill={createBill}
             ></ShoppingCart>
+
+            <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loading}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </>
     );
 }

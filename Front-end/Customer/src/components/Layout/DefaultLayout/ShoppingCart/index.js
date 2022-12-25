@@ -47,15 +47,14 @@ const ShoppingCart = (props) => {
         const name = document.getElementById('name').value;
         const phone = document.getElementById('phone').value;
         const message = document.getElementById('message').value;
-        const address = document.getElementById('address').value;
+        var address = 'Nhận tại quầy';
+        if (paymentMethod === 'Thanh toán khi nhận hàng') address = document.getElementById('address').value;
 
         if (name === '') alert('Họ và tên người nhận không hợp lệ!');
         else if (!PhoneNumberValid(phone)) alert('Số điện thoại không hợp lệ!');
         else if (paymentMethod === 'Thanh toán khi nhận hàng' && address.length < 6) alert('Địa chỉ không hợp lệ!');
         else {
             createBill(name, phone, address, paymentMethod, message, totalPrice);
-            alert('Đặt hàng thành công!');
-            window.location.reload(false);
         }
     };
 

@@ -7,7 +7,6 @@ import { faChartSimple, faBox, faArrowRightFromBracket, faAddressBook } from '@f
 
 import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import defaultavatar from './sidar-img/logo.png';
 
 const obj = [
     {
@@ -30,18 +29,21 @@ const obj = [
         link: '/contacts',
         icon: faAddressBook,
     },
-
 ];
 
 function Sidebar() {
     const usenavigate = useNavigate();
     const path = useLocation();
     const [selectedImage, setSelectedImage] = useState(null);
-    const [dialogConfirm, setDialogConfirm] = useState(false);
+    var profile = JSON.parse(localStorage.getItem('profile'));
 
-    function areUSureDelete() {
-        console.log(dialogConfirm);
-    }
+    console.log(profile);
+
+    // const [dialogConfirm, setDialogConfirm] = useState(false);
+
+    // function areUSureDelete() {
+    //     console.log(dialogConfirm);
+    // }
 
     const convertToBase64 = (file) => {
         return new Promise((resolve, reject) => {
@@ -68,6 +70,7 @@ function Sidebar() {
         localStorage.removeItem('products');
         localStorage.removeItem('users');
         localStorage.removeItem('bills');
+        localStorage.removeItem('profile');
         localStorage.setItem('user-state', false);
 
         usenavigate('/');
@@ -77,14 +80,14 @@ function Sidebar() {
             <div className={classes['navbar__avt']}>
                 <div>
                     <img
-                        src={selectedImage !== null ? URL.createObjectURL(selectedImage) : defaultavatar}
+                        src={selectedImage !== null ? URL.createObjectURL(selectedImage) : profile.image}
                         alt="Ảnh nền"
                         className={classes['background']}
                     ></img>
                 </div>
             </div>
 
-            <span className={classes['nickname']}>Admin</span>
+            <span className={classes['nickname']}>{profile.username}</span>
 
             <div className={classes['choose__avt']}>
                 <svg width="20" height="18" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">

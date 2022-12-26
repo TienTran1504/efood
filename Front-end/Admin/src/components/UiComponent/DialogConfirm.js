@@ -32,7 +32,7 @@ export default function DialogConfirm({ onDialog }) {
                 }}
             >
                 {/* <h2>Are you sure ?</h2> */}
-                <h3>Xác nhận xoá ?!</h3>
+                <h3>Xác nhận xoá !</h3>
                 {/* <h3>{message}</h3> */}
 
                 <div style={{ display: 'flex', alignItems: 'center', color: 'white' }}>

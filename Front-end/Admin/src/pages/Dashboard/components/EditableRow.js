@@ -26,7 +26,7 @@ function EditableRow({ id, order, handleEditStatus, handleCancelClick }) {
     return (
         <tr>
             <td>{id + 1}</td>
-            <td>{order.orderId}</td>
+            <td>{order.email}</td>
             <td>{order.payMethod}</td>
             <td>{order.date.split('T')[0]}</td>
             <td>

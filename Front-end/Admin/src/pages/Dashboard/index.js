@@ -1,7 +1,8 @@
 import classes from './Dashboard.module.scss';
 import { faCheckCircle, faMoneyBill, faRefresh, faSpinner, faTimes, faTruck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState, useEffect, Fragment, useRef } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
+import { Backdrop, CircularProgress } from '@mui/material';
 
 import request from '~/utils/request';
 import ReadOnlyRow from './components/ReadOnlyRow';
@@ -21,8 +22,10 @@ function Dashboard() {
         { name: 'Canceled', icon: faTimes, number: 0, color: 'red' },
     ]);
     const [editFormData, setEditFormData] = useState('');
-    const [editorderId, setEditOrderId] = useState(null);
-    const [editTable, setEditTable] = useState(false);
+    const [editOrderId, setEditOrderId] = useState(null);
+    const [deleteOrderId, setDeleteOrderId] = useState('');
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const [dialogConfirm, setDialog] = useState(false);
     const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
@@ -32,7 +35,6 @@ function Dashboard() {
 
     useEffect(() => {
         var newStatus = [...status];
-
         newStatus.forEach((st) => {
             st.number = 0;
         });
@@ -51,17 +53,23 @@ function Dashboard() {
     }, [storageSave]);
 
     const handleRefreshData = async () => {
+        setIsLoading(true);
         await request
             .get('bills', { headers: headers })
             .then((res) => {
                 console.log(res.data);
+                const users = JSON.parse(localStorage.getItem('users'));
                 if (res.data.msg !== 'Dont have any bills to show') {
                     var newBills = [];
-
                     res.data.sortedBills.forEach((value, index) => {
+                        var email = '';
+                        users.forEach((user) => {
+                            if (user.id === value.createdBy) email = user.email;
+                        });
                         var newbill = {
                             orderId: value._id,
                             payMethod: value.method,
+                            email: email,
                             date: value.createdAt,
                             status: value.status,
                             total: value.total,
@@ -74,6 +82,7 @@ function Dashboard() {
                 }
             })
             .catch((err) => console.log(err));
+        setIsLoading(false);
     };
 
     const handleFilterBills = (e) => {
@@ -97,46 +106,51 @@ function Dashboard() {
 
     const handleEditFormSubmit = async (e) => {
         e.preventDefault();
-        const newOrders = [...orders];
-        const index = orders.findIndex((order) => order.orderId === editorderId);
-        newOrders[index].status = editFormData;
-        const res = await request
-            .patch('bills/' + editorderId, { status: editFormData }, { headers: headers })
-            .then((res) => {
-                setOrders(newOrders);
-                setStorageSave(newOrders);
-                localStorage.setItem('bills', JSON.stringify(newOrders));
-                setEditOrderId(null);
-            })
-            .catch((err) => console.log(err));
-        setEditTable(false);
+        console.log(editFormData);
+        if (editFormData !== '') {
+            setIsLoading(true);
+
+            const newOrders = [...orders];
+            const index = orders.findIndex((order) => order.orderId === editOrderId);
+            newOrders[index].status = editFormData;
+
+            const res = await request
+                .patch('bills/' + editOrderId, { status: editFormData }, { headers: headers })
+                .then((res) => {
+                    setOrders(newOrders);
+                    setStorageSave(newOrders);
+                    setEditFormData('');
+                    localStorage.setItem('bills', JSON.stringify(newOrders));
+                })
+                .catch((err) => console.log(err));
+            setIsLoading(false);
+        }
+        setEditOrderId(null);
     };
 
     const handleEditClick = (e, order) => {
         e.preventDefault();
         setEditOrderId(order.orderId);
-        setEditFormData(order.status);
-        setEditTable(true);
     };
 
     const handleCancelClick = (state) => {
         setEditOrderId(null);
-        setEditTable(false);
     };
 
     const handlShowDialogConfirm = (isLoading) => {
         setDialog(isLoading);
     };
+
     const handleDeleteClick = (orderId) => {
         handlShowDialogConfirm(true);
-        setEditOrderId(orderId);
+        setDeleteOrderId(orderId);
     };
 
     const areUSureDelete = async (choose) => {
         if (choose) {
             const newOrders = [...orders];
-            const index = orders.findIndex((order) => order.orderId === editorderId);
-
+            const index = orders.findIndex((order) => order.orderId === deleteOrderId);
+            setIsLoading(true);
             await request
                 .delete('bills/' + orders[index].orderId, { headers: headers })
                 .then((res) => {
@@ -146,6 +160,7 @@ function Dashboard() {
                     localStorage.setItem('bills', JSON.stringify(newOrders));
                 })
                 .catch((res) => console.log(res));
+            setIsLoading(false);
         }
         setDialog(false);
     };
@@ -172,7 +187,7 @@ function Dashboard() {
                         <thead>
                             <tr className={classes['title-form']}>
                                 <th>#</th>
-                                <th>Order ID</th>
+                                <th>Email Order</th>
                                 <th>Payment Method</th>
                                 <th>Order Date</th>
                                 <th>Status</th>
@@ -183,7 +198,7 @@ function Dashboard() {
                         <tbody>
                             {orders.map((order, index) => (
                                 <Fragment key={index}>
-                                    {editTable ? (
+                                    {editOrderId === order.orderId ? (
                                         <EditableRow
                                             id={index}
                                             order={order}
@@ -214,6 +229,9 @@ function Dashboard() {
                 </Button>
             </div>
             {dialogConfirm && <DialogConfirm onDialog={areUSureDelete} />}
+            <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </div>
     );
 }

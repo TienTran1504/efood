@@ -1,9 +1,9 @@
 import classes from './Contacts.module.scss';
-import { faAddressCard, faRefresh, faUser } from '@fortawesome/free-solid-svg-icons';
-import React, { useState, useEffect, Fragment } from 'react';
+import { faRefresh } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, Fragment } from 'react';
+import { Backdrop, CircularProgress } from '@mui/material';
 
 import request from '~/utils/request';
-import Role from '~/components/TypeOf';
 import ReadOnlyRow from './components/ReadOnlyRow';
 import DialogConfirm from '~/components/UiComponent/DialogConfirm';
 import Button from '~/components/Layout/DefaultLayout/Header/Button';
@@ -13,115 +13,33 @@ function Contacts() {
     //add for process delete modal
     const [idUser, setIdUser] = useState(null);
     const [dialogConfirm, setDialog] = useState(false);
-    const [typeRole, setTypeRole] = useState([
-        { name: 'Contacts', icon: faAddressCard, number: 0, color: 'blue' },
-        { name: 'Admin', icon: faUser, number: 0, color: 'red' },
-    ]);
+    const [isLoading, setIsLoading] = useState(false);
     //====================
-    const [storageSave, setStorageSave] = useState(JSON.parse(localStorage.getItem('users')) || []);
-    const [users, setUsers] = useState(JSON.parse(localStorage.getItem('users')) || []);
-    const [editFormData, setEditFormData] = useState({
-        id: '',
-        name: '',
-        email: '',
-        typeOf: '',
-        gender: '',
-    });
-    const [editUserId, setEditUserId] = useState(null);
+    const [users, setUsers] = useState(JSON.parse(localStorage.getItem('contacts')) || []);
     const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
     const headers = {
         Authorization: tokenAuth,
     };
 
-    useEffect(() => {
-        var newTypeRole = [...typeRole];
-        newTypeRole.forEach((role) => {
-            role.number = 0;
-        });
-
-        storageSave.forEach((value) => {
-            if (value.typeOf === 'Customer') newTypeRole[0].number += 1;
-            else newTypeRole[1].number += 1;
-        });
-        setTypeRole(newTypeRole);
-    }, [storageSave]);
-
     const handleRefreshData = async () => {
-        await request
-            .get('admin', { headers: headers })
-            .then((res) => {
-                var newUsers = [];
-                res.data.sortedUsers.forEach((value, index) => {
-                    var newUser = {
-                        id: value._id,
-                        name: value.name,
-                        email: value.email,
-                        gender: value.gender,
-                        typeOf: value.typeOf,
-                        image: value.image,
-                    };
-                    newUsers = [...newUsers, newUser];
-                });
-                setUsers(newUsers);
-                setStorageSave(newUsers);
-                localStorage.setItem('users', JSON.stringify(newUsers));
-            })
-            .catch((err) => console.log(err));
-    };
-
-    const handleFilterUsers = (e) => {
-        var newUsers = [];
-        var key = e.target.firstChild.innerText;
-
-        storageSave.forEach((value) => {
-            if (value.typeOf === key) newUsers = [...newUsers, value];
+        setIsLoading(true);
+        await request.get('admin/contacts', { headers: headers }).then((res) => {
+            console.log(res.data);
+            var newContacts = [];
+            res.data.sortedContacts.forEach((value) => {
+                var newContact = {
+                    id: value._id,
+                    email: value.email,
+                    title: value.title,
+                    content: value.content,
+                    createdAt: value.createdAt,
+                };
+                newContacts = [...newContacts, newContact];
+            });
+            setUsers(newContacts);
+            localStorage.setItem('contacts', JSON.stringify(newContacts));
         });
-        setUsers(newUsers);
-    };
-
-    const handleEditFormChange = (e) => {
-        const fieldName = e.target.getAttribute('name');
-        const fieldValue = e.target.value;
-
-        const newFormData = { ...editFormData };
-        newFormData[fieldName] = fieldValue;
-
-        setEditFormData(newFormData);
-    };
-
-    const handleEditFormSubmit = async (e) => {
-        e.preventDefault();
-
-        const newUsers = [...users];
-
-        const index = users.findIndex((user) => user.id === editUserId);
-        newUsers[index] = editFormData;
-        console.log('admin/' + editUserId);
-        const res = await request
-            .patch('admin/' + editUserId, { typeOf: editFormData.typeOf }, { headers: headers })
-            .then((res) => {
-                setUsers(newUsers);
-                setEditUserId(null);
-            })
-            .catch((err) => console.log(err));
-    };
-
-    const handleEditClick = (e, user) => {
-        e.preventDefault();
-        setEditUserId(user.id);
-
-        const formValues = {
-            name: user.name,
-            email: user.email,
-            role: user.role,
-            gender: user.gender,
-        };
-
-        setEditFormData(formValues);
-    };
-
-    const handleCancelClick = () => {
-        setEditUserId(null);
+        setIsLoading(false);
     };
 
     const handleDeleteClick = (userId) => {
@@ -130,16 +48,16 @@ function Contacts() {
     };
 
     //add functon process delete
-    const areUSureDelete = (choose) => {
+    const areUSureDelete = async (choose) => {
         if (choose) {
             const newUsers = [...users];
             const index = users.findIndex((user) => user.id === idUser);
-
-            request
-                .delete('admin/' + users[index].id, { headers: headers })
+            setIsLoading(true);
+            await request
+                .delete('admin/contacts/' + users[index].id, { headers: headers })
                 .then((res) => console.log(res))
                 .catch((res) => console.log(res));
-
+            setIsLoading(false);
             newUsers.splice(index, 1);
             setUsers(newUsers);
         }
@@ -150,17 +68,10 @@ function Contacts() {
         setDialog(isLoading);
     };
 
-    // const [modalOpen, setModalOpen] = useState(false);
     return (
         <div className={classes.wrapper}>
             <div className={classes.title}>
                 <p className={classes['title-name']}>CONTACTS MANAGEMENT</p>
-            </div>
-
-            <div className={classes.filter}>
-                {typeRole.map((role, index) => (
-                    <Role key={index} props={role} handleFilterUsers={handleFilterUsers} />
-                ))}
             </div>
             <div className={classes['product-list']}>
                 <div className={classes['product-list-content']}>
@@ -169,13 +80,12 @@ function Contacts() {
                         Refresh <FontAwesomeIcon icon={faRefresh} />
                     </Button>
                 </div>
-                <form className={classes['menu-form']} onSubmit={handleEditFormSubmit}>
+                <form className={classes['menu-form']}>
                     <table>
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Name</th>
-                                <th>Email</th>
+                                <th>Email Feedback</th>
                                 <th>Date</th>
                                 <th>Actions</th>
                             </tr>
@@ -183,14 +93,7 @@ function Contacts() {
                         <tbody>
                             {users.map((user, index) => (
                                 <Fragment key={index}>
-
-                                    <ReadOnlyRow
-                                        index={index + 1}
-                                        user={user}
-                                        handleEditClick={handleEditClick}
-                                        handleDeleteClick={handleDeleteClick}
-                                    />
-
+                                    <ReadOnlyRow index={index + 1} user={user} handleDeleteClick={handleDeleteClick} />
                                 </Fragment>
                             ))}
                         </tbody>
@@ -198,6 +101,9 @@ function Contacts() {
                 </form>
             </div>
             {dialogConfirm && <DialogConfirm onDialog={areUSureDelete} />}
+            <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </div>
     );
 }

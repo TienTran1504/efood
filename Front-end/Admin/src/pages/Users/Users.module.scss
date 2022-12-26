@@ -88,6 +88,7 @@
     margin: auto;
 }
 .product-list-content {
+    padding-left: 8px;
     padding-top: 12px;
     padding-right: 8px;
     display: flex;
@@ -142,6 +143,11 @@ form * {
     background-color: transparent;
     margin-left: 16px;
 }
+
+.btn:hover {
+    cursor: pointer;
+}
+
 .input-edit-id {
     width: 20px;
 }
@@ -159,6 +165,10 @@ label {
 }
 .input-edit-role {
     width: 20px;
+}
+
+.input-edit-role:hover {
+    cursor: pointer;
 }
 
 .openModalBtn {

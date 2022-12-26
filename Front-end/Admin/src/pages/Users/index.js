@@ -1,6 +1,7 @@
 import classes from './Users.module.scss';
 import { faRefresh, faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
 import React, { useState, useEffect, Fragment } from 'react';
+import { Backdrop, CircularProgress } from '@mui/material';
 
 import request from '~/utils/request';
 import Role from '~/components/TypeOf';
@@ -12,6 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function Users() {
     //add for process delete modal
+    const [isLoading, setIsLoading] = useState(false);
     const [idUser, setIdUser] = useState(null);
     const [dialogConfirm, setDialog] = useState(false);
     const [typeRole, setTypeRole] = useState([
@@ -48,26 +50,32 @@ function Users() {
     }, [storageSave]);
 
     const handleRefreshData = async () => {
+        setIsLoading(true);
         await request
             .get('admin', { headers: headers })
             .then((res) => {
                 var newUsers = [];
+                const userId = localStorage.getItem('userId');
+                console.log(res.data);
                 res.data.sortedUsers.forEach((value, index) => {
-                    var newUser = {
-                        id: value._id,
-                        name: value.name,
-                        email: value.email,
-                        gender: value.gender,
-                        typeOf: value.typeOf,
-                        image: value.image,
-                    };
-                    newUsers = [...newUsers, newUser];
+                    if (userId !== value._id) {
+                        var newUser = {
+                            id: value._id,
+                            name: value.name,
+                            email: value.email,
+                            gender: value.gender,
+                            typeOf: value.typeOf,
+                            image: value.image,
+                        };
+                        newUsers = [...newUsers, newUser];
+                    }
                 });
                 setUsers(newUsers);
                 setStorageSave(newUsers);
                 localStorage.setItem('users', JSON.stringify(newUsers));
             })
             .catch((err) => console.log(err));
+        setIsLoading(false);
     };
 
     const handleFilterUsers = (e) => {
@@ -97,7 +105,8 @@ function Users() {
 
         const index = users.findIndex((user) => user.id === editUserId);
         newUsers[index] = editFormData;
-        console.log('admin/' + editUserId);
+
+        setIsLoading(true);
         const res = await request
             .patch('admin/' + editUserId, { typeOf: editFormData.typeOf }, { headers: headers })
             .then((res) => {
@@ -107,6 +116,7 @@ function Users() {
                 setEditUserId(null);
             })
             .catch((err) => console.log(err));
+        setIsLoading(false);
     };
 
     const handleEditClick = (e, user) => {
@@ -138,10 +148,13 @@ function Users() {
             const newUsers = [...users];
             const index = users.findIndex((user) => user.id === idUser);
 
+            setIsLoading(true);
             request
                 .delete('admin/' + users[index].id, { headers: headers })
                 .then((res) => console.log(res))
                 .catch((res) => console.log(res));
+
+            setIsLoading(false);
 
             newUsers.splice(index, 1);
             setUsers(newUsers);
@@ -211,6 +224,9 @@ function Users() {
                 </form>
             </div>
             {dialogConfirm && <DialogConfirm onDialog={areUSureDelete} />}
+            <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </div>
     );
 }

@@ -16,9 +16,9 @@ function ReadOnlyRow({ id, order, handleEditClick, handleDeleteClick }) {
         if (order.status === 'Ordered') {
             statusRef.current.classList.add(classes.purple);
         } else if (order.status === 'Delivered') {
-            statusRef.current.classList.add(classes.blue);
-        } else if (order.status === 'Shipping') {
             statusRef.current.classList.add(classes.green);
+        } else if (order.status === 'Shipping') {
+            statusRef.current.classList.add(classes.blue);
         } else if (order.status === 'Canceled') {
             statusRef.current.classList.add(classes.red);
         }
@@ -27,7 +27,7 @@ function ReadOnlyRow({ id, order, handleEditClick, handleDeleteClick }) {
     return (
         <tr>
             <td>{id + 1}</td>
-            <td>{order.orderId}</td>
+            <td>{order.email}</td>
             <td>{order.payMethod}</td>
             <td>{order.date.split('T')[0]}</td>
             <td>

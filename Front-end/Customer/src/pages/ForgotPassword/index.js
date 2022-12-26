@@ -2,12 +2,16 @@ import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Backdrop, CircularProgress } from '@mui/material';
+
 import request from '~/utils/request';
 import Images from '~/assets/images';
 import classes from '../Login/Login.module.scss';
 import Swal from 'sweetalert2';
 
 export default function ForgotPassword() {
+    const [isLoading, setIsLoading] = useState(false);
+
     const [email, setEmail] = useState('');
     const [validEmail, setValidEmail] = useState(false);
 
@@ -23,6 +27,7 @@ export default function ForgotPassword() {
 
     async function handleSentOtp() {
         console.log('sent otp');
+        setIsLoading(true);
         await request
             .post('auth/otp', { email: email })
             .then((res) => {
@@ -44,6 +49,7 @@ export default function ForgotPassword() {
                     width: '50rem',
                 });
             });
+        setIsLoading(false);
     }
 
     function handleEmailCheck() {
@@ -80,15 +86,17 @@ export default function ForgotPassword() {
             otpVerify: otpVerify,
             otp: otp,
         };
-
+        setIsLoading(true);
         // make axios post
         const res = await request.patch('auth/forgotpassword', objResgister);
+        setIsLoading(false);
         console.log(res.data);
-        if (res.data.msg === null) {
+        if (!res.data.msg) {
             setEmail('');
             setPass('');
             setRewritePass('');
             setOtp('');
+            setConfirmEmail(false);
             Swal.fire({
                 title: 'Đổi mật khẩu thành công!',
                 text: 'Hãy quay về đăng nhập',
@@ -96,7 +104,7 @@ export default function ForgotPassword() {
                 confirmButtonText: 'Hoàn tất',
                 width: '50rem',
             });
-        } else if (res.response.data.msg === 'Incorrect OTP') {
+        } else if (res.data.msg === 'Incorrect OTP') {
             Swal.fire({
                 icon: 'error',
                 title: 'Lỗi',
@@ -195,6 +203,9 @@ export default function ForgotPassword() {
                     </p>
                 </footer>
             </div>
+            <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </div>
     );
 }

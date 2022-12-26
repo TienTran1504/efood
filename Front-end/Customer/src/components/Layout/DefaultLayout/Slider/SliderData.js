@@ -1,7 +1,9 @@
 const sliderHomeItems = {
     sliderImage: [
-        { image: 'https://i.imgur.com/j7YxcrK.jpeg' },
-        { image: 'https://i.imgur.com/Gu5Cznz.jpg' },
+        {
+            image: 'https://www.fairfaxstatic.com.au/etc/designs/ffx/cq-site-clientlibs-designs-good-food/css/img/gf-social-home.jpg',
+        },
+        { image: 'https://www.expatica.com/app/uploads/sites/5/2014/05/french-food.jpg' },
         { image: 'https://i.imgur.com/fcsJk7e.jpeg' },
         { image: 'https://i.imgur.com/CUG0Aof.jpeg' },
         { image: 'https://i.imgur.com/mjicxPK.jpeg' },
@@ -19,8 +21,10 @@ const sliderHomeItems = {
 
 const sliderMenuItems = {
     sliderImage: [
-        { image: 'https://i.imgur.com/j7YxcrK.jpeg' },
-        { image: 'https://i.imgur.com/Gu5Cznz.jpg' },
+        {
+            image: 'https://www.fairfaxstatic.com.au/etc/designs/ffx/cq-site-clientlibs-designs-good-food/css/img/gf-social-home.jpg',
+        },
+        { image: 'https://www.expatica.com/app/uploads/sites/5/2014/05/french-food.jpg' },
         { image: 'https://i.imgur.com/fcsJk7e.jpeg' },
         { image: 'https://i.imgur.com/CUG0Aof.jpeg' },
         { image: 'https://i.imgur.com/mjicxPK.jpeg' },

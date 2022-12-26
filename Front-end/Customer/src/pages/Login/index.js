@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Backdrop, CircularProgress } from '@mui/material';
 
 import request from '~/utils/request';
 import Images from '~/assets/images';
@@ -7,6 +8,8 @@ import classes from './Login.module.scss';
 import Swal from 'sweetalert2';
 
 export default function LoginPage() {
+    const [isLoading, setIsLoading] = useState(false);
+
     const loginNavigate = useNavigate();
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
@@ -27,14 +30,25 @@ export default function LoginPage() {
             password: pass,
         };
 
+        setIsLoading(true);
         // make axios post
         await request
             .post('auth/login', objLogin)
-            .then((res) => {
+            .then(async (res) => {
+                var profile;
+
+                await request
+                    .get('customer', { headers: { Authorization: 'Bearer ' + res.data.token } })
+                    .then((res) => (profile = { image: res.data.image, bonus: res.data.bonus }))
+                    .catch((res) => console.log(res));
+
+                console.log(profile);
                 console.log(res.data);
                 localStorage.setItem('user-state', true);
                 localStorage.setItem('userId', res.data.user.id);
                 localStorage.setItem('token', res.data.token);
+                localStorage.setItem('profile2', JSON.stringify(profile));
+
                 setCurrentUser(true);
                 Swal.fire({
                     title: 'Đăng nhập thành công!',
@@ -51,12 +65,13 @@ export default function LoginPage() {
                     width: '50rem',
                 });
             });
+        setIsLoading(false);
     }
 
     return (
         <div className={classes.wrapper}>
             <div className={classes.wrapper__logo}>
-                <img src={Images.logoImage} alt="none"/>
+                <img src={Images.logoImage} alt="none" />
             </div>
             <div className={classes.wrapper__form}>
                 <h2>Đăng nhập</h2>
@@ -95,6 +110,9 @@ export default function LoginPage() {
                     </p>
                 </footer>
             </div>
+            <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </div>
     );
 }

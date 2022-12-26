@@ -33,93 +33,139 @@ export default function LoginPage() {
             .post('auth/login', objLogin)
             .then(async (res) => {
                 console.log(res.data);
-                localStorage.setItem('user-state', true);
-                localStorage.setItem('userId', res.data.user.id);
-                localStorage.setItem('token', res.data.token);
-                let timerInterval;
-                Swal.fire({
-                    title: 'Đang tải...',
-                    html: 'Vui lòng bạn hãy trong giây lát',
-                    timer: 20000,
-                    timerProgressBar: true,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    },
-                    willClose: () => {
-                        clearInterval(timerInterval);
-                    },
-                }).then((result) => {
-                    /* Read more about handling dismissals below */
-                    if (result.dismiss === Swal.DismissReason.timer) {
-                        console.log('I was closed by the timer');
-                    }
-                });
+                if (res.data.user.typeOf === 'Admin') {
+                    var img;
+                    await request
+                        .get('admin/' + res.data.user.id, { headers: { Authorization: 'Bearer ' + res.data.token } })
+                        .then((res) => (img = res.data.user.image));
 
-                await request
-                    .get('bills', { headers: { Authorization: 'Bearer ' + res.data.token } })
-                    .then((res) => {
-                        console.log(res.data);
-                        if (res.data.msg !== 'Dont have any bills to show') {
-                            var newBills = [];
-
-                            res.data.sortedBills.forEach((value, index) => {
-                                var newbill = {
-                                    orderId: value._id,
-                                    payMethod: value.method,
-                                    date: value.createdAt,
-                                    status: value.status,
-                                    total: value.total,
-                                };
-                                newBills = [...newBills, newbill];
-                            });
-                            localStorage.setItem('bills', JSON.stringify(newBills));
+                    localStorage.setItem('user-state', true);
+                    localStorage.setItem('userId', res.data.user.id);
+                    localStorage.setItem('token', res.data.token);
+                    localStorage.setItem(
+                        'profile',
+                        JSON.stringify({
+                            username: res.data.user.name,
+                            image: img,
+                        }),
+                    );
+                    let timerInterval;
+                    Swal.fire({
+                        title: 'Đang tải...',
+                        html: 'Vui lòng bạn hãy chờ trong giây lát',
+                        timer: 100000,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval);
+                        },
+                    }).then((result) => {
+                        /* Read more about handling dismissals below */
+                        if (result.dismiss === Swal.DismissReason.timer) {
+                            console.log('I was closed by the timer');
                         }
-                    })
-                    .catch((err) => console.log(err));
+                    });
 
-                await request
-                    .get('auth/foods')
-                    .then((res) => {
-                        var newFoods = [];
-                        res.data.sortedFoods.forEach((value, index) => {
-                            var newFood = {
-                                id: value._id,
-                                name: value.name,
-                                typeOf: value.typeOf,
-                                price: value.price,
-                                image: value.image,
-                            };
-                            newFoods = [...newFoods, newFood];
-                        });
-                        localStorage.setItem('products', JSON.stringify(newFoods));
-                    })
-                    .catch((err) => console.log(err));
+                    await request
+                        .get('admin', { headers: { Authorization: 'Bearer ' + res.data.token } })
+                        .then((res) => {
+                            var newUsers = [];
+                            res.data.sortedUsers.forEach((value, index) => {
+                                var newUser = {
+                                    id: value._id,
+                                    name: value.name,
+                                    email: value.email,
+                                    gender: value.gender,
+                                    typeOf: value.typeOf,
+                                    image: value.image,
+                                };
+                                newUsers = [...newUsers, newUser];
+                            });
+                            localStorage.setItem('users', JSON.stringify(newUsers));
+                        })
+                        .catch((err) => console.log(err));
 
-                await request
-                    .get('admin', { headers: { Authorization: 'Bearer ' + res.data.token } })
-                    .then((res) => {
-                        var newUsers = [];
-                        res.data.sortedUsers.forEach((value, index) => {
-                            var newUser = {
-                                id: value._id,
-                                name: value.name,
-                                email: value.email,
-                                gender: value.gender,
-                                typeOf: value.typeOf,
-                                image: value.image,
-                            };
-                            newUsers = [...newUsers, newUser];
+                    await request
+                        .get('bills', { headers: { Authorization: 'Bearer ' + res.data.token } })
+                        .then((res) => {
+                            console.log(res.data);
+                            const users = JSON.parse(localStorage.getItem('users'));
+                            if (res.data.msg !== 'Dont have any bills to show') {
+                                var newBills = [];
+
+                                res.data.sortedBills.forEach((value, index) => {
+                                    var email = '';
+                                    users.forEach((user) => {
+                                        if (user.id === value.createdBy) email = user.email;
+                                    });
+                                    var newbill = {
+                                        orderId: value._id,
+                                        payMethod: value.method,
+                                        email: email,
+                                        date: value.createdAt,
+                                        status: value.status,
+                                        total: value.total,
+                                    };
+                                    newBills = [...newBills, newbill];
+                                });
+                                localStorage.setItem('bills', JSON.stringify(newBills));
+                            }
+                        })
+                        .catch((err) => console.log(err));
+
+                    await request
+                        .get('auth/foods')
+                        .then((res) => {
+                            var newFoods = [];
+                            res.data.sortedFoods.forEach((value, index) => {
+                                var newFood = {
+                                    id: value._id,
+                                    name: value.name,
+                                    typeOf: value.typeOf,
+                                    price: value.price,
+                                    image: value.image,
+                                };
+                                newFoods = [...newFoods, newFood];
+                            });
+                            localStorage.setItem('products', JSON.stringify(newFoods));
+                        })
+                        .catch((err) => console.log(err));
+
+                    await request
+                        .get('admin/contacts', { headers: { Authorization: 'Bearer ' + res.data.token } })
+                        .then((res) => {
+                            console.log(res.data);
+                            var newContacts = [];
+                            res.data.sortedContacts.forEach((value) => {
+                                var newContact = {
+                                    id: value._id,
+                                    email: value.email,
+                                    title: value.title,
+                                    content: value.content,
+                                    createdAt: value.createdAt,
+                                };
+                                newContacts = [...newContacts, newContact];
+                            });
+                            localStorage.setItem('contacts', JSON.stringify(newContacts));
                         });
-                        localStorage.setItem('users', JSON.stringify(newUsers));
-                    })
-                    .catch((err) => console.log(err));
-                setCurrentUser(true);
-                Swal.fire({
-                    title: 'Đăng nhập thành công!',
-                    icon: 'success',
-                    confirmButtonText: 'Hoàn tất',
-                    width: '50rem',
-                });
+
+                    setCurrentUser(true);
+                    Swal.fire({
+                        title: 'Đăng nhập thành công!',
+                        icon: 'success',
+                        confirmButtonText: 'Hoàn tất',
+                        width: '50rem',
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Tài khoản không thuộc diện Admin!',
+                        width: '50rem',
+                    });
+                }
             })
             .catch((error) => {
                 Swal.fire({

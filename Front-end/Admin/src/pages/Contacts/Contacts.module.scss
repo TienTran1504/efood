@@ -88,6 +88,7 @@
     margin: auto;
 }
 .product-list-content {
+    padding-left: 8px;
     padding-top: 12px;
     padding-right: 8px;
     display: flex;
@@ -142,6 +143,10 @@ form * {
     background-color: transparent;
     margin-left: 16px;
 }
+
+.btn:hover {
+    cursor: pointer;
+}
 .input-edit-id {
     width: 20px;
 }
@@ -169,4 +174,27 @@ label {
     background-color: cornflowerblue;
     color: white;
     cursor: pointer;
+}
+
+.title__alert {
+    font-size: 2.5rem;
+}
+
+.text__alert {
+    font-size: 1.5rem;
+}
+
+.content__feedback {
+    font-size: 1.5rem;
+    text-align: start;
+}
+
+.title__feedback {
+    font-size: 1.75rem;
+    text-align: start;
+    margin-bottom: 1.5rem;
+}
+
+.swal2-confirm {
+    font-size: 1.3em;
 }

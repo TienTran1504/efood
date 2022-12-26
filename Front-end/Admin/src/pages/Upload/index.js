@@ -1,6 +1,9 @@
 import classes from './Upload.module.scss';
 import { faBowlFood, faBowlRice, faIceCream, faMugHot, faRefresh } from '@fortawesome/free-solid-svg-icons';
 import React, { useState, useEffect, Fragment } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Backdrop, CircularProgress } from '@mui/material';
+
 import ReadOnlyRow from './components/ReadOnlyRow';
 import EditableRow from './components/EditableRow';
 import Button from '~/components/Layout/DefaultLayout/Header/Button';
@@ -8,9 +11,9 @@ import Modal from './components/Modal';
 import TypeFood from './components/TypeFood';
 import DialogConfirm from '~/components/UiComponent/DialogConfirm';
 import request from '~/utils/request';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function Upload() {
+    const [isLoading, setIsLoading] = useState(false);
     const [dialogConfirm, setDialog] = useState(false);
     const [idFood, setIdFood] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
@@ -62,6 +65,7 @@ function Upload() {
 
     //Handle call api foods
     const handleRefreshData = async () => {
+        setIsLoading(true);
         await request
             .get('auth/foods')
             .then((res) => {
@@ -81,6 +85,7 @@ function Upload() {
                 localStorage.setItem('products', JSON.stringify(newFoods));
             })
             .catch((err) => console.log(err));
+        setIsLoading(false);
     };
 
     const handleFilterProducts = (e) => {
@@ -138,7 +143,7 @@ function Upload() {
             price: addFormData.price,
             image: addFormData.image,
         };
-
+        setIsLoading(true);
         await request
             .post('/foods', newFood, { headers: headers })
             .then((res) => {
@@ -157,6 +162,7 @@ function Upload() {
                 alert('Thêm món ăn hoàn tất');
             })
             .catch((err) => console.log(err));
+        setIsLoading(false);
     };
 
     //Handle input change information of food
@@ -196,6 +202,7 @@ function Upload() {
         newFoods[index] = editedContact;
         newFoods[index].price = newFoods[index].price;
 
+        setIsLoading(true);
         const res = await request
             .patch(
                 'foods/' + editFoodId,
@@ -215,6 +222,7 @@ function Upload() {
                 setEditFoodId(null);
             })
             .catch((err) => console.log(err));
+        setIsLoading(false);
     };
 
     const handleEditClick = (e, food) => {
@@ -249,6 +257,7 @@ function Upload() {
             const newFoods = [...foods];
             const index = foods.findIndex((food) => food.id === idFood);
 
+            setIsLoading(true);
             await request
                 .delete('foods/' + foods[index].id, { headers: headers })
                 .then((res) => {
@@ -258,6 +267,7 @@ function Upload() {
                     localStorage.setItem('products', JSON.stringify(newFoods));
                 })
                 .catch((res) => console.log(res));
+            setIsLoading(false);
         }
         setDialog(false);
     };
@@ -343,6 +353,9 @@ function Upload() {
                 </form>
             </div>
             {dialogConfirm && <DialogConfirm onDialog={areUSureDelete} />}
+            <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </div>
     );
 }

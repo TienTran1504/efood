@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState} from "react";
 import classes from "../ModelFood/ModelFood.module.scss";
 import { RiCloseLine } from "react-icons/ri";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import axios from "axios";
 import {
   faPlusCircle,
@@ -11,6 +13,7 @@ import {
 const ModalFood = ({ setIsOpen, setData }) => {
 
   const [quantityNumber, setquantityNumber] = useState(1);
+  const [isSent, setisSent] = useState(true);
 
   function numberWithDot(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -24,20 +27,27 @@ const ModalFood = ({ setIsOpen, setData }) => {
     setquantityNumber(quantityNumber - 1);
   }
 
-  function AddFoodToCart() {
-    setIsOpen(false);
+  function AddFoodToCart(){
+    setisSent(false);
+    console.log(isSent);
     const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
     const headers = {
-        Authorization: tokenAuth,
+      Authorization: tokenAuth,
     };
     const obj = {
       quantity: quantityNumber,
     }
+    
     axios.post(`http://localhost:3000/api/v1/customer/cart/${setData._id}`, obj, { headers: headers }).then((res) => {
-      console.log(res);
-    }).catch(error => {
-      console.log(error)
-    })
+      setIsOpen(false);
+      console.log(isSent);
+  }).catch(error => {
+    console.log(error);
+    alert("Đã có trong giỏ hàng!");
+  }).finally(()=>{
+    setisSent(true);
+  });
+
   }
 
   return (
@@ -100,8 +110,15 @@ const ModalFood = ({ setIsOpen, setData }) => {
           </div>
         </div>
       </div>
+      {
+        (!isSent) ?
+            <Backdrop style={{ zIndex: 1 }} className={classes.backdrop} open>
+                <CircularProgress color="inherit" />
+            </Backdrop>
+            : ''
+      }
     </>
   );
 };
 
-export default ModalFood;
+export default React.memo(ModalFood);

@@ -1,12 +1,12 @@
-// import Background from 'hero-slider/dist/components/Slide/Background';
-// import { margin } from '@mui/system';
+
 import React, { useState } from 'react'; // nạp thư viện react
-import './styleFeedback.css'
+import classes from "../UiComponent/FeedBack.module.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faStar,
-    faFileLines,
-    faPen
+    // faFileLines,
+    faPen,
+    faX
 } from '@fortawesome/free-solid-svg-icons';
 import Rate from './Rate';
 import axios from 'axios';
@@ -72,31 +72,32 @@ export default function DialogFeedback({items, IsOpen}) {
                 boxSizing: 'border-box'
             }}
         >
-        <div className='containerFeedback'>
-            <div className='headerFeedback'>
-                ĐÁNH GIÁ ĐƠN HÀNG
+        <div className={classes['containerFeedback']}>
+            <div className={classes['headerFeedback']}>
+                <div>ĐÁNH GIÁ ĐƠN HÀNG</div>
+                <div><FontAwesomeIcon className={classes['icon']}icon={faX} style={{cursor:'pointer', marginRight: '20px',}} onClick={()=>IsOpen(false)}/></div>
             </div>
-            <div className='content'>
-                <div className='tableLeft'>
-                    <table className='table1'>
+            <div className={classes['content'] }>
+                <div className={classes['tableLeft']}>
+                    <table className={classes['table1']}>
 
                         <tbody>
-                            <tr className='head'>
+                            <tr className={classes['head']}>
                                 <td>Đơn hàng</td>
                             </tr>
                             {/* item */}
                             {items.map((item)=> (
-                                <tr className='rowItem' key={item.id}>
+                                <tr className={classes['rowItem']} key={item.id}>
                                     <td>
-                                        <div className='infoLeft'>
+                                        <div className={classes['infoLeft']}>
                                             <img src={item.image} alt="error" />
                                             <div>
                                                 {item.name}
                                             </div>
                                         </div>
-                                        <div className='infoRight'>
-                                            <FontAwesomeIcon icon={faStar} style={{marginRight:'10px', cursor:'pointer'}} onClick={()=>ratingFeedback(item.foodId)}/>
-                                            <FontAwesomeIcon icon={faFileLines} style={{marginRight:'10px', cursor:'pointer'}} />
+                                        <div className={classes['infoRight']}>
+                                            <FontAwesomeIcon icon={faStar} className={classes['icon']} style={{marginRight:'10px', cursor:'pointer'}} onClick={()=>ratingFeedback(item.foodId)}/>
+                                            {/* <FontAwesomeIcon icon={faFileLines} style={{marginRight:'10px', cursor:'pointer'}} /> */}
                                         </div>
                                     </td>
                                     {console.log(item)}
@@ -121,7 +122,7 @@ export default function DialogFeedback({items, IsOpen}) {
                             {/* item */}
                         </tbody>
                     </table>
-                    <table className='table2'>
+                    {/* <table className='table2'>
                         <tbody>
                             <tr className='head'>
                                 <td>Nhận xét món ăn</td>
@@ -132,17 +133,17 @@ export default function DialogFeedback({items, IsOpen}) {
                                 </td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table> */}
                 </div>
-                <div className='tableRight'>
-                    <div className='content2'>
-                        <div className='head2'><FontAwesomeIcon icon={faPen}/> Nhận xét cửa hàng</div>
+                <div className={classes['tableRight']}>
+                    <div className={classes['content2']}>
+                        <div className={classes['head2']}><FontAwesomeIcon icon={faPen}/> Nhận xét cửa hàng</div>
                         <textarea type='text' style={{border:'none', margin:'1px 1px', outline: 'none'}} name="" id="fbStore" cols="37" rows="16" placeholder='Write feedback here...'></textarea>
                     </div>
 
                 </div>
             </div>
-            <button type='submit' className='submitFeedback' onClick={confirmSubmit}>Submit</button>
+            <button type='submit' className={classes['submitFeedback']} onClick={confirmSubmit}>Submit</button>
         </div>
         {statusRate&&<Rate product={IdProduct} key={1} onDialog={handleRating}/>}
         </div>

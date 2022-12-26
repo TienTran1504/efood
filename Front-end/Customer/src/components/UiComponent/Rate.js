@@ -2,31 +2,7 @@ import React, { useState } from 'react'
 import { Rating } from 'react-simple-star-rating'
 import axios from 'axios';
 
-// const token = JSON.stringify(localStorage.getItem('token')).split('"').join('');
-// const tokenAuth = 'Bearer ' + token;
-// const headers = {
-//     Authorization: tokenAuth,
-// };
 
-
-
-function checkRating(ratingValue){
-  var message;
-  // switch (ratingValue) {
-  //   case 1:
-  //     message = "cảm ơn đánh giá cửa bạn"
-  //     break;
-  
-  //   default:
-  //     message = "chua danh gia??"
-  //     break;
-  // }
-
-
-  return (
-    <div>{message}</div>
-  )
-}
 
 function RatingMessage( Rate ){
   const messages = {

@@ -10,39 +10,57 @@ const headers = {
     Authorization: tokenAuth,
 };
 
+var editting;
+var time = 1000;
+
 function Cart() {
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(false);
+
     async function onAdd(product) {
+        clearTimeout(editting);
         const exist = cartItems.find((x) => x.id === product.id);
         if (exist) {
-            setCartItems(cartItems.map((x) => (x.id === product.id ? { ...exist, quantity: exist.quantity + 1 } : x)));
-            await axios.patch(
-                `http://localhost:3000/api/v1/customer/cart/${product.id}`,
-                { quantity: exist.quantity + 1 },
-                { headers: headers },
-            );
+            setCartItems(cartItems.map((x) => (x.id === product.id ? { ...exist, quantity: ++exist.quantity } : x)));
+
+            editting = setTimeout(function () {
+                patchCart();
+            }, time);
         } else {
             setCartItems([...cartItems, { ...product, quantity: 1 }]);
         }
     }
+
     async function onRemove(product) {
+        clearTimeout(editting);
         const exist = cartItems.find((x) => x.id === product.id);
         if (exist.quantity === 1) {
             setCartItems(cartItems.filter((x) => x.id !== product.id));
+            setLoading(true);
             await axios.patch(
                 `http://localhost:3000/api/v1/customer/cart/delete/${product.id}`,
                 {},
                 { headers: headers },
             );
+            setLoading(false);
         } else {
-            setCartItems(cartItems.map((x) => (x.id === product.id ? { ...exist, quantity: exist.quantity - 1 } : x)));
+            setCartItems(cartItems.map((x) => (x.id === product.id ? { ...exist, quantity: --exist.quantity } : x)));
+            editting = setTimeout(function () {
+                patchCart();
+            }, time);
+        }
+    }
+
+    async function patchCart() {
+        setLoading(true);
+        for (let i = 0; i < cartItems.length; i++) {
             await axios.patch(
-                `http://localhost:3000/api/v1/customer/cart/${product.id}`,
-                { quantity: exist.quantity - 1 },
+                `http://localhost:3000/api/v1/customer/cart/${cartItems[i].id}`,
+                { quantity: cartItems[i].quantity },
                 { headers: headers },
             );
         }
+        setLoading(false);
     }
 
     async function createBill(receiver, phone, address, method, message, total) {

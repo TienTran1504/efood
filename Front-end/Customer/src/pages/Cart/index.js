@@ -37,11 +37,9 @@ function Cart() {
         if (exist.quantity === 1) {
             setCartItems(cartItems.filter((x) => x.id !== product.id));
             setLoading(true);
-            await axios.patch(
-                `http://localhost:3000/api/v1/customer/cart/delete/${product.id}`,
-                {},
-                { headers: headers },
-            );
+            editting = setTimeout(function () {
+                removeItem(product);
+            }, time);
             setLoading(false);
         } else {
             setCartItems(cartItems.map((x) => (x.id === product.id ? { ...exist, quantity: --exist.quantity } : x)));
@@ -49,6 +47,16 @@ function Cart() {
                 patchCart();
             }, time);
         }
+    }
+
+    async function removeItem(product) {
+        setLoading(true);
+        await axios.patch(
+            `http://localhost:3000/api/v1/customer/cart/delete/${product.id}`,
+            { quantity: 0 },
+            { headers: headers },
+        );
+        setLoading(false);
     }
 
     async function patchCart() {

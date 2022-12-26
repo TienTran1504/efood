@@ -134,31 +134,31 @@ function PaymentHistory() {
                                     <th className={classes['feedback']}>Đánh giá</th>
                                 </tr>
                                 {
-                                    (!isFetch && bills.length == 0) ? 
-                                        <Backdrop style={{zIndex: 1}} className={classes.backdrop} open>
-                                            <CircularProgress color="inherit" /> 
+                                    (!isFetch && bills.length === 0) ?
+                                        <Backdrop style={{ zIndex: 1 }} className={classes.backdrop} open>
+                                            <CircularProgress color="inherit" />
                                         </Backdrop>
-                                    : 
-                                    bills.map((item, idx) => (
-                                        <tr key={idx}
-                                            className={classes['Item']} style={{ marginBottom: '4px' }}>
-                                            <td className={classes['STTitem']}>{idx + 1}</td>
-                                            <td className={classes['methodItem']}>{item.method}</td>
-                                            <td className={classes['createDay']}>{item.createdAt.split('T')[0]}</td>
-                                            <td className={classes['totalItem']} style={{ fontWeight: 'bold' }}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.total)}</td>
-                                            <td className={classes['statusproduct']}>
-                                                {(item.status === 'Ordered' && <button disabled style={{ fontWeight: 'bold', boxSizing: 'border-box', backgroundColor: '#6672e4', padding: '0 32px', borderRadius: '6px', color: '#000' }}>Ordered</button>) ||
-                                                    (item.status === 'Delivered' && <button disabled style={{ fontWeight: 'bold', boxSizing: 'border-box', backgroundColor: '#38eca0', padding: '0 26px', borderRadius: '6px', color: '#000' }}>Delivered</button>) ||
-                                                    (item.status === 'Shipping' && <button disabled style={{ fontWeight: 'bold', backgroundColor: '#4b93fe', padding: '0 29px', borderRadius: '6px', color: '#000' }}>Shipping</button>) ||
-                                                    (item.status === 'Canceled' && <button disabled style={{ fontWeight: 'bold', backgroundColor: '#da4848', padding: '0 28px', borderRadius: '6px', color: '#000' }}>Canceled</button>)}
-                                            </td>
-                                            <td className={classes['feedback']}>
-                                                {item.status === 'Delivered' && <button className={classes['feedbackbtn']} onClick={() => handleFeedBack(item.orderList)} style={{ borderRadius: '6px' }}>Rating</button>}
-                                                {item.status !== 'Delivered' && <button disabled className={classes['feedbackbtn']} style={{ borderRadius: '6px' }}>Rating</button>}
-                                            </td>
-                                        </tr>
-                                    )
-                                    )
+                                        :
+                                        bills.map((item, idx) => (
+                                            <tr key={idx}
+                                                className={classes['Item']} style={{ marginBottom: '4px' }}>
+                                                <td className={classes['STTitem']} style={{ fontWeight: 'bold' }}>{idx + 1}</td>
+                                                <td className={classes['methodItem']} style={{ fontWeight: 'bold' }}>{item.method}</td>
+                                                <td className={classes['createDay']} style={{ fontWeight: 'bold' }}>{item.createdAt.split('T')[0]}</td>
+                                                <td className={classes['totalItem']} style={{ fontWeight: 'bold' }}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.total)}</td>
+                                                <td className={classes['statusproduct']}>
+                                                    {(item.status === 'Ordered' && <button disabled style={{ fontWeight: 'bold', backgroundColor: '#6672e4', padding: '0 32px', borderRadius: '6px', color: '#000' }}>Ordered</button>) ||
+                                                        (item.status === 'Delivered' && <button disabled style={{ fontWeight: 'bold', backgroundColor: '#38eca0', padding: '0 26px', borderRadius: '6px', color: '#000' }}>Delivered</button>) ||
+                                                        (item.status === 'Shipping' && <button disabled style={{ fontWeight: 'bold', backgroundColor: '#4b93fe', padding: '0 29px', borderRadius: '6px', color: '#000' }}>Shipping</button>) ||
+                                                        (item.status === 'Canceled' && <button disabled style={{ fontWeight: 'bold', backgroundColor: '#da4848', padding: '0 28px', borderRadius: '6px', color: '#000' }}>Canceled</button>)}
+                                                </td>
+                                                <td className={classes['feedback']}>
+                                                    {item.status === 'Delivered' && <button className={classes['feedbackbtn']} onClick={() => handleFeedBack(item.orderList)} style={{ borderRadius: '6px' }}>Rating</button>}
+                                                    {item.status !== 'Delivered' && <button disabled className={classes['feedbackbtn']} style={{ borderRadius: '6px' }}>Rating</button>}
+                                                </td>
+                                            </tr>
+                                        )
+                                        )
                                 }
                             </tbody>
                         </table>

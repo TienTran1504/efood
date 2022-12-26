@@ -34,9 +34,9 @@ function UpdatePassword() {
     const NewPassInput = useRef();
     const AgainPassInput = useRef();
     const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
-        const headers = {
-            Authorization: tokenAuth,
-        };
+    const headers = {
+        Authorization: tokenAuth,
+    };
 
     function handleSubmit2(e) {
         console.log(CurrentPass + ' ' + NewPass + ' ' + AgainPass);
@@ -44,9 +44,9 @@ function UpdatePassword() {
 
         if (CurrentPass === '' || NewPass === '' || AgainPass === '') {
             alert('Please fill all fields!')
-            setCheckCurrentPassValid(true);
-            setCheckNewPassValid(true);
-            setCheckAgainPassValid(true);
+            // setCheckCurrentPassValid(true);
+            // setCheckNewPassValid(true);
+            // setCheckAgainPassValid(true);
             e.preventDefault();
             return;
         }
@@ -100,7 +100,7 @@ function UpdatePassword() {
             setCheckNewPassValid(false);
         }
 
-        if(!checkCurrentPassValid && !checkNewPassValid && !checkAgainPassValid ){
+        if (!checkCurrentPassValid && !checkNewPassValid && !checkAgainPassValid) {
             const obj = {
                 currentPassword: CurrentPass,
                 newPassword: NewPass,
@@ -121,7 +121,7 @@ function UpdatePassword() {
                 setSaveSuccess(false);
             }, 3000)
         }
-        else{
+        else {
             setSaveSuccess(false);
         }
     }
@@ -169,14 +169,14 @@ function UpdatePassword() {
                                         onChange={(e) => setCurrentPass(e.target.value)}
                                     />
                                     <text>
-                                    {checkCurrentPassValid ? (
-                                        <div className={classes['error__password']}>
-                                            <FontAwesomeIcon icon={faExclamationCircle} />
-                                            Mật khẩu không khớp
-                                        </div>
-                                    ) : (
-                                        ''
-                                    )}
+                                        {checkCurrentPassValid ? (
+                                            <div className={classes['error__password']}>
+                                                <FontAwesomeIcon icon={faExclamationCircle} style={{ paddingRight: '4px' }} />
+                                                Mật khẩu không khớp
+                                            </div>
+                                        ) : (
+                                            ''
+                                        )}
                                     </text>
                                 </div>
                                 <div className={classes['content__form-text']}>
@@ -194,16 +194,16 @@ function UpdatePassword() {
                                         onChange={(e) => setNewPass(e.target.value)}
                                     />
                                     <text>
-                                    {checkNewPassValid ? (
-                                        <div className={classes['error__password']}>
-                                            <FontAwesomeIcon icon={faExclamationCircle} />
-                                            Mật khẩu mới không hợp lệ
-                                        </div>
-                                    ) : (
-                                        ''
-                                    )}
+                                        {checkNewPassValid ? (
+                                            <div className={classes['error__password']}>
+                                                <FontAwesomeIcon icon={faExclamationCircle} style={{ paddingRight: '4px' }} />
+                                                Mật khẩu mới không hợp lệ
+                                            </div>
+                                        ) : (
+                                            ''
+                                        )}
                                     </text>
-                                </div>  
+                                </div>
                                 <div className={classes['content__form-text']}>
                                     <div className={classes['content__form-start']}>
                                         <label htmlFor="againnew"></label>
@@ -219,14 +219,14 @@ function UpdatePassword() {
                                         onChange={(e) => setAgainPass(e.target.value)}
                                     />
                                     <text>
-                                    {checkAgainPassValid ? (
-                                        <div className={classes['error__password']}>
-                                            <FontAwesomeIcon icon={faExclamationCircle} />
-                                            Mật khẩu xác nhận không khớp
-                                        </div>
-                                    ) : (
-                                        ''
-                                    )}
+                                        {checkAgainPassValid ? (
+                                            <div className={classes['error__password']}>
+                                                <FontAwesomeIcon icon={faExclamationCircle} style={{ paddingRight: '4px' }} />
+                                                Mật khẩu xác nhận không khớp
+                                            </div>
+                                        ) : (
+                                            ''
+                                        )}
                                     </text>
                                 </div>
 

@@ -7,8 +7,8 @@ function EditableRow({ id, order, handleEditStatus, handleCancelClick }) {
     const [prevLi, setPrevLi] = useState(null);
     const status = [
         { name: 'Ordered', bgColor: 'purple' },
-        { name: 'Shipping', bgColor: 'green' },
-        { name: 'Delivered', bgColor: 'blue' },
+        { name: 'Shipping', bgColor: 'blue' },
+        { name: 'Delivered', bgColor: 'green' },
         { name: 'Canceled', bgColor: 'red' },
     ];
 

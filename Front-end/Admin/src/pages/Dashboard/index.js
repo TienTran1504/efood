@@ -16,8 +16,8 @@ function Dashboard() {
     const [total, setTotal] = useState(0);
     const [status, setStatus] = useState([
         { name: 'Ordered', icon: faSpinner, number: 0, color: 'purple' },
-        { name: 'Shipping', icon: faTruck, number: 0, color: 'green' },
-        { name: 'Delivered', icon: faCheckCircle, number: 0, color: 'blue' },
+        { name: 'Shipping', icon: faTruck, number: 0, color: 'blue' },
+        { name: 'Delivered', icon: faCheckCircle, number: 0, color: 'green' },
         { name: 'Canceled', icon: faTimes, number: 0, color: 'red' },
     ]);
     const [editFormData, setEditFormData] = useState('');

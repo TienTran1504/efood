@@ -51,11 +51,7 @@ function Cart() {
 
     async function removeItem(product) {
         setLoading(true);
-        await axios.patch(
-            `http://localhost:3000/api/v1/customer/cart/delete/${product.id}`,
-            { quantity: 0 },
-            { headers: headers },
-        );
+        await axios.patch(`http://localhost:3000/api/v1/customer/cart/delete/${product.id}`, {}, { headers: headers });
         setLoading(false);
     }
 

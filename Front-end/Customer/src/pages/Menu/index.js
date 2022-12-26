@@ -6,11 +6,12 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Categories from './Categories';
-import './product_style.css';
+// import './product_style.css';
 import MenuSlider from '~/components/Layout/DefaultLayout/MenuSlider';
 import ModalFood from '~/components/UiComponent/foodModel';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import classes from './styleMenu.module.scss';
 
 
 
@@ -25,24 +26,24 @@ const MenuList = ({ items, handleClickAddToCart }) => {
             onePage.push(items[i]);
         }
         pages.push(
-            <div className="section-center" key={i}>
+            <div className={classes['section-center']} key={i}>
                 {onePage.map((item) => {
                     const { id, title, image, rating, price } = item;
                     return (
-                        <article key={id} className="menu-item">
-                            <img src={image} alt={title} className="photo" />
-                            <div className="item-hover">
+                        <article key={id} className={classes['menu-item']}>
+                            <img src={image} alt={title} className={classes['photo']} />
+                            <div className={classes['item-hover']}>
                                 <button
-                                    className="buttonAddItem"
+                                    className={classes['buttonAddItem']}
                                     type="button"
                                     onClick={() => handleClickAddToCart(item)}
                                 >
-                                    <FontAwesomeIcon icon={faShoppingCart} className="_icon" />
+                                    <FontAwesomeIcon icon={faShoppingCart} className={classes['_icon']} />
                                 </button>
 
-                                <h4 className="price">{price} VND</h4>
+                                <h4 className={classes['price']}>{price} VND</h4>
                             </div>
-                            <div className="item-info">
+                            <div className={classes['item-info']}>
                                 {/* <h4>{title}  </h4> */}
                                 <div>
                                     <h4>{title}</h4>
@@ -154,7 +155,7 @@ function Menu() {
                 slogan={sliderMenuItems.slogan}
             />
 
-            <div className="body__container">
+            <div className={classes['body__container']}>
                 <Categories categories={categories} activeCategory={activeCategory} filterItems={filterItems} isFirstLoad={isFirstLoad} />
                 <MenuList items={menuItems} key={1} handleClickAddToCart={handleClickAddToCart} />
             </div>

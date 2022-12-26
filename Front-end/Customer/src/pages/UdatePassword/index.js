@@ -2,7 +2,8 @@ import classes from './UpdatePassword.module.scss';
 import Sidebar from '~/components/Layout/DefaultLayout/Sidebar';
 import React, { useState, useRef, useEffect } from 'react';
 import bgrImg from './userprofile-img/bgr2.jpg';
-import Images from '~/assets/images';
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 
 function PassworkValid(password) {
@@ -32,31 +33,14 @@ function UpdatePassword() {
     const CurrentPassInput = useRef();
     const NewPassInput = useRef();
     const AgainPassInput = useRef();
+    const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
+        const headers = {
+            Authorization: tokenAuth,
+        };
 
     function handleSubmit2(e) {
         console.log(CurrentPass + ' ' + NewPass + ' ' + AgainPass);
         e.preventDefault();
-
-        const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
-        const headers = {
-            Authorization: tokenAuth,
-        };
-        const obj = {
-            currentPassword: CurrentPass,
-            newPassword: NewPass,
-        };
-        axios
-            .patch(`http://localhost:3000/api/v1/customer/updatepassword`, obj, { headers: headers })
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((error) => {
-                alert("Mật khẩu hiện tại không đúng");
-                console.log(error);
-                setSaveSuccess(false);
-                return;
-            });
-
 
         if (CurrentPass === '' || NewPass === '' || AgainPass === '') {
             alert('Please fill all fields!')
@@ -73,7 +57,6 @@ function UpdatePassword() {
         }
 
         if (!PassworkValid(CurrentPass)) {
-            alert("Passwork is not valid.");
             setCheckCurrentPassValid(true);
             setCurrentPass('');
             CurrentPassInput.current.focus();
@@ -85,7 +68,6 @@ function UpdatePassword() {
         }
 
         if (!PassworkValid(NewPass)) {
-            alert("Passwork is not valid.");
             setCheckNewPassValid(true);
             setNewPass('');
             NewPassInput.current.focus();
@@ -97,7 +79,6 @@ function UpdatePassword() {
         }
 
         if (!CheckPassEqual(NewPass, AgainPass)) {
-            alert("Again passwork is wrong.");
             setCheckAgainPassValid(true);
             setAgainPass('');
             AgainPassInput.current.focus();
@@ -109,7 +90,6 @@ function UpdatePassword() {
         }
 
         if (CheckPassEqual(CurrentPass, NewPass)) {
-            alert("New passwork is same to old password.");
             setCheckNewPassValid(true);
             setNewPass('');
             NewPassInput.current.focus();
@@ -120,18 +100,33 @@ function UpdatePassword() {
             setCheckNewPassValid(false);
         }
 
-        setSaveSuccess(true);
-        setTimeout(() => {
-            setSaveSuccess(false);
-        }, 2000)
+        if(!checkCurrentPassValid && !checkNewPassValid && !checkAgainPassValid ){
+            const obj = {
+                currentPassword: CurrentPass,
+                newPassword: NewPass,
+            };
+            axios
+                .patch(`http://localhost:3000/api/v1/customer/updatepassword`, obj, { headers: headers })
+                .then((res) => {
+                    console.log(res);
+                    setSaveSuccess(true);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setCheckCurrentPassValid(true);
+                    setCurrentPass('');
+                });
 
+            setTimeout(() => {
+                setSaveSuccess(false);
+            }, 3000)
+        }
+        else{
+            setSaveSuccess(false);
+        }
     }
 
     useEffect(() => {
-        const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
-        const headers = {
-            Authorization: tokenAuth,
-        };
         axios.get(`http://localhost:3000/api/v1/customer`, { headers: headers }).then((res) => {
             setName(res.data.userName);
             setimgURL(res.data.image);
@@ -173,6 +168,16 @@ function UpdatePassword() {
                                         value={CurrentPass}
                                         onChange={(e) => setCurrentPass(e.target.value)}
                                     />
+                                    <text>
+                                    {checkCurrentPassValid ? (
+                                        <div className={classes['error__password']}>
+                                            <FontAwesomeIcon icon={faExclamationCircle} />
+                                            Mật khẩu không khớp
+                                        </div>
+                                    ) : (
+                                        ''
+                                    )}
+                                    </text>
                                 </div>
                                 <div className={classes['content__form-text']}>
                                     <div className={classes['content__form-start']}>
@@ -188,7 +193,17 @@ function UpdatePassword() {
                                         value={NewPass}
                                         onChange={(e) => setNewPass(e.target.value)}
                                     />
-                                </div>
+                                    <text>
+                                    {checkNewPassValid ? (
+                                        <div className={classes['error__password']}>
+                                            <FontAwesomeIcon icon={faExclamationCircle} />
+                                            Mật khẩu mới không hợp lệ
+                                        </div>
+                                    ) : (
+                                        ''
+                                    )}
+                                    </text>
+                                </div>  
                                 <div className={classes['content__form-text']}>
                                     <div className={classes['content__form-start']}>
                                         <label htmlFor="againnew"></label>
@@ -203,6 +218,16 @@ function UpdatePassword() {
                                         value={AgainPass}
                                         onChange={(e) => setAgainPass(e.target.value)}
                                     />
+                                    <text>
+                                    {checkAgainPassValid ? (
+                                        <div className={classes['error__password']}>
+                                            <FontAwesomeIcon icon={faExclamationCircle} />
+                                            Mật khẩu xác nhận không khớp
+                                        </div>
+                                    ) : (
+                                        ''
+                                    )}
+                                    </text>
                                 </div>
 
                                 {!saveSuccess && <button onClick={handleSubmit2} type="submit" className={classes['save__btn']}>LƯU THAY ĐỔI</button>}

@@ -17,32 +17,36 @@ function PaymentHistory() {
     const [bonusPoint, setBonusPoint] = useState(0);
     const [IsOpen, setIsOpen] = useState(false);
     const [ListProduct, setListProduct] = useState(null);
+    const [isFetch, setIsFetch] = useState(false);
     const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
     const headers = {
         Authorization: tokenAuth,
     };
 
     useEffect(() => {
-        async function getData(){ 
-            const data = await axios.get(`http://localhost:3000/api/v1/bills/user`, { headers: headers });
-            setBills(data.data.bills);
-            data.data.bills.map((item, index) => {
-                if (item.status === 'Ordered') {
-                    setOrdered(ordered => ordered + 1);
-                }
-                else if (item.status === 'Delivered') {
-                    setDelivered(delivered => delivered + 1);
-                }
-                else if (item.status === 'Canceled') {
-                    setCancled(canceled => canceled + 1);
-                }
-                else if (item.status === 'Shipping') {
-                    setShipping(shipping => shipping + 1);
-                }
+        axios
+            .get(`http://localhost:3000/api/v1/bills/user`, { headers: headers })
+            .then((data) => {
+                setBills(data.data.bills);
+                data.data.bills.map((item, index) => {
+                    if (item.status === 'Ordered') {
+                        setOrdered(ordered => ordered + 1);
+                    }
+                    else if (item.status === 'Delivered') {
+                        setDelivered(delivered => delivered + 1);
+                    }
+                    else if (item.status === 'Canceled') {
+                        setCancled(canceled => canceled + 1);
+                    }
+                    else if (item.status === 'Shipping') {
+                        setShipping(shipping => shipping + 1);
+                    }
+                });
+                setIsFetch(true);
+            })
+            .catch((error) => {
+                console.log(error);
             });
-        }
-           
-        getData();
     }, []);
 
 
@@ -130,8 +134,8 @@ function PaymentHistory() {
                                     <th className={classes['feedback']}>Đánh giá</th>
                                 </tr>
                                 {
-                                    bills.length == 0 ? 
-                                        <Backdrop style={{zIndex: 3}} className={classes.backdrop} open>
+                                    (!isFetch && bills.length == 0) ? 
+                                        <Backdrop style={{zIndex: 1}} className={classes.backdrop} open>
                                             <CircularProgress color="inherit" /> 
                                         </Backdrop>
                                     : 

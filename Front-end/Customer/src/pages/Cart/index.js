@@ -13,11 +13,11 @@ const headers = {
 function Cart() {
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(false);
-    const onAdd = (product) => {
+    async function onAdd(product) {
         const exist = cartItems.find((x) => x.id === product.id);
         if (exist) {
             setCartItems(cartItems.map((x) => (x.id === product.id ? { ...exist, quantity: exist.quantity + 1 } : x)));
-            axios.patch(
+            await axios.patch(
                 `http://localhost:3000/api/v1/customer/cart/${product.id}`,
                 { quantity: exist.quantity + 1 },
                 { headers: headers },
@@ -25,41 +25,43 @@ function Cart() {
         } else {
             setCartItems([...cartItems, { ...product, quantity: 1 }]);
         }
-    };
-    const onRemove = (product) => {
+    }
+    async function onRemove(product) {
         const exist = cartItems.find((x) => x.id === product.id);
         if (exist.quantity === 1) {
             setCartItems(cartItems.filter((x) => x.id !== product.id));
-            axios.patch(`http://localhost:3000/api/v1/customer/cart/delete/${product.id}`, {}, { headers: headers });
+            await axios.patch(
+                `http://localhost:3000/api/v1/customer/cart/delete/${product.id}`,
+                {},
+                { headers: headers },
+            );
         } else {
             setCartItems(cartItems.map((x) => (x.id === product.id ? { ...exist, quantity: exist.quantity - 1 } : x)));
-            axios.patch(
+            await axios.patch(
                 `http://localhost:3000/api/v1/customer/cart/${product.id}`,
                 { quantity: exist.quantity - 1 },
                 { headers: headers },
             );
         }
-    };
+    }
 
-    const createBill = (receiver, phone, address, method, message, total) => {
+    async function createBill(receiver, phone, address, method, message, total) {
         setLoading(true);
-        axios.post(
+        await axios.post(
             `http://localhost:3000/api/v1/bills`,
             { receiver: receiver, phone: phone, address: address, method: method, message: message, total: total },
             { headers: headers },
         );
 
-        setTimeout(function () {
-            setLoading(false);
-            alert('Đặt hàng thành công!');
-            window.location.reload(false);
-        }, 5000);
-    };
+        setLoading(false);
+        alert('Đặt hàng thành công!');
+        window.location.reload(false);
+    }
 
-    useEffect(() => {
+    async function fetchData() {
         if (token !== 'null') {
             setLoading(true);
-            axios
+            await axios
                 .get(`http://localhost:3000/api/v1/customer/cart`, { headers: headers })
                 .then((res) => {
                     setCartItems(
@@ -79,6 +81,10 @@ function Cart() {
                     console.log(error);
                 });
         }
+    }
+
+    useEffect(() => {
+        fetchData();
     }, []);
 
     return (

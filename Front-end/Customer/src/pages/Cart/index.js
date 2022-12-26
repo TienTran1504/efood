@@ -12,7 +12,7 @@ const headers = {
 
 function Cart() {
     const [cartItems, setCartItems] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const onAdd = (product) => {
         const exist = cartItems.find((x) => x.id === product.id);
         if (exist) {
@@ -73,9 +73,7 @@ function Cart() {
                         })),
                     );
 
-                    setTimeout(function () {
-                        setLoading(false);
-                    }, 2000);
+                    setLoading(false);
                 })
                 .catch((error) => {
                     console.log(error);

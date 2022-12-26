@@ -2,9 +2,13 @@ import classes from './Profile.module.scss';
 import Sidebar from '~/components/Layout/DefaultLayout/Sidebar';
 import React, { useState, useRef, useEffect } from 'react';
 import bgrImg from './userprofile-img/bgr2.jpg';
-import Images from '~/assets/images';
 import axios from 'axios';
 import moment from 'moment'
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 function PhoneNumberValid(number) {
     return /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/.test(number);
@@ -44,6 +48,7 @@ function Profile() {
     const [imgURL, setimgURL] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
     const [saveSuccess, setSaveSuccess] = useState(false);
+    const [isFetch, setIsFetch] = useState(false);
     const NameInput = useRef();
     const PhoneInput = useRef();
     const EmailInput = useRef();
@@ -86,6 +91,7 @@ function Profile() {
                 setPhone(res.data.phone);
                 setBirthday(moment(res.data.birthday).format('YYYY-MM-DD'));
                 setimgURL(res.data.image);
+                setIsFetch(true);
             })
             .catch((error) => {
                 console.log(error);
@@ -94,7 +100,6 @@ function Profile() {
 
     function handleSubmit1(e) {
         e.preventDefault();
-        setNickName(Name);
         const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
         const headers = {
             Authorization: tokenAuth,
@@ -116,25 +121,13 @@ function Profile() {
                 console.log(error);
             });
 
-        if (Name === '' || Phone === '' || Email === '' || Gender === '' || Address === '') {
+        if (Name === '' || Phone === '' ||Email === '' || Gender === '' || Address === '') {
             alert('Please fill all fields!');
-            setCheckNameValid(true);
-            setCheckEmailValid(true);
-            setCheckGenderValid(true);
-            setCheckPhoneValid(true);
-            setCheckAddressValid(true);
             e.preventDefault();
             return;
-        } else {
-            setCheckNameValid(false);
-            setCheckEmailValid(false);
-            setCheckGenderValid(false);
-            setCheckPhoneValid(false);
-            setCheckAddressValid(false);
-        }
+        } 
 
         if (Name.length < 3) {
-            alert('This name is not exist.');
             setCheckNameValid(true);
             setName('');
             NameInput.current.focus();
@@ -145,7 +138,6 @@ function Profile() {
         }
 
         if (!PhoneNumberValid(Phone)) {
-            alert('Phone is not exist.');
             setCheckPhoneValid(true);
             setPhone('');
             PhoneInput.current.focus();
@@ -156,7 +148,6 @@ function Profile() {
         }
 
         if (!EmailValid(Email)) {
-            alert('Email is not exist.');
             setCheckEmailValid(true);
             setEmail('');
             EmailInput.current.focus();
@@ -167,7 +158,6 @@ function Profile() {
         }
 
         if (!GenderValid(Gender)) {
-            alert('Gender is not exist.');
             setCheckGenderValid(true);
             setGender('');
             GenderInput.current.focus();
@@ -177,10 +167,24 @@ function Profile() {
             setCheckGenderValid(false);
         }
 
-        setSaveSuccess(true);
-        setTimeout(() => {
+        if(Address.length < 2){
+            setCheckAddressValid(true);
+            setAddress('');
+            AddressInput.current.focus();
+            e.preventDefault();
+            return;
+        } else{
+            setCheckAddressValid(false);
+        }
+
+        if(!checkNameValid || !checkPhoneValid || !checkEmailValid || !checkGenderValid || !checkAddressValid)
+        {
+            setNickName(Name);
+            setSaveSuccess(true);
+            setTimeout(() => {
             setSaveSuccess(false);
-        }, 2000);
+            }, 2000);
+        }
     }
 
     return (
@@ -209,6 +213,16 @@ function Profile() {
                                         value={Name}
                                         onChange={(e) => setName(e.target.value)}
                                     ></input>
+                                    <text>
+                                        {checkNameValid ? (
+                                            <div className={classes['error__password']}>
+                                                <FontAwesomeIcon icon={faExclamationCircle} style={{ paddingRight: '4px' }} />
+                                                Tên không được quá ngắn
+                                            </div>
+                                        ) : (
+                                            ''
+                                        )}
+                                    </text>
                                 </div>
                                 <div className={classes['content__form-text']}>
                                     <div className={classes['content__form-start']}>
@@ -239,6 +253,16 @@ function Profile() {
                                         value={Phone}
                                         onChange={(e) => setPhone(e.target.value)}
                                     ></input>
+                                    <text>
+                                        {checkPhoneValid ? (
+                                            <div className={classes['error__password']}>
+                                                <FontAwesomeIcon icon={faExclamationCircle} style={{ paddingRight: '4px' }} />
+                                                Điện thoại không tồn tại
+                                            </div>
+                                        ) : (
+                                            ''
+                                        )}
+                                    </text>
                                 </div>
                                 <div className={classes['content__form-text']}>
                                     <div className={classes['content__form-start']}>
@@ -259,6 +283,16 @@ function Profile() {
                                             color: 'gray'
                                         }}
                                     ></input>
+                                    <text>
+                                        {checkEmailValid ? (
+                                            <div className={classes['error__password']}>
+                                                <FontAwesomeIcon icon={faExclamationCircle} style={{ paddingRight: '4px' }} />
+                                                Tên không được quá ngắn
+                                            </div>
+                                        ) : (
+                                            ''
+                                        )}
+                                    </text>
                                 </div>
                                 <div className={classes['content__form-text']}>
                                     <div className={classes['content__form-start']}>
@@ -274,6 +308,16 @@ function Profile() {
                                         value={Gender}
                                         onChange={(e) => setGender(e.target.value)}
                                     ></input>
+                                    <text>
+                                        {checkGenderValid ? (
+                                            <div className={classes['error__password']}>
+                                                <FontAwesomeIcon icon={faExclamationCircle} style={{ paddingRight: '4px' }} />
+                                                Giới tính không tồn tại
+                                            </div>
+                                        ) : (
+                                            ''
+                                        )}
+                                    </text>
                                 </div>
                                 <div className={classes['content__form-text']}>
                                     <div className={classes['content__form-start']}>
@@ -289,6 +333,16 @@ function Profile() {
                                         value={Address}
                                         onChange={(e) => setAddress(e.target.value)}
                                     ></input>
+                                    <text>
+                                        {checkAddressValid ? (
+                                            <div className={classes['error__password']}>
+                                                <FontAwesomeIcon icon={faExclamationCircle} style={{ paddingRight: '4px' }} />
+                                                Tên không được quá ngắn
+                                            </div>
+                                        ) : (
+                                            ''
+                                        )}
+                                    </text>
                                 </div>
 
                                 {!saveSuccess && (
@@ -349,6 +403,13 @@ function Profile() {
                     </div>
                 </div>
             </div>
+            {
+                (!isFetch) ?
+                    <Backdrop style={{ zIndex: 1 }} className={classes.backdrop} open>
+                        <CircularProgress color="inherit" />
+                    </Backdrop>
+                    : ''
+            }
         </div>
 
 

@@ -81,6 +81,11 @@
                             outline: none;
                         }
 
+                        .error__password{
+                            color: red;
+                            font-size: 15px;
+                        }
+
                         input[type='date']:invalid::-webkit-datetime-edit {
                             color: #999;
                         }

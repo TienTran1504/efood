@@ -8,7 +8,7 @@ function ReadOnlyRow({ index, user, handleDeleteClick }) {
         Swal.fire({
             html: `<div class=${classes.container__contact}>
             <div class=${classes.title__feedback}>
-                <h3>Title: ${user.title}</h3>
+                <h3>Name: ${user.title}</h3>
             </div>
             <div class=${classes.content__feedback}>
                 ${user.content}

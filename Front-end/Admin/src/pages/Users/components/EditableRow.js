@@ -1,10 +1,10 @@
 import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import classes from '../Users.module.scss';
 
 function EditableRow({ index, editFormData, handleEditFormChange, handleCancelClick }) {
-    const [role, setRole] = useState(editFormData.typrOf);
+    const [role, setRole] = useState(editFormData.typeOf);
     const handleRadio = (e) => {
         setRole(e.target.value);
         handleEditFormChange(e);

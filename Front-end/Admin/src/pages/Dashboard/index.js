@@ -221,8 +221,8 @@ function Dashboard() {
             </div>
             <div className={classes['box-btn']}>
                 <Button primary className={`${classes.incomeBtn} ${classes['btn-submit']}`}>
-                    <span id={classes['btn-submit-title']}>TODAY INCOME</span>
-                    <span id={classes['btn-submit-money']}>{`${total} VNĐ`}</span>
+                    <span id={classes['btn-submit-title']}>TOTAL INCOME</span>
+                    <span id={classes['btn-submit-money']}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total)}</span>
                     <div id={classes['btn-submit-icon']}>
                         <FontAwesomeIcon icon={faMoneyBill} />
                     </div>

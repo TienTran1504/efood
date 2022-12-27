@@ -44,7 +44,7 @@ function Modal({ setOpenModal, handleAddFormChange, handleAddFormSubmit }) {
                             <div className={classes.productType}>
                                 <p>Type</p>
                                 <select
-                                    class="selection"
+                                    className="selection"
                                     name="typeOf"
                                     onChange={handleAddFormChange}
                                 >

@@ -16,40 +16,12 @@ import Image from '~/components/Image';
 import Search from './Search';
 import ModalFood from './ModelFood';
 import images from '~/assets/images';
-const USER_ITEMS = [
-    {
-        icon: <FontAwesomeIcon icon={faUser} />,
-        title: 'View profile',
-        to: '/profile',
-    },
-    {
-        icon: <FontAwesomeIcon icon={faCircleQuestion} />,
-        title: 'Location',
-        to: '/location',
-    },
-    {
-        icon: <FontAwesomeIcon icon={faCartShopping} />,
-        title: 'Shopping cart',
-        to: '/cart',
-    },
-    {
-        icon: <FontAwesomeIcon icon={faSignOut} />,
-        title: 'Sign out',
-        to: '/login',
-        separate: true,
-        logOut: true,
-    },
-    {
-        icon: <FontAwesomeIcon icon={faCoins} />,
-        title: 'Bonus point: 100',
-        disabled: true,
-    },
-];
+
 function Header() {
     const [isOpen, setIsOpen] = useState(false);
     const [data, setData] = useState([]);
     const [currentUser, setCurrentUser] = useState(false);
-    const profile = JSON.parse(localStorage.getItem('profile2'));
+    const profile = JSON.parse(localStorage.getItem('profile2')) || { bonus: 0, image: '' };
     const USER_ITEMS = [
         {
             icon: <FontAwesomeIcon icon={faUser} />,

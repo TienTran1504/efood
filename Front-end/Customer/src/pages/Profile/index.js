@@ -213,7 +213,7 @@ function Profile() {
                                         value={Name}
                                         onChange={(e) => setName(e.target.value)}
                                     ></input>
-                                    <text>
+                                    <span>
                                         {checkNameValid ? (
                                             <div className={classes['error__password']}>
                                                 <FontAwesomeIcon icon={faExclamationCircle} style={{ paddingRight: '4px' }} />
@@ -222,7 +222,7 @@ function Profile() {
                                         ) : (
                                             ''
                                         )}
-                                    </text>
+                                    </span>
                                 </div>
                                 <div className={classes['content__form-text']}>
                                     <div className={classes['content__form-start']}>
@@ -253,7 +253,7 @@ function Profile() {
                                         value={Phone}
                                         onChange={(e) => setPhone(e.target.value)}
                                     ></input>
-                                    <text>
+                                    <span>
                                         {checkPhoneValid ? (
                                             <div className={classes['error__password']}>
                                                 <FontAwesomeIcon icon={faExclamationCircle} style={{ paddingRight: '4px' }} />
@@ -262,7 +262,7 @@ function Profile() {
                                         ) : (
                                             ''
                                         )}
-                                    </text>
+                                    </span>
                                 </div>
                                 <div className={classes['content__form-text']}>
                                     <div className={classes['content__form-start']}>
@@ -283,7 +283,7 @@ function Profile() {
                                             color: 'gray'
                                         }}
                                     ></input>
-                                    <text>
+                                    <span>
                                         {checkEmailValid ? (
                                             <div className={classes['error__password']}>
                                                 <FontAwesomeIcon icon={faExclamationCircle} style={{ paddingRight: '4px' }} />
@@ -292,7 +292,7 @@ function Profile() {
                                         ) : (
                                             ''
                                         )}
-                                    </text>
+                                    </span>
                                 </div>
                                 <div className={classes['content__form-text']}>
                                     <div className={classes['content__form-start']}>
@@ -308,7 +308,7 @@ function Profile() {
                                         value={Gender}
                                         onChange={(e) => setGender(e.target.value)}
                                     ></input>
-                                    <text>
+                                    <span>
                                         {checkGenderValid ? (
                                             <div className={classes['error__password']}>
                                                 <FontAwesomeIcon icon={faExclamationCircle} style={{ paddingRight: '4px' }} />
@@ -317,7 +317,7 @@ function Profile() {
                                         ) : (
                                             ''
                                         )}
-                                    </text>
+                                    </span>
                                 </div>
                                 <div className={classes['content__form-text']}>
                                     <div className={classes['content__form-start']}>
@@ -333,16 +333,16 @@ function Profile() {
                                         value={Address}
                                         onChange={(e) => setAddress(e.target.value)}
                                     ></input>
-                                    <text>
+                                    <span>
                                         {checkAddressValid ? (
                                             <div className={classes['error__password']}>
                                                 <FontAwesomeIcon icon={faExclamationCircle} style={{ paddingRight: '4px' }} />
-                                                Tên không được quá ngắn
+                                                Địa chỉ không tồn tại
                                             </div>
                                         ) : (
                                             ''
                                         )}
-                                    </text>
+                                    </span>
                                 </div>
 
                                 {!saveSuccess && (
@@ -405,7 +405,7 @@ function Profile() {
             </div>
             {
                 (!isFetch) ?
-                    <Backdrop style={{ zIndex: 1 }} className={classes.backdrop} open>
+                    <Backdrop style={{ zIndex: 2 }} className={classes.backdrop} open>
                         <CircularProgress color="inherit" />
                     </Backdrop>
                     : ''

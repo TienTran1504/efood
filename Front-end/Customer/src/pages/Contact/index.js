@@ -26,7 +26,7 @@ function Contact() {
     function handleSubmitRes(e) {
         e.preventDefault();
 
-        if (Name === '' || Email === '') {
+        if (Name === '' || Email === '' || Content === '') {
             alert('Please fill all fields!')
             setCheckNameValid(true);
             setCheckEmailValid(true);

@@ -35,13 +35,9 @@ function Search({ setIsOpen, setData }) {
 
         var arraySuggestFood = [];
         // encodeURIcomponent để mã hoá những ký tự đặc biệt thành ký tự hợp lệ trên URL vd &,?,...
-        const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
-        const headers = {
-            Authorization: tokenAuth,
-        };
         const numberLimit = 7;
         axios
-            .get(`http://localhost:3000/api/v1/auth/foods?limit=${numberLimit}&search=${searchValue}`, { headers: headers })
+            .get(`http://localhost:3000/api/v1/auth/foods?limit=${numberLimit}&search=${searchValue}`)
             .then((res) => {
                 var temparray = searchValue.split(' ');
 

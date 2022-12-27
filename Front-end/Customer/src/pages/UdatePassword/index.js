@@ -44,9 +44,6 @@ function UpdatePassword() {
 
         if (CurrentPass === '' || NewPass === '' || AgainPass === '') {
             alert('Please fill all fields!')
-            // setCheckCurrentPassValid(true);
-            // setCheckNewPassValid(true);
-            // setCheckAgainPassValid(true);
             e.preventDefault();
             return;
         }
@@ -168,7 +165,7 @@ function UpdatePassword() {
                                         value={CurrentPass}
                                         onChange={(e) => setCurrentPass(e.target.value)}
                                     />
-                                    <text>
+                                    <span>
                                         {checkCurrentPassValid ? (
                                             <div className={classes['error__password']}>
                                                 <FontAwesomeIcon icon={faExclamationCircle} style={{ paddingRight: '4px' }} />
@@ -177,7 +174,7 @@ function UpdatePassword() {
                                         ) : (
                                             ''
                                         )}
-                                    </text>
+                                    </span>
                                 </div>
                                 <div className={classes['content__form-text']}>
                                     <div className={classes['content__form-start']}>
@@ -193,7 +190,7 @@ function UpdatePassword() {
                                         value={NewPass}
                                         onChange={(e) => setNewPass(e.target.value)}
                                     />
-                                    <text>
+                                    <span>
                                         {checkNewPassValid ? (
                                             <div className={classes['error__password']}>
                                                 <FontAwesomeIcon icon={faExclamationCircle} style={{ paddingRight: '4px' }} />
@@ -202,7 +199,7 @@ function UpdatePassword() {
                                         ) : (
                                             ''
                                         )}
-                                    </text>
+                                    </span>
                                 </div>
                                 <div className={classes['content__form-text']}>
                                     <div className={classes['content__form-start']}>
@@ -218,7 +215,7 @@ function UpdatePassword() {
                                         value={AgainPass}
                                         onChange={(e) => setAgainPass(e.target.value)}
                                     />
-                                    <text>
+                                    <span>
                                         {checkAgainPassValid ? (
                                             <div className={classes['error__password']}>
                                                 <FontAwesomeIcon icon={faExclamationCircle} style={{ paddingRight: '4px' }} />
@@ -227,7 +224,7 @@ function UpdatePassword() {
                                         ) : (
                                             ''
                                         )}
-                                    </text>
+                                    </span>
                                 </div>
 
                                 {!saveSuccess && <button onClick={handleSubmit2} type="submit" className={classes['save__btn']}>LƯU THAY ĐỔI</button>}

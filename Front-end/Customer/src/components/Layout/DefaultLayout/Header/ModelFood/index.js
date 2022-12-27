@@ -1,10 +1,12 @@
-import React, { useEffect, useState} from "react";
+import React, { useState } from "react";
 import classes from "../ModelFood/ModelFood.module.scss";
 import { RiCloseLine } from "react-icons/ri";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import {
   faPlusCircle,
   faMinusCircle,
@@ -14,6 +16,7 @@ const ModalFood = ({ setIsOpen, setData }) => {
 
   const [quantityNumber, setquantityNumber] = useState(1);
   const [isSent, setisSent] = useState(true);
+  const usenavigate = useNavigate();
 
   function numberWithDot(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -27,7 +30,7 @@ const ModalFood = ({ setIsOpen, setData }) => {
     setquantityNumber(quantityNumber - 1);
   }
 
-  function AddFoodToCart(){
+  function AddFoodToCart() {
     setisSent(false);
     console.log(isSent);
     const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
@@ -37,17 +40,33 @@ const ModalFood = ({ setIsOpen, setData }) => {
     const obj = {
       quantity: quantityNumber,
     }
-    
-    axios.post(`http://localhost:3000/api/v1/customer/cart/${setData._id}`, obj, { headers: headers }).then((res) => {
-      setIsOpen(false);
-      console.log(isSent);
-  }).catch(error => {
-    console.log(error);
-    alert("Đã có trong giỏ hàng!");
-  }).finally(()=>{
-    setisSent(true);
-  });
 
+    if(JSON.stringify(localStorage.getItem('token')).split('"').join('') === 'null'){
+      setIsOpen(false);
+      usenavigate('/login');
+    }
+
+    else{
+      axios.post(`http://localhost:3000/api/v1/customer/cart/${setData._id}`, obj, { headers: headers }).then((res) => {
+        setIsOpen(false);
+      }).catch(error => {
+        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: 'Đã có trong giỏ hàng!',
+          width: '50rem',
+      });
+      }).finally(() => {
+        setisSent(true);
+        Swal.fire({
+          title: 'Thêm thành công',
+          icon: 'success',
+          confirmButtonText: 'Hoàn tất',
+          width: '50rem',
+      });
+      });
+    }
   }
 
   return (
@@ -112,10 +131,10 @@ const ModalFood = ({ setIsOpen, setData }) => {
       </div>
       {
         (!isSent) ?
-            <Backdrop style={{ zIndex: 1 }} className={classes.backdrop} open>
-                <CircularProgress color="inherit" />
-            </Backdrop>
-            : ''
+          <Backdrop style={{ zIndex: 1 }} className={classes.backdrop} open>
+            <CircularProgress color="inherit" />
+          </Backdrop>
+          : ''
       }
     </>
   );

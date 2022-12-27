@@ -35,20 +35,7 @@ export default function Rate({product, onDialog}) {
     
   }
   const conFirmRating = ()=>{
-    onDialog(true)
-    const token = JSON.stringify(localStorage.getItem('token')).split('"').join('');
-    const tokenAuth = 'Bearer ' + token;
-    const headers = {
-      Authorization: tokenAuth,
-    };
-    console.log(token);
-    if(token !== null){
-      axios.patch(`http://localhost:3000/api/v1/foods/rating/${product}`,{rating}, { headers: headers }).then((res) => {
-        console.log("token is " + res);
-      }).catch(error => {
-        console.log(error);
-      })
-    }
+    onDialog(true, product, rating);
   }
 
   return (

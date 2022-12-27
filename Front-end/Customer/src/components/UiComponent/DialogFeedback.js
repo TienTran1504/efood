@@ -19,15 +19,37 @@ const headers = {
 
 
 
-export default function DialogFeedback({items, IsOpen}) {
+export default function DialogFeedback({items, IsOpen, isFeedBack}) {
     
     const [statusRate, setStatusRate ] = useState(false);
     const [IdProduct, setIdProduct ] = useState(null);
-    console.log(items);
+    const [listRating, setRating] = useState([]);
 
-    const handleRating = (choose) =>{
+    // console.log(items);
+
+    const handleRating = (choose, id, valueRating) =>{
         if(choose){
             setStatusRate(false);
+            var ArrayItem = listRating;
+            var newItem = {
+                idx: id,
+                value: valueRating,
+            }
+            if(ArrayItem.length !== 0){
+                ArrayItem.forEach((item, index) => {
+                if(newItem.idx === item.idx){
+                    item = newItem;//nếu mà id trùng vs id trước đó thì thay thế
+                }
+                else{
+                    ArrayItem = [...ArrayItem, newItem];
+                    
+                    setRating(ArrayItem);
+                }
+                });
+            }else{
+                ArrayItem = [...ArrayItem, newItem];//danh sách chưa có item nào thì add bth
+            }
+            console.log(ArrayItem);
         }else{
             setStatusRate(false);
         }
@@ -44,13 +66,25 @@ export default function DialogFeedback({items, IsOpen}) {
         const headers = {
             Authorization: tokenAuth,
         };
+        isFeedBack(true);
         if(token!== null){
             console.log("submit")
-            const fbProduct = document.getElementById('fbProduct').value;
+            // const fbProduct = document.getElementById('fbProduct').value;
             const fbStore = document.getElementById('fbStore').value;
+
+            listRating.forEach((item, index) => {
+                const obj = {
+                    rating:item.value
+                }
+                axios
+                    .patch(`http://localhost:3000/api/v1/foods/rating/${item.idx}`, obj , { headers: headers }).then((res) => {
+                    console.log("token is " + res);
+                }).catch(error => {
+                    console.log(error);
+                })
+            });
     
-            if (fbProduct === '') alert('Vui lòng để lại nhận xét!');
-            else if(fbStore ==='') alert('Vui lòng để lại nhận xét cho cửa hàng!');
+            if(fbStore ==='') alert('Vui lòng để lại nhận xét cho cửa hàng!');
             else {
                 IsOpen(false); 
                 alert("submit complete"); 
@@ -100,40 +134,12 @@ export default function DialogFeedback({items, IsOpen}) {
                                             {/* <FontAwesomeIcon icon={faFileLines} style={{marginRight:'10px', cursor:'pointer'}} /> */}
                                         </div>
                                     </td>
-                                    {console.log(item)}
+                                    {/* {console.log(item)} */}
                                 </tr>
                             ))}
-                            {/* <tr className='rowItem'>
-                                <td>
-                                    <div className='infoLeft'>
-                                        <img src=""/>
-                                            <div>
-                                                Cho xao
-                                            </div>
-                                    </div>
-                                    <div className='infoRight'>
-                                        <FontAwesomeIcon icon={faStar} style={{marginRight:'10px'}}/>
-                                        <FontAwesomeIcon icon={faFileLines} style={{marginRight:'10px'}} />
 
-                                    </div>
-
-                                </td>
-                            </tr> */}
-                            {/* item */}
                         </tbody>
                     </table>
-                    {/* <table className='table2'>
-                        <tbody>
-                            <tr className='head'>
-                                <td>Nhận xét món ăn</td>
-                            </tr>
-                            <tr className='rowItem'>
-                                <td>
-                                    <textarea type='text' style={{border: 'none', margin:'1px 5px', outline: 'none'}} name="" id="fbProduct" cols="47" rows="6" placeholder='Write feedback here...'></textarea>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table> */}
                 </div>
                 <div className={classes['tableRight']}>
                     <div className={classes['content2']}>

@@ -11,6 +11,7 @@ import Button from '~/components/Layout/DefaultLayout/Header/Button';
 
 function PaymentHistory() {
     const [bills, setBills] = useState([]);
+    const [bill, setBill] = useState(null);
     const [ordered, setOrdered] = useState(0);
     const [delivered, setDelivered] = useState(0);
     const [shipping, setShipping] = useState(0);
@@ -70,9 +71,18 @@ function PaymentHistory() {
         }
     }
 
-    const handleFeedBack = (listProduct) => {
-        setListProduct(listProduct);
+    async function setFeedBack() {
+        const obj = {
+            feedbackStatus:"True"
+        };
+        await axios.patch(`http://localhost:3000/api/v1/bills/${bill._id}`, obj, { headers: headers });
+        window.location.reload();
+    }
+
+    const handleFeedBack = (item) => {
+        setListProduct(item.orderList);
         setIsOpen(true);
+        setBill(item);
     }
 
     return (
@@ -153,8 +163,9 @@ function PaymentHistory() {
                                                         (item.status === 'Canceled' && <button disabled style={{ fontWeight: 'bold', backgroundColor: '#da4848', padding: '0 28px', borderRadius: '6px', color: '#000' }}>Canceled</button>)}
                                                 </td>
                                                 <td className={classes['feedback']}>
-                                                    {item.status === 'Delivered' && <button className={classes['feedbackbtn']} onClick={() => handleFeedBack(item.orderList)} style={{ borderRadius: '6px' }}>Rating</button>}
+                                                    {item.status === 'Delivered' && item.feedbackStatus === 'False' && <button className={classes['feedbackbtn']} onClick={() => handleFeedBack(item)} style={{ borderRadius: '6px' }}>Rating</button>}
                                                     {item.status !== 'Delivered' && <button disabled className={classes['feedbackbtn']} style={{ borderRadius: '6px' }}>Rating</button>}
+                                                    {item.status === 'Delivered' && item.feedbackStatus === 'True' && <button disabled className={classes['feedbackbtn']} style={{ borderRadius: '6px' }}>Rated</button>}
                                                 </td>
                                             </tr>
                                         )
@@ -175,7 +186,7 @@ function PaymentHistory() {
                     </div>
                 </div>
             </div>
-            {IsOpen && <DialogFeedback items={ListProduct} IsOpen={onDialog} />}
+            {IsOpen && <DialogFeedback items={ListProduct} IsOpen={onDialog} isFeedBack={setFeedBack}/>}
 
 
         </div>

@@ -1,9 +1,10 @@
 import React from "react";
+import classes from './styleMenu.module.scss'
 
 const Categories = ({ categories, filterItems, activeCategory, isFirstLoad, isSorted }) => {
   return (
     <div>
-      <div className="btn-container">
+      <div className={classes ['btn-container']}>
         {categories.map((category, index) => {
           if(index >= 0 && index < 6){
             
@@ -12,9 +13,7 @@ const Categories = ({ categories, filterItems, activeCategory, isFirstLoad, isSo
             return (
               <button
                 type="button"
-                className={
-                  "filter-btn active"
-                }
+                className={classes ['active']}
                 key={0}
                 onClick={() => filterItems(category)}
               >
@@ -25,8 +24,7 @@ const Categories = ({ categories, filterItems, activeCategory, isFirstLoad, isSo
             return (
               <button
                 type="button"
-                className={`${activeCategory === category ? "filter-btn active" : "filter-btn"
-                  }`}
+                className={classes [`${activeCategory === category ? 'active' : 'filter-btn'}`]}
                 key={index}
                 onClick={() => filterItems(category)}
               >

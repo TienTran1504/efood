@@ -65,6 +65,7 @@ function Header() {
         const state = setCurrentUser(!currentUser);
         localStorage.removeItem('userId');
         localStorage.removeItem('token');
+        localStorage.removeItem('profile2');
         return state;
     };
 

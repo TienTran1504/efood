@@ -35,7 +35,7 @@ function Sidebar() {
     const usenavigate = useNavigate();
     const path = useLocation();
     const [selectedImage, setSelectedImage] = useState(null);
-    var profile = JSON.parse(localStorage.getItem('profile'));
+    var profile = JSON.parse(localStorage.getItem('profile')) || { username: '', image: '' };
 
     console.log(profile);
 

@@ -145,6 +145,8 @@ const updateBill = async (req, res) => {
         if (status === 'Delivered') {
             const billFind = await Bill.findOne({ _id: billId });
             req.body.total = Math.round(billFind.total / 10);
+            const userFind = await User.findById({ _id: billFind.createdBy });
+            req.body.total += userFind.bonus;
             const user = await User.findOneAndUpdate(
                 {
                     _id: billFind.createdBy

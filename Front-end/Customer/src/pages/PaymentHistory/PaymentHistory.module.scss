@@ -206,37 +206,32 @@ tr {
 td {
     padding: 4px 0;
 }
+
 .box-btn {
-    position: absolute;
+    position: relative;
     display: flex;
-    background-color: #fe7c4b;
-    color: white;
-    right: 7.5%;
-    bottom: -10%;
-    width: 200px;
-    height: 70px;
-    font-weight: 600;
-    font-size: 18px;
-    border-radius: 4px;
-
-    .bonus-point {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex: 2;
-        flex-direction: column;
-        margin-left: 5px;
-    }
-
-    #btn-submit-icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex: 1;
-        font-size: 22px;
+    justify-content: end;
+    margin-top: 3rem;
+    margin-right: 7rem;
+    .btn-submit {
+        font-size: 20px;
+        padding: 1.5rem 9rem 1.5rem 1.5rem;
+        span,
+        div {
+            display: block;
+        }
+        #btn-submit-money {
+            margin-top: 1rem;
+            text-align: start;
+        }
+        #btn-submit-icon {
+            position: absolute;
+            top: 20px;
+            right: 15px;
+            font-size: 4rem;
+        }
     }
 }
-
 .box-btn:hover {
     opacity: 0.9;
 }

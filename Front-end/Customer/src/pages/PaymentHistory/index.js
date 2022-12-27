@@ -2,11 +2,12 @@ import classes from './PaymentHistory.module.scss';
 import Sidebar from '~/components/Layout/DefaultLayout/Sidebar';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { faSpinner, faTimes, faTruck, faCoins, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faTimes, faTruck, faCoins, faCheckCircle, faMoneyBill } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DialogFeedback from '~/components/UiComponent/DialogFeedback';//feedback Dialog
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import Button from '~/components/Layout/DefaultLayout/Header/Button';
 
 function PaymentHistory() {
     const [bills, setBills] = useState([]);
@@ -51,7 +52,6 @@ function PaymentHistory() {
 
 
     useEffect(() => {
-        console.log("haha");
         axios
             .get(`http://localhost:3000/api/v1/customer`, { headers: headers })
             .then((res) => {
@@ -165,13 +165,13 @@ function PaymentHistory() {
                     </div>
 
                     <div className={classes['box-btn']}>
-                        <div className={classes['bonus-point']}>
+                        <Button primary className={`${classes.incomeBtn} ${classes['btn-submit']}`}>
                             <span id={classes['btn-submit-title']}>BONUS POINT</span>
-                            <span id={classes['btn-submit-money']}>{bonusPoint}</span>
-                        </div>
-                        <div id={classes['btn-submit-icon']}>
-                            <FontAwesomeIcon icon={faCoins} />
-                        </div>
+                            <span id={classes['btn-submit-money']}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(bonusPoint)}</span>
+                            <div id={classes['btn-submit-icon']}>
+                                <FontAwesomeIcon icon={faCoins} />
+                            </div>
+                        </Button>
                     </div>
                 </div>
             </div>

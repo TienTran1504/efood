@@ -71,7 +71,6 @@ const getFoodsByPrice = async (req, res) => {
     }
     const regEx = /\b(>|>=|=|<|<=)\b/g
     let filters = numberFilters.replace(regEx, (match) => `-${operatorMap[match]}-`)
-    console.log(filters);
     const options = ['price', 'rating'];
     filters = filters.split(',').forEach((item) => {
         const [field, operator, value] = item.split('-') // tách ra vd price $gt 30

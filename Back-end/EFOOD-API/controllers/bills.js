@@ -69,8 +69,7 @@ const createBill = async (req, res) => {
         // req.body.total = user.orderPrice;
         req.body.orderPrice = 0;
         const bill = await Bill.create({ ...req.body });
-
-        req.body.orderList.splice(0);
+        req.body.orderList.splice(0); // xoá hết tất cả món ăn trong orderList
         const userCart = await User.findOneAndUpdate(
             {
                 _id: user._id,

@@ -95,17 +95,17 @@ const updateUserProfile = async (req, res) => {
 }
 // {{URL}}/customer/cart
 const getAllItems = async (req, res) => {
-    const user = await User.findOne({ _id: req.user.userId }); // lấy ra đúng user đang login
+    const user = await User.findById({ _id: req.user.userId }); // lấy ra đúng user đang login
     res.status(StatusCodes.OK).json({ userName: user.name, orderList: user.orderList, orderPrice: user.orderPrice })
 }
 
 // {{URL}}/customer/cart/:foodId
 const createItem = async (req, res) => {
-    const user = await User.findOne({ _id: req.user.userId });
+    const user = await User.findById({ _id: req.user.userId });
 
     const { quantity = 1 } = req.body;
     const { foodId } = req.params;
-    const food = await Food.findOne({ _id: foodId });
+    const food = await Food.findById({ _id: foodId });
     const checkFoodExist = user.orderList.some((order) => {
         return order.foodId === foodId;
     })

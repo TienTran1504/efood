@@ -5,7 +5,7 @@ const { BadRequestError, NotFoundError, UnauthenticatedError } = require('../err
 
 // {{URL}}/foods
 const createFood = async (req, res) => {
-    const userCheck = await User.findOne({ _id: req.user.userId });
+    const userCheck = await User.findById({ _id: req.user.userId });
     if (userCheck.typeOf === 'Admin') {
         const CheckFood = await Food.findOne({ name: req.body.name })
         if (CheckFood) {
@@ -23,7 +23,7 @@ const createFood = async (req, res) => {
 }
 // {{URL}}/foods/:id
 const updateFood = async (req, res) => {
-    const userCheck = await User.findOne({ _id: req.user.userId });
+    const userCheck = await User.findById({ _id: req.user.userId });
     if (userCheck.typeOf === 'Admin') {
         const {
             user: { userId },
@@ -59,7 +59,7 @@ const ratingFood = async (req, res) => {
     if (rating === '' || rating < 1 || rating > 5) {
         throw new BadRequestError('Rating fields can not be empty or invalid');
     }
-    const foodCheck = await Food.findOne(
+    const foodCheck = await Food.findById(
         {
             _id: foodId
         }
@@ -85,7 +85,7 @@ const ratingFood = async (req, res) => {
 }
 // {{URL}}/foods/:id
 const deleteFood = async (req, res) => {
-    const userCheck = await User.findOne({ _id: req.user.userId });
+    const userCheck = await User.findById({ _id: req.user.userId });
     if (userCheck.typeOf === 'Admin') {
         const {
             user: { userId },

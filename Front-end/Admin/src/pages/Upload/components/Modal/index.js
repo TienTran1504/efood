@@ -31,16 +31,6 @@ function Modal({ setOpenModal, handleAddFormChange, handleAddFormSubmit }) {
                                     onChange={handleAddFormChange}
                                 />
                             </div>
-                            <div className={classes.productType}>
-                                <p>Type</p>
-                                <input
-                                    type="text"
-                                    required="required"
-                                    placeholder="Enter type of food"
-                                    name="typeOf"
-                                    onChange={handleAddFormChange}
-                                />
-                            </div>
                             <div className={classes.productPrice}>
                                 <p>Price</p>
                                 <input
@@ -50,6 +40,21 @@ function Modal({ setOpenModal, handleAddFormChange, handleAddFormSubmit }) {
                                     name="price"
                                     onChange={handleAddFormChange}
                                 />
+                            </div>
+                            <div className={classes.productType}>
+                                <p>Type</p>
+                                <select
+                                    class="selection"
+                                    name="typeOf"
+                                    onChange={handleAddFormChange}
+                                >
+
+                                    <option value="Món nước">Món nước</option>
+                                    <option value="Cơm" selected>Cơm</option>
+                                    <option value="Đồ uống">Đồ uống</option>
+                                    <option value="Tráng Miệng">Tráng Miệng</option>
+                                    <option value="Ăn vặt">Ăn vặt</option>
+                                </select>
                             </div>
                         </div>
                         <div className={classes.productImage}>

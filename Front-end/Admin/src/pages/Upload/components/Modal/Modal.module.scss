@@ -10,7 +10,7 @@
 }
 
 .modalContainer {
-    width: 60%;
+    width: 70%;
     height: 400px;
     border-radius: 12px;
     background-color: white;
@@ -77,9 +77,12 @@
         opacity: 0.9;
     }
 }
-
 .adding {
     display: block;
+    select {
+        width: 290px;
+        padding: 2px 4px;
+    }
 
     div {
         padding-bottom: 30px;

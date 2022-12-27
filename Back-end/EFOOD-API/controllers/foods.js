@@ -6,12 +6,13 @@ const { BadRequestError, NotFoundError, UnauthenticatedError } = require('../err
 // {{URL}}/foods
 const createFood = async (req, res) => {
     const userCheck = await User.findOne({ _id: req.user.userId });
-    console.log(userCheck);
     if (userCheck.typeOf === 'Admin') {
+        const CheckFood = await Food.findOne({ name: req.body.name })
+        if (CheckFood) {
+            throw new BadRequestError(`Already have ${req.body.name} in menu`)
+        }
         req.body.createdBy = req.user.userId;
-        console.log("body", req.body);
         const food = await Food.create({ ...req.body });
-        console.log(req.body);
         res.status(StatusCodes.CREATED).json({
             food
         })

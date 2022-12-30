@@ -4,6 +4,7 @@ import { RiCloseLine } from "react-icons/ri";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
 // import  { Redirect } from 'react-router-dom'
+import Swal from 'sweetalert2';
 import {
   faPlusCircle,
   faMinusCircle,
@@ -12,6 +13,7 @@ import {
 
 
 const ModalFood = ({ setIsOpen, setData }) => {
+  // const [check, setCheck] =  useState(false);
 
   const [quantityNumber, setquantityNumber] = useState(1);
 
@@ -27,7 +29,7 @@ const ModalFood = ({ setIsOpen, setData }) => {
     setquantityNumber(quantityNumber - 1);
   }
 
-  function AddFoodToCart() {
+  async function AddFoodToCart() {
     const token = JSON.stringify(localStorage.getItem('token')).split('"').join('');
     const tokenAuth = 'Bearer ' + token;
     const headers = {
@@ -41,20 +43,40 @@ const ModalFood = ({ setIsOpen, setData }) => {
     const obj = {
       quantity: quantityNumber,
     }
+    var check = false;
     if (token !== null) {
-      axios.post(`http://localhost:3000/api/v1/customer/cart/${setData.id}`, obj, { headers: headers }).then((res) => {
+      await axios.post(`http://localhost:3000/api/v1/customer/cart/${setData.id}`, obj, { headers: headers }).then((res) => {
         console.log(setData)
+        check = true;
       }).catch(error => {
         console.log(error);
         if (error.response.status === 401) {
           alert("Bạn chưa đăng nhập !!!");
           window.location.href = "http://localhost:3001/login";
         } else if (error.response.status === 400) {
-          alert("Sản phẩm đã tồn tại trong giỏ hàng");
+          Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: 'Đã có trong giỏ hàng!',
+            width: '50rem',
+        });
         } else {
-          alert("Thêm thành công !!!");
+          Swal.fire({
+            title: 'Thêm thành công',
+            icon: 'success',
+            confirmButtonText: 'Hoàn tất',
+            width: '50rem',
+        });
         }
       })
+      if(check ===  true){
+        Swal.fire({
+          title: 'Thêm thành công',
+          icon: 'success',
+          confirmButtonText: 'Hoàn tất',
+          width: '50rem',
+        });
+      }
     }
 
   }

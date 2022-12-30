@@ -11,6 +11,7 @@ import {
     faPlusCircle,
     faMinusCircle,
 } from '@fortawesome/free-solid-svg-icons';
+import Swal from 'sweetalert2';
 
 const ShoppingCart = (props) => {
     const { cartItems, onAdd, onRemove, createBill } = props;
@@ -50,10 +51,28 @@ const ShoppingCart = (props) => {
         var address = 'Nhận tại quầy';
         if (paymentMethod === 'Thanh toán khi nhận hàng') address = document.getElementById('address').value;
 
-        if (name === '') alert('Họ và tên người nhận không hợp lệ!');
-        else if (!PhoneNumberValid(phone)) alert('Số điện thoại không hợp lệ!');
-        else if (paymentMethod === 'Thanh toán khi nhận hàng' && address.length < 6) alert('Địa chỉ không hợp lệ!');
-        else {
+        if (name === '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Họ và tên người nhận không hợp lệ!',
+                width: '50rem',
+            });
+        } else if (!PhoneNumberValid(phone)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Số điện thoại không hợp lệ!',
+                width: '50rem',
+            });
+        } else if (paymentMethod === 'Thanh toán khi nhận hàng' && address.length < 6) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Địa chỉ không hợp lệ!',
+                width: '50rem',
+            });
+        } else {
             createBill(name, phone, address, paymentMethod, message, totalPrice);
         }
     };

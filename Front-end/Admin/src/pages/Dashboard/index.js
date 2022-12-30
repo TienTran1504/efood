@@ -48,7 +48,10 @@ function Dashboard() {
         setStatus(newStatus);
 
         const total = storageSave.reduce((money, order) => {
-            return money + order.total * 1.0;
+            if (order.status === "Delivered")
+                return money + order.total * 1.0;
+            else
+                return money;
         }, 0);
         setTotal(total);
     }, [storageSave]);

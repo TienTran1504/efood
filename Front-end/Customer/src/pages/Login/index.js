@@ -42,8 +42,6 @@ export default function LoginPage() {
                     .then((res) => (profile = { image: res.data.image, bonus: res.data.bonus }))
                     .catch((res) => console.log(res));
 
-                console.log(profile);
-                console.log(res.data);
                 localStorage.setItem('user-state', true);
                 localStorage.setItem('userId', res.data.user.id);
                 localStorage.setItem('token', res.data.token);

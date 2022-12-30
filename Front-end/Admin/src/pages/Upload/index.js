@@ -242,7 +242,7 @@ function Upload() {
 
                 console.log('id: ', editFoodId);
 
-                const newFoods = [...foods];
+                const newFoods = storageSave;
                 const index = foods.findIndex((food) => food.id === editFoodId);
                 newFoods[index] = editedContact;
 
@@ -319,7 +319,7 @@ function Upload() {
 
     const areUSureDelete = async (choose) => {
         if (choose) {
-            const newFoods = [...foods];
+            const newFoods = storageSave;
             const index = foods.findIndex((food) => food.id === idFood);
 
             setIsLoading(true);

@@ -108,7 +108,7 @@ function Users() {
     const handleEditFormSubmit = async (e) => {
         e.preventDefault();
 
-        const newUsers = [...users];
+        const newUsers = JSON.parse(localStorage.getItem('users'));
 
         const index = users.findIndex((user) => user.id === editUserId);
         newUsers[index] = editFormData;
@@ -158,13 +158,14 @@ function Users() {
     //add functon process delete
     const areUSureDelete = (choose) => {
         if (choose) {
-            const newUsers = [...users];
+            const newUsers = JSON.parse(localStorage.getItem('users'));
             const index = users.findIndex((user) => user.id === idUser);
 
             setIsLoading(true);
             request
                 .delete('admin/' + users[index].id, { headers: headers })
                 .then((res) => {
+                    console.log(res);
                     Swal.fire({
                         title: 'Xóa user thành công!',
                         icon: 'success',

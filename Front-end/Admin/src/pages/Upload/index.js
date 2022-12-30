@@ -146,7 +146,7 @@ function Upload() {
         e.preventDefault();
         var newFood = {
             name: addFormData.name,
-            typeOf: addFormData.typeOf,
+            typeOf: addFormData.typeOf === '' ? 'Cơm' : addFormData.typeOf,
             price: parseInt(addFormData.price),
             image: addFormData.image,
         };
@@ -158,7 +158,7 @@ function Upload() {
                     newFood = {
                         id: res.data.food._id,
                         name: addFormData.name,
-                        typeOf: addFormData.typeOf,
+                        typeOf: addFormData.typeOf === '' ? 'Cơm' : addFormData.typeOf,
                         price: addFormData.price,
                         image: addFormData.image,
                     };
@@ -175,6 +175,7 @@ function Upload() {
                     });
                 })
                 .catch((err) => {
+                    console.log(err);
                     Swal.fire({
                         icon: 'error',
                         title: 'Món ăn đã có trong thực đơn',

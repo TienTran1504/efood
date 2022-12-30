@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { Backdrop, CircularProgress } from '@mui/material';
 
 import request from '~/utils/request';
 import Images from '~/assets/images';
@@ -8,6 +9,8 @@ import classes from './Login.module.scss';
 import Swal from 'sweetalert2';
 
 export default function LoginPage() {
+    const [isLoading, setIsLoading] = useState(false);
+
     const loginNavigate = useNavigate();
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
@@ -28,16 +31,34 @@ export default function LoginPage() {
             email: email,
             password: pass,
         };
-
+        setIsLoading(true);
         await request
             .post('auth/login', objLogin)
             .then(async (res) => {
-                console.log(res.data);
+                let timerInterval;
+                Swal.fire({
+                    title: 'Đang tải...',
+                    html: 'Vui lòng bạn hãy chờ trong giây lát',
+                    timer: 100000,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval);
+                    },
+                }).then((result) => {
+                    /* Read more about handling dismissals below */
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        console.log('I was closed by the timer');
+                    }
+                });
+
                 if (res.data.user.typeOf === 'Admin') {
                     var img;
-                    await request
-                        .get('admin/' + res.data.user.id, { headers: { Authorization: 'Bearer ' + res.data.token } })
-                        .then((res) => (img = res.data.user.image));
+                    await request.get('admin/' + res.data.user.id, {
+                        headers: { Authorization: 'Bearer ' + res.data.token },
+                    });
 
                     localStorage.setItem('user-state', true);
                     localStorage.setItem('userId', res.data.user.id);
@@ -49,25 +70,6 @@ export default function LoginPage() {
                             image: img,
                         }),
                     );
-
-                    let timerInterval;
-                    Swal.fire({
-                        title: 'Đang tải...',
-                        html: 'Vui lòng bạn hãy chờ trong giây lát',
-                        timer: 100000,
-                        timerProgressBar: true,
-                        didOpen: () => {
-                            Swal.showLoading();
-                        },
-                        willClose: () => {
-                            clearInterval(timerInterval);
-                        },
-                    }).then((result) => {
-                        /* Read more about handling dismissals below */
-                        if (result.dismiss === Swal.DismissReason.timer) {
-                            console.log('I was closed by the timer');
-                        }
-                    });
 
                     await request
                         .get('admin', { headers: { Authorization: 'Bearer ' + res.data.token } })
@@ -85,13 +87,11 @@ export default function LoginPage() {
                                 newUsers = [...newUsers, newUser];
                             });
                             localStorage.setItem('users', JSON.stringify(newUsers));
-                        })
-                        .catch((err) => console.log(err));
+                        });
 
                     await request
                         .get('bills', { headers: { Authorization: 'Bearer ' + res.data.token } })
                         .then((res) => {
-                            console.log(res.data);
                             const users = JSON.parse(localStorage.getItem('users'));
                             if (res.data.msg !== 'Dont have any bills to show') {
                                 var newBills = [];
@@ -113,14 +113,13 @@ export default function LoginPage() {
                                 });
                                 localStorage.setItem('bills', JSON.stringify(newBills));
                             }
-                        })
-                        .catch((err) => console.log(err));
+                        });
 
-                    await request
-                        .get('auth/foods')
-                        .then((res) => {
-                            var newFoods = [];
-                            res.data.sortedFoods.forEach((value, index) => {
+                    await request.get('auth/foods').then((res) => {
+                        var newFoods = [];
+                        const listFoods = res.data.sortedFoods;
+                        if (listFoods !== undefined) {
+                            listFoods.forEach((value, index) => {
                                 var newFood = {
                                     id: value._id,
                                     name: value.name,
@@ -130,25 +129,28 @@ export default function LoginPage() {
                                 };
                                 newFoods = [...newFoods, newFood];
                             });
-                            localStorage.setItem('products', JSON.stringify(newFoods));
-                        })
-                        .catch((err) => console.log(err));
+                        }
+                        localStorage.setItem('products', JSON.stringify(newFoods));
+                    });
 
                     await request
                         .get('admin/contacts', { headers: { Authorization: 'Bearer ' + res.data.token } })
                         .then((res) => {
-                            console.log(res.data);
                             var newContacts = [];
-                            res.data.sortedContacts.forEach((value) => {
-                                var newContact = {
-                                    id: value._id,
-                                    email: value.email,
-                                    title: value.title,
-                                    content: value.content,
-                                    createdAt: value.createdAt,
-                                };
-                                newContacts = [...newContacts, newContact];
-                            });
+                            const contactList = res.data.sortedContacts;
+
+                            if (contactList !== undefined) {
+                                contactList.forEach((value) => {
+                                    var newContact = {
+                                        id: value._id,
+                                        email: value.email,
+                                        title: value.title,
+                                        content: value.content,
+                                        createdAt: value.createdAt,
+                                    };
+                                    newContacts = [...newContacts, newContact];
+                                });
+                            }
                             localStorage.setItem('contacts', JSON.stringify(newContacts));
                         });
 
@@ -176,6 +178,7 @@ export default function LoginPage() {
                     width: '50rem',
                 });
             });
+        setIsLoading(true);
     }
     return (
         <div className={classes.wrapper}>
@@ -219,6 +222,9 @@ export default function LoginPage() {
                     </p>
                 </footer>
             </div>
+            <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </div>
     );
 }

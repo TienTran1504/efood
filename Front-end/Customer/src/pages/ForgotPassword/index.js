@@ -26,7 +26,6 @@ export default function ForgotPassword() {
     const [confirmEmail, setConfirmEmail] = useState(false);
 
     async function handleSentOtp() {
-        console.log('sent otp');
         setIsLoading(true);
         await request
             .post('auth/otp', { email: email })
@@ -70,7 +69,6 @@ export default function ForgotPassword() {
     function handleRewritePassCheck() {
         if (rewritePass !== pass && !validPass) setValidRewritePass(true);
         else setValidRewritePass(false);
-        console.log(validEmail, pass, rewritePass);
     }
 
     async function handleSubmit(e) {
@@ -91,7 +89,19 @@ export default function ForgotPassword() {
         const res = await request.patch('auth/forgotpassword', objResgister);
         setIsLoading(false);
         console.log(res.data);
-        if (!res.data.msg) {
+        if (res.data.user === null) {
+            setEmail('');
+            setPass('');
+            setRewritePass('');
+            setOtp('');
+            setConfirmEmail(false);
+            Swal.fire({
+                title: 'Lỗi',
+                text: 'Tài khoản không tồn tại',
+                icon: 'error',
+                width: '50rem',
+            });
+        } else if (!res.data.msg) {
             setEmail('');
             setPass('');
             setRewritePass('');

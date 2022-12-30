@@ -16,11 +16,13 @@ function Search({ setIsOpen, setData }) {
 
     const inputRef = useRef();
 
-    function jsUcfirst(string) {
-        return string
-            .toUpperCase()
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '');
+    function jsUcfirst(str) {
+        var convertToArray = str.toLowerCase().split(' ');
+        var result = convertToArray.map(function(val) {
+        return val.replace(val.charAt(0), val.charAt(0).toUpperCase());
+  });
+  
+  return result.join(' ');
     }
 
     useEffect(() => {
@@ -37,7 +39,7 @@ function Search({ setIsOpen, setData }) {
         // encodeURIcomponent để mã hoá những ký tự đặc biệt thành ký tự hợp lệ trên URL vd &,?,...
         const numberLimit = 7;
         axios
-            .get(`http://localhost:3000/api/v1/auth/foods?limit=${numberLimit}&search=${searchValue}`)
+            .get(`http://localhost:3000/api/v1/auth/foods?limit=${numberLimit}&search=${jsUcfirst(searchValue)}`)
             .then((res) => {
                 var temparray = searchValue.split(' ');
 

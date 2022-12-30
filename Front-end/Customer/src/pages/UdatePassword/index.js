@@ -20,6 +20,18 @@ function CheckPassEqual(password1, password2) {
     return true;
 }
 
+function CheckAboutCharac(password){
+    const passFormat = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+    const checkPass = passFormat.test(password);
+    if(checkPass)
+    {
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
 function UpdatePassword() {
     const [name, setName] = useState('');
     const [CurrentPass, setCurrentPass] = useState('');
@@ -37,6 +49,7 @@ function UpdatePassword() {
     const headers = {
         Authorization: tokenAuth,
     };
+    
 
     function handleSubmit2(e) {
         console.log(CurrentPass + ' ' + NewPass + ' ' + AgainPass);
@@ -64,7 +77,7 @@ function UpdatePassword() {
             setCheckCurrentPassValid(false);
         }
 
-        if (!PassworkValid(NewPass)) {
+        if (!PassworkValid(NewPass) || !CheckAboutCharac(NewPass)) {
             setCheckNewPassValid(true);
             setNewPass('');
             NewPassInput.current.focus();

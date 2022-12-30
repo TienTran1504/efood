@@ -48,24 +48,24 @@ const ModalFood = ({ setIsOpen, setData }) => {
 
     else{
       axios.post(`http://localhost:3000/api/v1/customer/cart/${setData._id}`, obj, { headers: headers }).then((res) => {
-        setIsOpen(false);
-      }).catch(error => {
-        console.log(error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Lỗi',
-          text: 'Đã có trong giỏ hàng!',
-          width: '50rem',
-      });
-      }).finally(() => {
         setisSent(true);
+        setIsOpen(false); 
         Swal.fire({
           title: 'Thêm thành công',
           icon: 'success',
           confirmButtonText: 'Hoàn tất',
           width: '50rem',
       });
+      }).catch(error => {
+        console.log("cc nè" + error);
+        setIsOpen(false);
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: 'Đã có trong giỏ hàng!',
+          width: '50rem',
       });
+      })
     }
   }
 

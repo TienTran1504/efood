@@ -66,7 +66,7 @@ export default function DialogFeedback({items, IsOpen, isFeedBack}) {
         const headers = {
             Authorization: tokenAuth,
         };
-        isFeedBack(true);
+        
         if(token!== null){
             console.log("submit")
             // const fbProduct = document.getElementById('fbProduct').value;
@@ -84,15 +84,18 @@ export default function DialogFeedback({items, IsOpen, isFeedBack}) {
                 })
             });
     
-            if(fbStore ==='') alert('Vui lòng để lại nhận xét cho cửa hàng!');
+            if(fbStore ==='') {
+                alert('Vui lòng để lại nhận xét cho cửa hàng!');
+            }
             else {
                 IsOpen(false); 
                 alert("submit complete"); 
+                isFeedBack(true);
+                // window.location.reload(false);
             }
         }
         
         
-        // window.location.reload(false);
     }
     return (
         <div

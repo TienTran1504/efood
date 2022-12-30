@@ -48,7 +48,10 @@ function Dashboard() {
         setStatus(newStatus);
 
         const total = storageSave.reduce((money, order) => {
-            return money + order.total * 1.0;
+            if (order.status === "Delivered")
+                return money + order.total * 1.0;
+            else
+                return money;
         }, 0);
         setTotal(total);
     }, [storageSave]);
@@ -104,7 +107,6 @@ function Dashboard() {
     };
 
     const handleEditStatus = (e) => {
-        console.log(e);
         if (e === null) return;
         e.preventDefault();
         var fieldValue = e.target.innerHTML;
@@ -113,11 +115,11 @@ function Dashboard() {
 
     const handleEditFormSubmit = async (e) => {
         e.preventDefault();
-        console.log(editFormData);
+
         if (editFormData !== '') {
             setIsLoading(true);
 
-            const newOrders = [...orders];
+            const newOrders = JSON.parse(localStorage.getItem('bills'));
             const index = orders.findIndex((order) => order.orderId === editOrderId);
             newOrders[index].status = editFormData;
 
@@ -161,7 +163,7 @@ function Dashboard() {
 
     const areUSureDelete = async (choose) => {
         if (choose) {
-            const newOrders = [...orders];
+            const newOrders = JSON.parse(localStorage.getItem('bills'));
             const index = orders.findIndex((order) => order.orderId === deleteOrderId);
             setIsLoading(true);
             await request

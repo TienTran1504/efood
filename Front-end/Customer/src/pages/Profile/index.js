@@ -125,11 +125,11 @@ function Profile() {
                 console.log(error);
             });
 
-        if (Name === '' || Phone === '' ||Email === '' || Gender === '' || Address === '') {
+        if (Name === '' || Phone === '' || Email === '' || Gender === '' || Address === '') {
             alert('Please fill all fields!');
             e.preventDefault();
             return;
-        } 
+        }
 
         if (Name.length < 3) {
             setCheckNameValid(true);
@@ -171,22 +171,21 @@ function Profile() {
             setCheckGenderValid(false);
         }
 
-        if(Address.length < 2){
+        if (Address.length < 2) {
             setCheckAddressValid(true);
             setAddress('');
             AddressInput.current.focus();
             e.preventDefault();
             return;
-        } else{
+        } else {
             setCheckAddressValid(false);
         }
 
-        if(!checkNameValid || !checkPhoneValid || !checkEmailValid || !checkGenderValid || !checkAddressValid)
-        {
+        if (!checkNameValid || !checkPhoneValid || !checkEmailValid || !checkGenderValid || !checkAddressValid) {
             setNickName(Name);
             setSaveSuccess(true);
             setTimeout(() => {
-            setSaveSuccess(false);
+                setSaveSuccess(false);
             }, 2000);
         }
     }
@@ -261,7 +260,7 @@ function Profile() {
                                         {checkPhoneValid ? (
                                             <div className={classes['error__password']}>
                                                 <FontAwesomeIcon icon={faExclamationCircle} style={{ paddingRight: '4px' }} />
-                                                Điện thoại không tồn tại
+                                                Số điện thoại không tồn tại
                                             </div>
                                         ) : (
                                             ''

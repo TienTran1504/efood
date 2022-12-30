@@ -146,7 +146,7 @@ function Upload() {
         e.preventDefault();
         var newFood = {
             name: addFormData.name,
-            typeOf: addFormData.typeOf,
+            typeOf: addFormData.typeOf === '' ? 'Cơm' : addFormData.typeOf,
             price: parseInt(addFormData.price),
             image: addFormData.image,
         };
@@ -158,7 +158,7 @@ function Upload() {
                     newFood = {
                         id: res.data.food._id,
                         name: addFormData.name,
-                        typeOf: addFormData.typeOf,
+                        typeOf: addFormData.typeOf === '' ? 'Cơm' : addFormData.typeOf,
                         price: addFormData.price,
                         image: addFormData.image,
                     };
@@ -175,6 +175,7 @@ function Upload() {
                     });
                 })
                 .catch((err) => {
+                    console.log(err);
                     Swal.fire({
                         icon: 'error',
                         title: 'Món ăn đã có trong thực đơn',
@@ -242,7 +243,7 @@ function Upload() {
 
                 console.log('id: ', editFoodId);
 
-                const newFoods = [...foods];
+                const newFoods = storageSave;
                 const index = foods.findIndex((food) => food.id === editFoodId);
                 newFoods[index] = editedContact;
 
@@ -319,7 +320,7 @@ function Upload() {
 
     const areUSureDelete = async (choose) => {
         if (choose) {
-            const newFoods = [...foods];
+            const newFoods = storageSave;
             const index = foods.findIndex((food) => food.id === idFood);
 
             setIsLoading(true);

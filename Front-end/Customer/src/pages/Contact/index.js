@@ -39,7 +39,7 @@ function Contact() {
         }
 
         if (Name.length < 3) {
-            alert("This name is not exist.")
+            alert("Please enter the valid name.")
             setCheckNameValid(true);
             setName('');
             NameInput.current.focus();

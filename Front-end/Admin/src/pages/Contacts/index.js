@@ -12,11 +12,11 @@ import Swal from 'sweetalert2';
 
 function Contacts() {
     //add for process delete modal
-    const [idUser, setIdUser] = useState(null);
+    const [idContact, setIdContact] = useState(null);
     const [dialogConfirm, setDialog] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     //====================
-    const [users, setUsers] = useState(JSON.parse(localStorage.getItem('contacts')) || []);
+    const [contacts, setContacts] = useState(JSON.parse(localStorage.getItem('contacts')) || []);
     const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
     const headers = {
         Authorization: tokenAuth,
@@ -25,7 +25,6 @@ function Contacts() {
     const handleRefreshData = async () => {
         setIsLoading(true);
         await request.get('admin/contacts', { headers: headers }).then((res) => {
-            console.log(res.data);
             var newContacts = [];
             res.data.sortedContacts.forEach((value) => {
                 var newContact = {
@@ -37,7 +36,7 @@ function Contacts() {
                 };
                 newContacts = [...newContacts, newContact];
             });
-            setUsers(newContacts);
+            setContacts(newContacts);
             localStorage.setItem('contacts', JSON.stringify(newContacts));
             Swal.fire({
                 title: 'Tải lại thành công!',
@@ -51,17 +50,17 @@ function Contacts() {
 
     const handleDeleteClick = (userId) => {
         handleShowDialogConfirm(true);
-        setIdUser(userId);
+        setIdContact(userId);
     };
 
     //add functon process delete
     const areUSureDelete = async (choose) => {
         if (choose) {
-            const newUsers = [...users];
-            const index = users.findIndex((user) => user.id === idUser);
+            const newcontacts = JSON.parse(localStorage.getItem('contacts'));
+            const index = contacts.findIndex((user) => user.id === idContact);
             setIsLoading(true);
             await request
-                .delete('admin/contacts/' + users[index].id, { headers: headers })
+                .delete('admin/contacts/' + contacts[index].id, { headers: headers })
                 .then((res) => {
                     Swal.fire({
                         title: 'Xóa feedback thành công!',
@@ -72,8 +71,8 @@ function Contacts() {
                 })
                 .catch((res) => console.log(res));
             setIsLoading(false);
-            newUsers.splice(index, 1);
-            setUsers(newUsers);
+            newcontacts.splice(index, 1);
+            setContacts(newcontacts);
         }
         setDialog(false);
     };
@@ -105,7 +104,7 @@ function Contacts() {
                             </tr>
                         </thead>
                         <tbody>
-                            {users.map((user, index) => (
+                            {contacts.map((user, index) => (
                                 <Fragment key={index}>
                                     <ReadOnlyRow index={index + 1} user={user} handleDeleteClick={handleDeleteClick} />
                                 </Fragment>

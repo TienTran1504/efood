@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import Swal from 'sweetalert2';
 
 const token = JSON.stringify(localStorage.getItem('token')).split('"').join('');
 const tokenAuth = 'Bearer ' + token;
@@ -76,8 +77,15 @@ function Cart() {
         );
 
         setLoading(false);
-        alert('Đặt hàng thành công!');
-        window.location.reload(false);
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Thông báo',
+            text: 'Đặt hàng thành công!',
+            width: '50rem',
+        }).then(function () {
+            window.location.reload(false);
+        });
     }
 
     async function fetchData() {

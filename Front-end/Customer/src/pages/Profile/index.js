@@ -105,6 +105,7 @@ function Profile() {
             Authorization: tokenAuth,
         };
         const obj = {
+            name: Name,
             phone: Phone,
             gender: Gender.charAt(0).toUpperCase() + Gender.slice(1),
             address: Address,
@@ -116,6 +117,9 @@ function Profile() {
             .patch(`http://localhost:3000/api/v1/customer/profile`, obj, { headers: headers })
             .then((res) => {
                 console.log(res);
+                const profile = JSON.parse(localStorage.getItem('profile2')) || { bonus: 0, image: '' };
+                profile.image = imgURL;
+                localStorage.setItem('profile2', JSON.stringify(profile));
             })
             .catch((error) => {
                 console.log(error);

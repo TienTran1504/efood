@@ -194,7 +194,7 @@ export default function SignUpPage() {
                                     type="text"
                                     name="username"
                                     required
-                                    placeholder="Tên đăng nhập"
+                                    placeholder="Họ tên"
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
                                     onBlur={handleUsernameCheck}

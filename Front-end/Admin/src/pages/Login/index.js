@@ -49,6 +49,7 @@ export default function LoginPage() {
                             image: img,
                         }),
                     );
+
                     let timerInterval;
                     Swal.fire({
                         title: 'Đang tải...',

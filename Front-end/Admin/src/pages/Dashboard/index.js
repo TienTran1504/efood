@@ -10,6 +10,7 @@ import EditableRow from './components/EditableRow';
 import Button from '~/components/Layout/DefaultLayout/Header/Button';
 import TypeOfFood from '~/components/TypeOf';
 import DialogConfirm from '~/components/UiComponent/DialogConfirm';
+import Swal from 'sweetalert2';
 
 function Dashboard() {
     const [storageSave, setStorageSave] = useState(JSON.parse(localStorage.getItem('bills')) || []);
@@ -79,6 +80,12 @@ function Dashboard() {
                     setOrders(newBills);
                     setStorageSave(newBills);
                     localStorage.setItem('bills', JSON.stringify(newBills));
+                    Swal.fire({
+                        title: 'Tải lại bill thành công!',
+                        icon: 'success',
+                        confirmButtonText: 'Hoàn tất',
+                        width: '50rem',
+                    });
                 }
             })
             .catch((err) => console.log(err));
@@ -121,6 +128,12 @@ function Dashboard() {
                     setStorageSave(newOrders);
                     setEditFormData('');
                     localStorage.setItem('bills', JSON.stringify(newOrders));
+                    Swal.fire({
+                        title: 'Cập nhật trạng thái bill thành công!',
+                        icon: 'success',
+                        confirmButtonText: 'Hoàn tất',
+                        width: '50rem',
+                    });
                 })
                 .catch((err) => console.log(err));
             setIsLoading(false);
@@ -158,6 +171,12 @@ function Dashboard() {
                     setOrders(newOrders);
                     setStorageSave(newOrders);
                     localStorage.setItem('bills', JSON.stringify(newOrders));
+                    Swal.fire({
+                        title: 'Xóa bill thành công!',
+                        icon: 'success',
+                        confirmButtonText: 'Hoàn tất',
+                        width: '50rem',
+                    });
                 })
                 .catch((res) => console.log(res));
             setIsLoading(false);
@@ -222,7 +241,9 @@ function Dashboard() {
             <div className={classes['box-btn']}>
                 <Button primary className={`${classes.incomeBtn} ${classes['btn-submit']}`}>
                     <span id={classes['btn-submit-title']}>TOTAL INCOME</span>
-                    <span id={classes['btn-submit-money']}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total)}</span>
+                    <span id={classes['btn-submit-money']}>
+                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total)}
+                    </span>
                     <div id={classes['btn-submit-icon']}>
                         <FontAwesomeIcon icon={faMoneyBill} />
                     </div>

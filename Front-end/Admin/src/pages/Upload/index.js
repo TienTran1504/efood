@@ -11,6 +11,7 @@ import Modal from './components/Modal';
 import TypeFood from './components/TypeFood';
 import DialogConfirm from '~/components/UiComponent/DialogConfirm';
 import request from '~/utils/request';
+import Swal from 'sweetalert2';
 
 function Upload() {
     const [isLoading, setIsLoading] = useState(false);
@@ -83,6 +84,12 @@ function Upload() {
                 setFoods(newFoods);
                 setStorageSave(newFoods);
                 localStorage.setItem('products', JSON.stringify(newFoods));
+                Swal.fire({
+                    title: 'Tải lại thành công!',
+                    icon: 'success',
+                    confirmButtonText: 'Hoàn tất',
+                    width: '50rem',
+                });
             })
             .catch((err) => console.log(err));
         setIsLoading(false);
@@ -140,29 +147,50 @@ function Upload() {
         var newFood = {
             name: addFormData.name,
             typeOf: addFormData.typeOf,
-            price: addFormData.price,
+            price: parseInt(addFormData.price),
             image: addFormData.image,
         };
-        setIsLoading(true);
-        await request
-            .post('/foods', newFood, { headers: headers })
-            .then((res) => {
-                newFood = {
-                    id: res.data.food._id,
-                    name: addFormData.name,
-                    typeOf: addFormData.typeOf,
-                    price: addFormData.price,
-                    image: addFormData.image,
-                };
-                const newFoods = [...foods, newFood];
-                setFoods(newFoods);
-                setStorageSave(newFoods);
-                localStorage.setItem('products', JSON.stringify(newFoods));
-                setModalOpen(false);
-                alert('Thêm món ăn hoàn tất');
-            })
-            .catch((err) => console.log(err));
-        setIsLoading(false);
+        if (!isNaN(addFormData.price)) {
+            setIsLoading(true);
+            await request
+                .post('/foods', newFood, { headers: headers })
+                .then((res) => {
+                    newFood = {
+                        id: res.data.food._id,
+                        name: addFormData.name,
+                        typeOf: addFormData.typeOf,
+                        price: addFormData.price,
+                        image: addFormData.image,
+                    };
+                    const newFoods = [...foods, newFood];
+                    setFoods(newFoods);
+                    setStorageSave(newFoods);
+                    localStorage.setItem('products', JSON.stringify(newFoods));
+                    setModalOpen(false);
+                    Swal.fire({
+                        title: 'Thêm món ăn thành công!',
+                        icon: 'success',
+                        confirmButtonText: 'Hoàn tất',
+                        width: '50rem',
+                    });
+                })
+                .catch((err) => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Món ăn đã có trong thực đơn',
+                        text: 'Bạn hãy thêm món ăn khác',
+                        width: '50rem',
+                    });
+                });
+            setIsLoading(false);
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Giá không hợp lệ',
+                width: '50rem',
+            });
+        }
     };
 
     //Handle input change information of food
@@ -189,46 +217,83 @@ function Upload() {
 
     const handleEditFormSubmit = async (e) => {
         e.preventDefault();
+        var checkTypeFood = foodType.some((type) => {
+            console.log(type.name, editFormData.typeOf);
+            return type.name === editFormData.typeOf;
+        });
 
-        console.log(editFoodId);
-        const editedContact = {
-            name: editFormData.name,
-            typeOf: editFormData.typeOf,
-            price: editFormData.price,
-            image: editFormData.image,
-        };
-        const newFoods = [...foods];
-        const index = foods.findIndex((food) => food.id === editFoodId);
-        newFoods[index] = editedContact;
-        newFoods[index].price = newFoods[index].price;
+        if (checkTypeFood) {
+            if (isNaN(editFormData.price)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: 'Giá món ăn không hợp lệ',
+                    width: '50rem',
+                });
+            } else {
+                const editedContact = {
+                    id: editFoodId,
+                    name: editFormData.name,
+                    typeOf: editFormData.typeOf,
+                    price: editFormData.price,
+                    image: editFormData.image,
+                };
+                console.log(editedContact);
 
-        setIsLoading(true);
-        const res = await request
-            .patch(
-                'foods/' + editFoodId,
-                {
-                    name: editedContact.name,
-                    typeOf: editedContact.typeOf,
-                    price: editedContact.price,
-                    image: editedContact.image,
-                },
-                { headers: headers },
-            )
-            .then((res) => {
-                newFoods[index].price = newFoods[index];
-                setFoods(newFoods);
-                setStorageSave(newFoods);
-                localStorage.setItem('products', JSON.stringify(newFoods));
-                setEditFoodId(null);
-            })
-            .catch((err) => console.log(err));
-        setIsLoading(false);
+                console.log('id: ', editFoodId);
+
+                const newFoods = [...foods];
+                const index = foods.findIndex((food) => food.id === editFoodId);
+                newFoods[index] = editedContact;
+
+                setIsLoading(true);
+                const res = await request
+                    .patch(
+                        'foods/' + editFoodId,
+                        {
+                            name: editedContact.name,
+                            typeOf: editedContact.typeOf,
+                            price: parseInt(editedContact.price),
+                            image: editedContact.image,
+                        },
+                        { headers: headers },
+                    )
+                    .then((res) => {
+                        setFoods(newFoods);
+                        setStorageSave(newFoods);
+                        localStorage.setItem('products', JSON.stringify(newFoods));
+                        setEditFoodId(null);
+                        Swal.fire({
+                            title: 'Cập nhật món ăn thành công!',
+                            icon: 'success',
+                            confirmButtonText: 'Hoàn tất',
+                            width: '50rem',
+                        });
+                    })
+                    .catch((err) => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Món ăn bị trùng',
+                            width: '50rem',
+                        });
+                    });
+                setIsLoading(false);
+            }
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Loại thức ăn không có trong danh sách.',
+                width: '50rem',
+            });
+        }
     };
 
     const handleEditClick = (e, food) => {
         e.preventDefault();
         setEditFoodId(food.id);
-
+        console.log(food);
         const formValues = {
             name: food.name,
             typeOf: food.typeOf,
@@ -265,6 +330,12 @@ function Upload() {
                     setFoods(newFoods);
                     setStorageSave(newFoods);
                     localStorage.setItem('products', JSON.stringify(newFoods));
+                    Swal.fire({
+                        title: 'Xóa món ăn thành công!',
+                        icon: 'success',
+                        confirmButtonText: 'Hoàn tất',
+                        width: '50rem',
+                    });
                 })
                 .catch((res) => console.log(res));
             setIsLoading(false);

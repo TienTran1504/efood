@@ -8,6 +8,7 @@ import ReadOnlyRow from './components/ReadOnlyRow';
 import DialogConfirm from '~/components/UiComponent/DialogConfirm';
 import Button from '~/components/Layout/DefaultLayout/Header/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Swal from 'sweetalert2';
 
 function Contacts() {
     //add for process delete modal
@@ -38,6 +39,12 @@ function Contacts() {
             });
             setUsers(newContacts);
             localStorage.setItem('contacts', JSON.stringify(newContacts));
+            Swal.fire({
+                title: 'Tải lại thành công!',
+                icon: 'success',
+                confirmButtonText: 'Hoàn tất',
+                width: '50rem',
+            });
         });
         setIsLoading(false);
     };
@@ -55,7 +62,14 @@ function Contacts() {
             setIsLoading(true);
             await request
                 .delete('admin/contacts/' + users[index].id, { headers: headers })
-                .then((res) => console.log(res))
+                .then((res) => {
+                    Swal.fire({
+                        title: 'Xóa feedback thành công!',
+                        icon: 'success',
+                        confirmButtonText: 'Hoàn tất',
+                        width: '50rem',
+                    });
+                })
                 .catch((res) => console.log(res));
             setIsLoading(false);
             newUsers.splice(index, 1);

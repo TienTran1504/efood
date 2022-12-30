@@ -10,6 +10,7 @@ import EditableRow from './components/EditableRow';
 import DialogConfirm from '~/components/UiComponent/DialogConfirm';
 import Button from '~/components/Layout/DefaultLayout/Header/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Swal from 'sweetalert2';
 
 function Users() {
     //add for process delete modal
@@ -73,6 +74,12 @@ function Users() {
                 setUsers(newUsers);
                 setStorageSave(newUsers);
                 localStorage.setItem('users', JSON.stringify(newUsers));
+                Swal.fire({
+                    title: 'Tải lại thành công!',
+                    icon: 'success',
+                    confirmButtonText: 'Hoàn tất',
+                    width: '50rem',
+                });
             })
             .catch((err) => console.log(err));
         setIsLoading(false);
@@ -114,6 +121,12 @@ function Users() {
                 setStorageSave(newUsers);
                 localStorage.setItem('users', JSON.stringify(newUsers));
                 setEditUserId(null);
+                Swal.fire({
+                    title: 'Cập nhật quyền thành công!',
+                    icon: 'success',
+                    confirmButtonText: 'Hoàn tất',
+                    width: '50rem',
+                });
             })
             .catch((err) => console.log(err));
         setIsLoading(false);
@@ -151,7 +164,14 @@ function Users() {
             setIsLoading(true);
             request
                 .delete('admin/' + users[index].id, { headers: headers })
-                .then((res) => console.log(res))
+                .then((res) => {
+                    Swal.fire({
+                        title: 'Xóa user thành công!',
+                        icon: 'success',
+                        confirmButtonText: 'Hoàn tất',
+                        width: '50rem',
+                    });
+                })
                 .catch((res) => console.log(res));
 
             setIsLoading(false);

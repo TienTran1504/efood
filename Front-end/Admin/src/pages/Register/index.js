@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Backdrop, CircularProgress } from '@mui/material';
 
 import request from '~/utils/request';
 import Images from '~/assets/images';
@@ -9,8 +10,13 @@ import classes from '../Login/Login.module.scss';
 import Swal from 'sweetalert2';
 
 export default function SignUpPage() {
+    const [isLoading, setIsLoading] = useState(false);
+
     const [email, setEmail] = useState('');
     const [validEmail, setValidEmail] = useState(false);
+
+    const [username, setUsername] = useState('');
+    const [validUsername, setValidUsername] = useState(false);
 
     const [pass, setPass] = useState('');
     const [validPass, setValidPass] = useState(false);
@@ -23,6 +29,7 @@ export default function SignUpPage() {
     const [confirmEmail, setConfirmEmail] = useState(false);
 
     async function handleSentOtp() {
+        setIsLoading(true);
         await request
             .post('auth/otp', { email: email })
             .then((res) => {
@@ -44,6 +51,7 @@ export default function SignUpPage() {
                     width: '50rem',
                 });
             });
+        setIsLoading(false);
     }
 
     function handleEmailCheck() {
@@ -52,6 +60,12 @@ export default function SignUpPage() {
 
         if (!checkEmail) setValidEmail(true);
         else setValidEmail(false);
+    }
+
+    function handleUsernameCheck() {
+        console.log(username);
+        if (username === '') setValidUsername(true);
+        else setValidUsername(false);
     }
 
     function handlePasswordCheck() {
@@ -69,7 +83,8 @@ export default function SignUpPage() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        if (validEmail || validPass || validReWritePass) {
+        console.log(validEmail, validPass, validReWritePass, validUsername);
+        if (validEmail || validPass || validReWritePass || validUsername) {
             Swal.fire({
                 icon: 'error',
                 title: 'Lỗi',
@@ -79,13 +94,13 @@ export default function SignUpPage() {
             return;
         }
         var objResgister = {
-            name: 'Long dep trai',
+            name: username,
             email: email,
             password: pass,
             otp: otp,
             otpVerify: otpVerify,
         };
-
+        setIsLoading(true);
         // make axios post
         await request
             .post('auth/register', objResgister)
@@ -134,6 +149,7 @@ export default function SignUpPage() {
                     });
                 }
             });
+        setIsLoading(false);
     }
 
     return (
@@ -143,7 +159,7 @@ export default function SignUpPage() {
             </div>
             <div className={classes.wrapper__form}>
                 <h2>Đăng Ký</h2>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className={classes.form__container}>
                     <p>
                         <input
                             type="text"
@@ -156,7 +172,7 @@ export default function SignUpPage() {
                         />
                         <text>
                             {validEmail ? (
-                                <div>
+                                <div style={{ fontSize: '1.6rem' }}>
                                     <FontAwesomeIcon icon={faExclamationCircle} />
                                     Email không hợp lệ.
                                 </div>
@@ -173,6 +189,17 @@ export default function SignUpPage() {
                         </p>
                     ) : (
                         <>
+                            <p>
+                                <input
+                                    type="text"
+                                    name="username"
+                                    required
+                                    placeholder="Họ tên"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    onBlur={handleUsernameCheck}
+                                />
+                            </p>
                             <p>
                                 <input
                                     type="password"
@@ -235,10 +262,13 @@ export default function SignUpPage() {
                 </form>
                 <footer>
                     <p>
-                        Bạn đã có tài khoản? <Link to="/login">Đăng nhập</Link>
+                        Bạn đã có tài khoản? <Link to="/">Đăng nhập</Link>
                     </p>
                 </footer>
             </div>
+            <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </div>
     );
 }

@@ -2,20 +2,25 @@ import React, { useState } from "react";
 import classes from "../UiComponent/ModelFood.module.scss";
 import { RiCloseLine } from "react-icons/ri";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Backdrop from '@mui/material/Backdrop';
 import axios from "axios";
 // import  { Redirect } from 'react-router-dom'
 import Swal from 'sweetalert2';
+import CircularProgress from '@mui/material/CircularProgress';
 import {
   faPlusCircle,
   faMinusCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
+import { useNavigate } from 'react-router-dom';
+
 
 
 const ModalFood = ({ setIsOpen, setData }) => {
-  // const [check, setCheck] =  useState(false);
 
   const [quantityNumber, setquantityNumber] = useState(1);
+  const [isSent, setisSent] = useState(true);
+  const usenavigate = useNavigate();
 
   function numberWithDot(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -29,56 +34,43 @@ const ModalFood = ({ setIsOpen, setData }) => {
     setquantityNumber(quantityNumber - 1);
   }
 
-  async function AddFoodToCart() {
-    const token = JSON.stringify(localStorage.getItem('token')).split('"').join('');
-    const tokenAuth = 'Bearer ' + token;
+  function AddFoodToCart() {
+    setisSent(false);
+    console.log(isSent);
+    const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
     const headers = {
       Authorization: tokenAuth,
     };
-
-    console.log(token);
-    setIsOpen(false);
-
-    // const headers = { 'Authorization': "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzgwN2ViNjllODIxYTMyMDA1N2ViZDAiLCJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NzAwODU1NTQsImV4cCI6MTY3MjY3NzU1NH0.CbfYvU3dRalURXHYfX8sFifDyINaJHe_iJZ3X1SxjNc" };
     const obj = {
       quantity: quantityNumber,
     }
-    var check = false;
-    if (token !== null) {
-      await axios.post(`http://localhost:3000/api/v1/customer/cart/${setData.id}`, obj, { headers: headers }).then((res) => {
-        console.log(setData)
-        check = true;
-      }).catch(error => {
-        console.log(error);
-        if (error.response.status === 401) {
-          alert("Bạn chưa đăng nhập !!!");
-          window.location.href = "http://localhost:3001/login";
-        } else if (error.response.status === 400) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Lỗi',
-            text: 'Đã có trong giỏ hàng!',
-            width: '50rem',
-        });
-        } else {
-          Swal.fire({
-            title: 'Thêm thành công',
-            icon: 'success',
-            confirmButtonText: 'Hoàn tất',
-            width: '50rem',
-        });
-        }
-      })
-      if(check ===  true){
+
+    if(JSON.stringify(localStorage.getItem('token')).split('"').join('') === 'null'){
+      setIsOpen(false);
+      usenavigate('/login');
+    }
+
+    else{
+      axios.post(`http://localhost:3000/api/v1/customer/cart/${setData.id}`, obj, { headers: headers }).then((res) => {
+        setisSent(true);
+        setIsOpen(false); 
         Swal.fire({
           title: 'Thêm thành công',
           icon: 'success',
           confirmButtonText: 'Hoàn tất',
           width: '50rem',
-        });
-      }
+      });
+      }).catch(error => {
+        console.log("cc nè" + error);
+        setIsOpen(false);
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: 'Đã có trong giỏ hàng!',
+          width: '50rem',
+      });
+      })
     }
-
   }
 
   return (
@@ -141,6 +133,13 @@ const ModalFood = ({ setIsOpen, setData }) => {
           </div>
         </div>
       </div>
+      {
+        (!isSent) ?
+          <Backdrop style={{ zIndex: 5 }} className={classes.backdrop} open>
+            <CircularProgress color="inherit" />
+          </Backdrop>
+          : ''
+      }
     </>
   );
 };

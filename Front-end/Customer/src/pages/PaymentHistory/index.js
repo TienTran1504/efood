@@ -8,6 +8,7 @@ import DialogFeedback from '~/components/UiComponent/DialogFeedback';//feedback 
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '~/components/Layout/DefaultLayout/Header/Button';
+import Swal from 'sweetalert2';
 
 function PaymentHistory() {
     const [bills, setBills] = useState([]);
@@ -20,6 +21,7 @@ function PaymentHistory() {
     const [IsOpen, setIsOpen] = useState(false);
     const [ListProduct, setListProduct] = useState(null);
     const [isFetch, setIsFetch] = useState(false);
+    const [isLoading, setLoading] = useState()
     const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
     const headers = {
         Authorization: tokenAuth,
@@ -68,6 +70,7 @@ function PaymentHistory() {
             setIsOpen(false);
         } else {
             setIsOpen(false);
+            setLoading(true);
         }
     }
 
@@ -75,8 +78,11 @@ function PaymentHistory() {
         const obj = {
             feedbackStatus:"True"
         };
+        
         await axios.patch(`http://localhost:3000/api/v1/bills/${bill._id}`, obj, { headers: headers });
+        setLoading(false);
         window.location.reload();
+        
     }
 
     const handleFeedBack = (item) => {
@@ -187,7 +193,13 @@ function PaymentHistory() {
                 </div>
             </div>
             {IsOpen && <DialogFeedback items={ListProduct} IsOpen={onDialog} isFeedBack={setFeedBack}/>}
-
+            {
+                (isLoading) ?
+                    <Backdrop style={{ zIndex: 1 }} className={classes.backdrop} open>
+                        <CircularProgress color="inherit" />
+                    </Backdrop>
+                    : ''
+            }
 
         </div>
     )

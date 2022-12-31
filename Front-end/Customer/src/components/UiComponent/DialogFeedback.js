@@ -10,6 +10,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Rate from './Rate';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const token = JSON.stringify(localStorage.getItem('token')).split('"').join('');
 const tokenAuth = 'Bearer ' + token;
@@ -85,11 +86,21 @@ export default function DialogFeedback({items, IsOpen, isFeedBack}) {
             });
     
             if(fbStore ==='') {
-                alert('Vui lòng để lại nhận xét cho cửa hàng!');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: 'Vui lòng để lại nhận xét cho cửa hàng !',
+                    width: '50rem',
+                });
             }
             else {
                 IsOpen(false); 
-                alert("submit complete"); 
+                Swal.fire({
+                    title: 'Đánh giá thành công !',
+                    icon: 'success',
+                    confirmButtonText: 'Hoàn tất',
+                    width: '50rem',
+                });
                 isFeedBack(true);
                 // window.location.reload(false);
             }

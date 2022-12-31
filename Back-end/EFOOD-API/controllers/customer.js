@@ -65,13 +65,15 @@ const updatePassword = async (req, res) => {
 // {{URL}}/customer/profile
 const updateUserProfile = async (req, res) => {
     const user = await User.findOne({ _id: req.user.userId });
-    const { phone, gender, address, image, birthday } = req.body;
-    if (!phone && !gender && !address && !image && !birthday) {
+    const { name, phone, gender, address, image, birthday } = req.body;
+    if (!name && !phone && !gender && !address && !image && !birthday) {
         throw new BadRequestError("Please enter at least 1 fields to update user profile (phone, gender, address)")
     }
     else {
-        const dob = moment(birthday, 'DD/MM/YYYY').format('YYYY-MM-DD');
-        req.body.birthday = dob;
+        if (birthday) {
+            const dob = moment(birthday, 'DD/MM/YYYY').format('YYYY-MM-DD');
+            req.body.birthday = dob;
+        }
         const userUpdate = await User.findByIdAndUpdate(
             {
                 _id: user._id,

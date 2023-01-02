@@ -70,19 +70,19 @@ function PaymentHistory() {
             setIsOpen(false);
         } else {
             setIsOpen(false);
-            setLoading(true);
+            // setLoading(true);
         }
     }
 
     async function setFeedBack() {
         const obj = {
-            feedbackStatus:"True"
+            feedbackStatus: "True"
         };
-        
+
         await axios.patch(`http://localhost:3000/api/v1/bills/${bill._id}`, obj, { headers: headers });
         setLoading(false);
         window.location.reload();
-        
+
     }
 
     const handleFeedBack = (item) => {
@@ -151,9 +151,13 @@ function PaymentHistory() {
                                 </tr>
                                 {
                                     (!isFetch && bills.length === 0) ?
-                                        <Backdrop style={{ zIndex: 1 }} className={classes.backdrop} open>
-                                            <CircularProgress color="inherit" />
-                                        </Backdrop>
+                                        <tr>
+                                            <td>
+                                                <Backdrop style={{ zIndex: 1 }} className={classes.backdrop} open>
+                                                    <CircularProgress color="inherit" />
+                                                </Backdrop>
+                                            </td>
+                                        </tr>
                                         :
                                         bills.map((item, idx) => (
                                             <tr key={idx}
@@ -168,7 +172,7 @@ function PaymentHistory() {
                                                         (item.status === 'Shipping' && <button disabled style={{ fontWeight: 'bold', backgroundColor: '#4b93fe', padding: '0 29px', borderRadius: '6px', color: '#000' }}>Shipping</button>) ||
                                                         (item.status === 'Canceled' && <button disabled style={{ fontWeight: 'bold', backgroundColor: '#da4848', padding: '0 28px', borderRadius: '6px', color: '#000' }}>Canceled</button>)}
                                                 </td>
-                                                <td className={classes['feedback']}>
+                                                <td className={classes['feedback']} key={idx}>
                                                     {item.status === 'Delivered' && item.feedbackStatus === 'False' && <button className={classes['feedbackbtn']} onClick={() => handleFeedBack(item)} style={{ borderRadius: '6px' }}>Rating</button>}
                                                     {item.status !== 'Delivered' && <button disabled className={classes['feedbackbtn']} style={{ borderRadius: '6px' }}>Rating</button>}
                                                     {item.status === 'Delivered' && item.feedbackStatus === 'True' && <button disabled className={classes['feedbackbtn']} style={{ borderRadius: '6px' }}>Rated</button>}
@@ -192,7 +196,7 @@ function PaymentHistory() {
                     </div>
                 </div>
             </div>
-            {IsOpen && <DialogFeedback items={ListProduct} IsOpen={onDialog} isFeedBack={setFeedBack}/>}
+            {IsOpen && <DialogFeedback items={ListProduct} IsOpen={onDialog} isFeedBack={setFeedBack} />}
             {
                 (isLoading) ?
                     <Backdrop style={{ zIndex: 1 }} className={classes.backdrop} open>

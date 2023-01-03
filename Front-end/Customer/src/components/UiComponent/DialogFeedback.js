@@ -12,11 +12,11 @@ import Rate from './Rate';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-const token = JSON.stringify(localStorage.getItem('token')).split('"').join('');
-const tokenAuth = 'Bearer ' + token;
-const headers = {
-    Authorization: tokenAuth,
-};
+// const token = JSON.stringify(localStorage.getItem('token')).split('"').join('');
+// const tokenAuth = 'Bearer ' + token;
+// const headers = {
+//     Authorization: tokenAuth,
+// };
 
 
 
@@ -26,7 +26,7 @@ export default function DialogFeedback({ items, IsOpen, isFeedBack }) {
     const [IdProduct, setIdProduct] = useState(null);
     const [listRating, setRating] = useState([]);
 
-    // console.log(items);
+    
 
     const handleRating = (choose, id, valueRating) => {
         if (choose) {
@@ -37,24 +37,24 @@ export default function DialogFeedback({ items, IsOpen, isFeedBack }) {
                 value: valueRating,
             }
             if (ArrayItem.length !== 0) {
-                ArrayItem.forEach((item, index) => {
+                ArrayItem.forEach((item) => {
                     if (newItem.idx === item.idx) {
                         item = newItem;//nếu mà id trùng vs id trước đó thì thay thế
                     }
                     else {
-                        ArrayItem = [...ArrayItem, newItem];
-
-                        setRating(ArrayItem);
+                        ArrayItem = [...ArrayItem, newItem];      
                     }
                 });
             } else {
+                console.log();
                 ArrayItem = [...ArrayItem, newItem];//danh sách chưa có item nào thì add bth
             }
-            console.log(ArrayItem);
+            setRating(ArrayItem);
         } else {
             setStatusRate(false);
         }
     }
+
 
     const ratingFeedback = (itemId) => {
         setIdProduct(itemId);
@@ -67,9 +67,11 @@ export default function DialogFeedback({ items, IsOpen, isFeedBack }) {
         const headers = {
             Authorization: tokenAuth,
         };
+        console.log(headers);
 
         if (token !== null) {
-            console.log("submit")
+            console.log("submit");
+            console.log(listRating);
             // const fbProduct = document.getElementById('fbProduct').value;
             const fbStore = document.getElementById('fbStore').value;
 
@@ -83,7 +85,9 @@ export default function DialogFeedback({ items, IsOpen, isFeedBack }) {
                     }).catch(error => {
                         console.log(error);
                     })
+                    
             });
+
 
             if (fbStore === '') {
                 Swal.fire({
@@ -101,7 +105,7 @@ export default function DialogFeedback({ items, IsOpen, isFeedBack }) {
                     confirmButtonText: 'Hoàn tất',
                     width: '50rem',
                 });
-                isFeedBack(true);
+                isFeedBack(fbStore);
                 // window.location.reload(false);
             }
         }
@@ -135,7 +139,7 @@ export default function DialogFeedback({ items, IsOpen, isFeedBack }) {
                                 </tr>
                                 {/* item */}
                                 {items.map((item) => (
-                                    <tr className={classes['rowItem']} key={item._id}>
+                                    <tr className={classes['rowItem']} key={item.foodId}>
                                         <td>
                                             <div className={classes['infoLeft']}>
                                                 <img src={item.image} alt="error" />
@@ -148,7 +152,7 @@ export default function DialogFeedback({ items, IsOpen, isFeedBack }) {
                                                 {/* <FontAwesomeIcon icon={faFileLines} style={{marginRight:'10px', cursor:'pointer'}} /> */}
                                             </div>
                                         </td>
-                                        {/* {console.log(item)} */}
+                                        {console.log(item)}
                                     </tr>
                                 ))}
 

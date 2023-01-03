@@ -35,6 +35,7 @@ export default function Rate({product, onDialog}) {
     
   }
   const conFirmRating = ()=>{
+    console.log("id food rating" + product +" value " + rating);
     onDialog(true, product, rating);
   }
 

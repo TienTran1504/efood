@@ -21,7 +21,8 @@ function PaymentHistory() {
     const [IsOpen, setIsOpen] = useState(false);
     const [ListProduct, setListProduct] = useState(null);
     const [isFetch, setIsFetch] = useState(false);
-    const [isLoading, setLoading] = useState()
+    const [isLoading, setLoading] = useState();
+
     const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
     const headers = {
         Authorization: tokenAuth,
@@ -63,7 +64,7 @@ function PaymentHistory() {
             .catch((error) => {
                 console.log(error);
             });
-    }, []);
+    }, );
 
     const onDialog = (choose) => {
         if (choose) {
@@ -74,12 +75,22 @@ function PaymentHistory() {
         }
     }
 
-    async function setFeedBack() {
+    async function patchFeedback(content){
+        await axios.patch(`http://localhost:3000/api/v1/bills/feedback/${bill._id}`, content, { headers: headers });
+    }
+
+    async function setFeedBack(content) {
         const obj = {
             feedbackStatus: "True"
+
         };
 
-        await axios.patch(`http://localhost:3000/api/v1/bills/${bill._id}`, obj, { headers: headers });
+        await axios
+            .patch(`http://localhost:3000/api/v1/bills/${bill._id}`, obj, { headers: headers });
+
+
+        patchFeedback(content);
+
         setLoading(false);
         window.location.reload();
 
@@ -196,7 +207,7 @@ function PaymentHistory() {
                     </div>
                 </div>
             </div>
-            {IsOpen && <DialogFeedback items={ListProduct} IsOpen={onDialog} isFeedBack={setFeedBack} />}
+            {IsOpen && <DialogFeedback items={ListProduct} key={0} IsOpen={onDialog} isFeedBack={setFeedBack} />}
             {
                 (isLoading) ?
                     <Backdrop style={{ zIndex: 1 }} className={classes.backdrop} open>

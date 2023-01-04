@@ -28,7 +28,6 @@ const sendMail = (lengthOTP, email) => new Promise(
         let OTP = null;
         const check = mailTransporter.sendMail(details, (err) => {
             if (err) {
-                console.log("It has an error", err);
                 reject(err);
             }
             else {

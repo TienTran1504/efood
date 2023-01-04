@@ -14,10 +14,7 @@ const auth = async (req, res, next) => {
         //attach the user 
 
         const user = User.findById(payload.id).select('-password') // look for the user in DB
-        // req.user = user;
-        // console.log(user)
         req.user = { userId: payload.userId, name: payload.name, user: payload }; //payload có các key đã tạo bên models User phần createJWT()
-        // console.log(payload);
         next();
     } catch (error) {
         throw new UnauthenticatedError('Authentication invalid')

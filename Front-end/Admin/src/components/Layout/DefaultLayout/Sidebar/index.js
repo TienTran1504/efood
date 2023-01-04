@@ -37,13 +37,8 @@ function Sidebar() {
     const [selectedImage, setSelectedImage] = useState(null);
     var profile = JSON.parse(localStorage.getItem('profile')) || { username: '', image: '' };
 
-    console.log(profile);
 
-    // const [dialogConfirm, setDialogConfirm] = useState(false);
 
-    // function areUSureDelete() {
-    //     console.log(dialogConfirm);
-    // }
 
     const convertToBase64 = (file) => {
         return new Promise((resolve, reject) => {
@@ -60,7 +55,6 @@ function Sidebar() {
 
     if (selectedImage !== null) {
         convertToBase64(selectedImage).then((data) => {
-            // console.log(data);
         });
     }
 

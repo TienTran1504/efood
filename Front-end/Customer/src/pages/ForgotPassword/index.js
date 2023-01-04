@@ -88,7 +88,6 @@ export default function ForgotPassword() {
         // make axios post
         const res = await request.patch('auth/forgotpassword', objResgister);
         setIsLoading(false);
-        console.log(res.data);
         if (res.data.user === null) {
             setEmail('');
             setPass('');

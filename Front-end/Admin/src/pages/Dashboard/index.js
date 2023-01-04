@@ -61,7 +61,6 @@ function Dashboard() {
         await request
             .get('bills', { headers: headers })
             .then((res) => {
-                console.log(res.data);
                 const users = JSON.parse(localStorage.getItem('users'));
                 if (res.data.msg !== 'Dont have any bills to show') {
                     var newBills = [];
@@ -98,7 +97,6 @@ function Dashboard() {
     const handleFilterBills = (e) => {
         var newBills = [];
         var key = e.target.firstChild.innerText;
-        console.log(key);
         storageSave.forEach((value) => {
             if (value.status === key) newBills = [...newBills, value];
         });

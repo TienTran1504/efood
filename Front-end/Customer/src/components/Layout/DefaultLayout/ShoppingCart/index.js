@@ -80,7 +80,6 @@ const ShoppingCart = (props) => {
     function numberWithDot(num) {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     }
-    console.log(cartItems);
     return (
         <div className={classes['cart-container']}>
             <div className={classes['cart-container--item']}>
@@ -258,9 +257,8 @@ const ShoppingCart = (props) => {
                     </tbody>
                 </table>
                 <button
-                    className={`${classes['cart-btn']} ${classes['cart-btn--active']} ${
-                        cartItems.length !== 0 ? classes['cart-btn--enabled'] : classes['cart-btn--disabled']
-                    }
+                    className={`${classes['cart-btn']} ${classes['cart-btn--active']} ${cartItems.length !== 0 ? classes['cart-btn--enabled'] : classes['cart-btn--disabled']
+                        }
                     }`}
                     style={{ marginBottom: '30px' }}
                     onClick={() => order()}

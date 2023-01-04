@@ -101,7 +101,6 @@ function Upload() {
         storageSave.forEach((value) => {
             if (value.typeOf === typeOf) newProducts = [...newProducts, value];
         });
-        console.log(newProducts);
         setFoods(newProducts);
     };
 
@@ -219,7 +218,6 @@ function Upload() {
     const handleEditFormSubmit = async (e) => {
         e.preventDefault();
         var checkTypeFood = foodType.some((type) => {
-            console.log(type.name, editFormData.typeOf);
             return type.name === editFormData.typeOf;
         });
 
@@ -239,9 +237,7 @@ function Upload() {
                     price: editFormData.price,
                     image: editFormData.image,
                 };
-                console.log(editedContact);
 
-                console.log('id: ', editFoodId);
 
                 const newFoods = storageSave;
                 const index = foods.findIndex((food) => food.id === editFoodId);
@@ -294,7 +290,6 @@ function Upload() {
     const handleEditClick = (e, food) => {
         e.preventDefault();
         setEditFoodId(food.id);
-        console.log(food);
         const formValues = {
             name: food.name,
             typeOf: food.typeOf,

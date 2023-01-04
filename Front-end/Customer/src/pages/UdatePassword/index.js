@@ -20,14 +20,13 @@ function CheckPassEqual(password1, password2) {
     return true;
 }
 
-function CheckAboutCharac(password){
+function CheckAboutCharac(password) {
     const passFormat = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
     const checkPass = passFormat.test(password);
-    if(checkPass)
-    {
+    if (checkPass) {
         return true;
     }
-    else{
+    else {
         return false;
     }
 }
@@ -49,10 +48,9 @@ function UpdatePassword() {
     const headers = {
         Authorization: tokenAuth,
     };
-    
+
 
     function handleSubmit2(e) {
-        console.log(CurrentPass + ' ' + NewPass + ' ' + AgainPass);
         e.preventDefault();
 
         if (CurrentPass === '' || NewPass === '' || AgainPass === '') {
@@ -118,7 +116,6 @@ function UpdatePassword() {
             axios
                 .patch(`http://localhost:3000/api/v1/customer/updatepassword`, obj, { headers: headers })
                 .then((res) => {
-                    console.log(res);
                     setSaveSuccess(true);
                 })
                 .catch((error) => {

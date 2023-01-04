@@ -32,7 +32,6 @@ const ModalFood = ({ setIsOpen, setData }) => {
 
   function AddFoodToCart() {
     setisSent(false);
-    console.log(isSent);
     const tokenAuth = 'Bearer ' + JSON.stringify(localStorage.getItem('token')).split('"').join('');
     const headers = {
       Authorization: tokenAuth,
@@ -41,30 +40,30 @@ const ModalFood = ({ setIsOpen, setData }) => {
       quantity: quantityNumber,
     }
 
-    if(JSON.stringify(localStorage.getItem('token')).split('"').join('') === 'null'){
+    if (JSON.stringify(localStorage.getItem('token')).split('"').join('') === 'null') {
       setIsOpen(false);
       usenavigate('/login');
     }
 
-    else{
+    else {
       axios.post(`http://localhost:3000/api/v1/customer/cart/${setData._id}`, obj, { headers: headers }).then((res) => {
         setisSent(true);
-        setIsOpen(false); 
+        setIsOpen(false);
         Swal.fire({
           title: 'Thêm thành công',
           icon: 'success',
           confirmButtonText: 'Hoàn tất',
           width: '50rem',
-      });
+        });
       }).catch(error => {
-        console.log("cc nè" + error);
+        console.log(error);
         setIsOpen(false);
         Swal.fire({
           icon: 'error',
           title: 'Lỗi',
           text: 'Đã có trong giỏ hàng!',
           width: '50rem',
-      });
+        });
       })
     }
   }

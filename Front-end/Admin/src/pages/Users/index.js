@@ -57,7 +57,6 @@ function Users() {
             .then((res) => {
                 var newUsers = [];
                 const userId = localStorage.getItem('userId');
-                console.log(res.data);
                 res.data.sortedUsers.forEach((value, index) => {
                     if (userId !== value._id) {
                         var newUser = {

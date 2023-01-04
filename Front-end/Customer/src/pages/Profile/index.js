@@ -112,11 +112,9 @@ function Profile() {
             image: imgURL,
             birthday: moment(Birthday).format('DD/MM/YYYY'),
         };
-        console.log(obj);
         axios
             .patch(`http://localhost:3000/api/v1/customer/profile`, obj, { headers: headers })
             .then((res) => {
-                console.log(res);
                 const profile = JSON.parse(localStorage.getItem('profile2')) || { bonus: 0, image: '' };
                 profile.image = imgURL;
                 localStorage.setItem('profile2', JSON.stringify(profile));
@@ -393,7 +391,6 @@ function Profile() {
                             <input
                                 name="myImage"
                                 onChange={(event) => {
-                                    console.log(event.target.files[0]);
                                     setSelectedImage(event.target.files[0]);
                                 }}
                                 id="upload-button"

@@ -41,7 +41,6 @@ function Header() {
 
     const handleLogOut = () => {
         const jsonUser = JSON.stringify(!currentUser);
-        console.log(jsonUser);
         localStorage.setItem('user-state', jsonUser);
         const state = setCurrentUser(!currentUser);
         return state;

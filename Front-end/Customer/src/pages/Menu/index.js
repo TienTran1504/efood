@@ -100,7 +100,6 @@ function Menu() {
                     setMenuItems(newItems);
 
                 }
-                // console.log(res.data);
                 localStorage.setItem('listFoods', JSON.stringify(newItems));
                 setCheckOpen(false);
 
@@ -121,7 +120,6 @@ function Menu() {
 
     const filterItems = (category, isSorted) => {
         setIsFirstLoad(false);
-        // console.log(category)
         setActiveCategory(category);
         if (category === 'All') {
             setMenuItems(items);

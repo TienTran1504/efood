@@ -76,11 +76,10 @@ function Contact() {
             email: Email,
             content: Content,
         };
-        console.log(obj);
         axios
             .post(`http://localhost:3000/api/v1/auth/contact`, obj, { headers: headers })
             .then((res) => {
-                console.log(res);
+                // console.log(res);
             })
             .catch((error) => {
                 console.log(error);

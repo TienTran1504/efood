@@ -75,25 +75,40 @@ function PaymentHistory() {
         }
     }
 
-    async function patchFeedback(content){
-        await axios.patch(`http://localhost:3000/api/v1/bills/feedback/${bill._id}`, content, { headers: headers });
+    async function patchFeedback(bill, content){
+        const obj = {
+            feedback: content
+        };
+        await axios.patch(`http://localhost:3000/api/v1/bills/feedback/${bill._id}`, obj, { headers: headers }).then((res)=>{
+            console.log(res);
+        }).catch((error)=>{
+            console.log(error);
+        })
     }
 
-    async function setFeedBack(content) {
+    function setFeedBack(content) {
+        setLoading(true);
         const obj = {
             feedbackStatus: "True"
-
         };
-
-        await axios
-            .patch(`http://localhost:3000/api/v1/bills/${bill._id}`, obj, { headers: headers });
-
-
-        patchFeedback(content);
-
-        setLoading(false);
-        window.location.reload();
-
+        patchFeedback(bill, content);
+        console.log(bill);
+        if(tokenAuth !== null){
+            axios
+            .patch(`http://localhost:3000/api/v1/bills/${bill._id}`, obj, { headers: headers }).then((res)=>{
+                setLoading(false);
+                Swal.fire({
+                    title: 'Đánh giá thành công !',
+                    icon: 'success',
+                    confirmButtonText: 'Hoàn tất',
+                    width: '50rem',
+                });
+                window.location.reload();
+            }
+            
+            );
+        }
+        
     }
 
     const handleFeedBack = (item) => {

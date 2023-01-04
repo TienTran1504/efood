@@ -36,7 +36,11 @@ export default function DialogFeedback({ items, IsOpen, isFeedBack }) {
                 idx: id,
                 value: valueRating,
             }
-            if (ArrayItem.length !== 0) {
+            if (ArrayItem.length === 0) {
+                ArrayItem = [...ArrayItem, newItem];//danh sách chưa có item nào thì add bth
+
+
+            } else {
                 ArrayItem.forEach((item) => {
                     if (newItem.idx === item.idx) {
                         item = newItem;//nếu mà id trùng vs id trước đó thì thay thế
@@ -45,14 +49,13 @@ export default function DialogFeedback({ items, IsOpen, isFeedBack }) {
                         ArrayItem = [...ArrayItem, newItem];      
                     }
                 });
-            } else {
-                console.log();
-                ArrayItem = [...ArrayItem, newItem];//danh sách chưa có item nào thì add bth
             }
             setRating(ArrayItem);
         } else {
+            
             setStatusRate(false);
         }
+        console.log(listRating);
     }
 
 
@@ -81,7 +84,6 @@ export default function DialogFeedback({ items, IsOpen, isFeedBack }) {
                 }
                 axios
                     .patch(`http://localhost:3000/api/v1/foods/rating/${item.idx}`, obj, { headers: headers }).then((res) => {
-                        console.log("token is " + res);
                     }).catch(error => {
                         console.log(error);
                     })
@@ -99,12 +101,6 @@ export default function DialogFeedback({ items, IsOpen, isFeedBack }) {
             }
             else {
                 IsOpen(false);
-                Swal.fire({
-                    title: 'Đánh giá thành công !',
-                    icon: 'success',
-                    confirmButtonText: 'Hoàn tất',
-                    width: '50rem',
-                });
                 isFeedBack(fbStore);
                 // window.location.reload(false);
             }

@@ -283,7 +283,8 @@ function Profile() {
                                         onChange={(e) => setEmail(e.target.value)}
                                         readOnly
                                         style={{
-                                            color: 'gray'
+                                            color: 'gray',
+                                            width: '350px'
                                         }}
                                     ></input>
                                     <span>

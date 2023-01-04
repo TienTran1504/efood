@@ -1,6 +1,6 @@
 # efood
 
-# Link zoom
+# Link zoom & google meet
 
 link zoom 2nd week: https://us05web.zoom.us/j/89022989823?pwd=MHBHZzdya2ticXFrRkdURzRBQjZVUT09
 link zoom 3rd week: https://us05web.zoom.us/j/89256928137?pwd=ZVdpNGtEeERnOGhBMlRMM1pnU0NTdz09
@@ -12,5 +12,3 @@ link zoom 7th week:https://us05web.zoom.us/j/83160772559?pwd=U3ZRVmtMWWZueTRHVGp
 link zoom 8th week:https://us05web.zoom.us/j/81142200773?pwd=OUZOOWZtaENtZC81bkNUWTNmZHplQT09
 link zoom 9th week:https://us05web.zoom.us/j/87032281699?pwd=SVZtRUpQenA0blFyT0RDR05sV1YzUT09
 link google meet 10th week: https://meet.google.com/sfm-mhxj-vte
-link zoom 11th week:
-link zoom 12th week:

@@ -26,7 +26,7 @@ export default function DialogFeedback({ items, IsOpen, isFeedBack }) {
     const [IdProduct, setIdProduct] = useState(null);
     const [listRating, setRating] = useState([]);
 
-    
+
 
     const handleRating = (choose, id, valueRating) => {
         if (choose) {
@@ -46,16 +46,16 @@ export default function DialogFeedback({ items, IsOpen, isFeedBack }) {
                         item = newItem;//nếu mà id trùng vs id trước đó thì thay thế
                     }
                     else {
-                        ArrayItem = [...ArrayItem, newItem];      
+                        ArrayItem = [...ArrayItem, newItem];
                     }
                 });
             }
             setRating(ArrayItem);
         } else {
-            
+
             setStatusRate(false);
         }
-        console.log(listRating);
+
     }
 
 
@@ -70,11 +70,9 @@ export default function DialogFeedback({ items, IsOpen, isFeedBack }) {
         const headers = {
             Authorization: tokenAuth,
         };
-        console.log(headers);
+
 
         if (token !== null) {
-            console.log("submit");
-            console.log(listRating);
             // const fbProduct = document.getElementById('fbProduct').value;
             const fbStore = document.getElementById('fbStore').value;
 
@@ -87,7 +85,7 @@ export default function DialogFeedback({ items, IsOpen, isFeedBack }) {
                     }).catch(error => {
                         console.log(error);
                     })
-                    
+
             });
 
 
@@ -148,7 +146,6 @@ export default function DialogFeedback({ items, IsOpen, isFeedBack }) {
                                                 {/* <FontAwesomeIcon icon={faFileLines} style={{marginRight:'10px', cursor:'pointer'}} /> */}
                                             </div>
                                         </td>
-                                        {console.log(item)}
                                     </tr>
                                 ))}
 

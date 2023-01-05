@@ -64,7 +64,7 @@ function PaymentHistory() {
             .catch((error) => {
                 console.log(error);
             });
-    }, );
+    });
 
     const onDialog = (choose) => {
         if (choose) {
@@ -75,40 +75,44 @@ function PaymentHistory() {
         }
     }
 
-    async function patchFeedback(bill, content){
+    async function patchFeedback(bill, content) {
         const obj = {
             feedback: content
         };
-        await axios.patch(`http://localhost:3000/api/v1/bills/feedback/${bill._id}`, obj, { headers: headers }).then((res)=>{
-            console.log(res);
-        }).catch((error)=>{
+        await axios.patch(`http://localhost:3000/api/v1/bills/feedback/${bill._id}`, obj, { headers: headers }).then((res) => {
+        }).catch((error) => {
             console.log(error);
         })
     }
 
     function setFeedBack(content) {
-        setLoading(true);
+        // setLoading(true);
         const obj = {
             feedbackStatus: "True"
         };
         patchFeedback(bill, content);
-        console.log(bill);
-        if(tokenAuth !== null){
+        if (tokenAuth !== null) {
             axios
-            .patch(`http://localhost:3000/api/v1/bills/${bill._id}`, obj, { headers: headers }).then((res)=>{
-                setLoading(false);
-                Swal.fire({
-                    title: 'Đánh giá thành công !',
-                    icon: 'success',
-                    confirmButtonText: 'Hoàn tất',
-                    width: '50rem',
+                .patch(`http://localhost:3000/api/v1/bills/${bill._id}`, obj, { headers: headers }).then((res) => {
+                    setLoading(false);
+                    Swal.fire({
+                        title: 'Đánh giá thành công !',
+                        icon: 'success',
+                        confirmButtonText: 'Hoàn tất',
+                        width: '50rem',
+                    });
+                    window.location.reload();
+                }
+
+                )
+                .catch((error) => {
+                    setLoading(false);
+                    console.log(error);
+                    window.location.reload();
                 });
-                window.location.reload();
-            }
-            
-            );
         }
-        
+        window.location.reload();
+
     }
 
     const handleFeedBack = (item) => {

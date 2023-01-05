@@ -1,9 +1,0 @@
-[build]
-base="/Back-end"
-publist= "dist/"
-command = "npm run build"
-functions = "EFOOD-API/"
-[[redirects]]
-from ="/*"
-to= "/index.html"
-status= 200

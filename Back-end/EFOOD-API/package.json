@@ -4,8 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "build": "./node_modules/.bin/netlify-lambda build src"
+    "start": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",

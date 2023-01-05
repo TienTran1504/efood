@@ -52,29 +52,44 @@ function Cart() {
 
     async function removeItem(product) {
         setLoading(true);
-        await axios.patch(`http://localhost:3000/api/v1/customer/cart/delete/${product.id}`, {}, { headers: headers });
+        await axios
+            .patch(`http://localhost:3000/api/v1/customer/cart/delete/${product.id}`, {}, { headers: headers })
+            .catch((error) => {
+                console.log(error);
+                setLoading(false);
+            });
         setLoading(false);
     }
 
     async function patchCart() {
         setLoading(true);
         for (let i = 0; i < cartItems.length; i++) {
-            await axios.patch(
-                `http://localhost:3000/api/v1/customer/cart/${cartItems[i].id}`,
-                { quantity: cartItems[i].quantity },
-                { headers: headers },
-            );
+            await axios
+                .patch(
+                    `http://localhost:3000/api/v1/customer/cart/${cartItems[i].id}`,
+                    { quantity: cartItems[i].quantity },
+                    { headers: headers },
+                )
+                .catch((error) => {
+                    console.log(error);
+                    setLoading(false);
+                });
         }
         setLoading(false);
     }
 
     async function createBill(receiver, phone, address, method, message, total) {
         setLoading(true);
-        await axios.post(
-            `http://localhost:3000/api/v1/bills`,
-            { receiver: receiver, phone: phone, address: address, method: method, message: message, total: total },
-            { headers: headers },
-        );
+        await axios
+            .post(
+                `http://localhost:3000/api/v1/bills`,
+                { receiver: receiver, phone: phone, address: address, method: method, message: message, total: total },
+                { headers: headers },
+            )
+            .catch((error) => {
+                console.log(error);
+                setLoading(false);
+            });
 
         setLoading(false);
 
@@ -109,6 +124,7 @@ function Cart() {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setLoading(false);
                 });
         }
     }

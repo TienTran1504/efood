@@ -110,9 +110,11 @@ function PaymentHistory() {
                     console.log(error);
                     window.location.reload();
                 });
+                setLoading(false);
         }
-        window.location.reload();
-
+        if(isLoading === false){
+            window.location.reload();
+        }
     }
 
     const handleFeedBack = (item) => {

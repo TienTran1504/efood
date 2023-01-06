@@ -1,0 +1,1 @@
+Our members have fixed the plan template: include work list of writing report and fixed the Gantt chart in PA1_ProjectPlan.

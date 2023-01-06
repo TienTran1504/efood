@@ -74,7 +74,10 @@ const createBill = async (req, res) => {
             {
                 _id: user._id,
             },
-            req.body,
+            {
+                orderList: req.body.orderList,
+                orderPrice: req.body.orderPrice,
+            },
             { new: true, runValidators: true }
         );
 

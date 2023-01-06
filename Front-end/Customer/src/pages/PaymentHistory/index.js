@@ -83,38 +83,43 @@ function PaymentHistory() {
         }).catch((error) => {
             console.log(error);
         })
+        setLoading(false);
+        Swal.fire({
+            title: 'Đánh giá thành công !',
+            icon: 'success',
+            confirmButtonText: 'Hoàn tất',
+            width: '50rem',
+        });
+        window.location.reload();
     }
 
     function setFeedBack(content) {
-        // setLoading(true);
-        const obj = {
-            feedbackStatus: "True"
-        };
+        setLoading(true);
+        // const obj = {
+        //     feedbackStatus: "True"
+        // };
         patchFeedback(bill, content);
-        if (tokenAuth !== null) {
-            axios
-                .patch(`http://localhost:3000/api/v1/bills/${bill._id}`, obj, { headers: headers }).then((res) => {
-                    setLoading(false);
-                    Swal.fire({
-                        title: 'Đánh giá thành công !',
-                        icon: 'success',
-                        confirmButtonText: 'Hoàn tất',
-                        width: '50rem',
-                    });
-                    window.location.reload();
-                }
+        // if (tokenAuth !== null) {
+        //     axios
+        //         .patch(`http://localhost:3000/api/v1/bills/${bill._id}`, obj, { headers: headers }).then((res) => {
+        //             setLoading(false);
+        //             Swal.fire({
+        //                 title: 'Đánh giá thành công !',
+        //                 icon: 'success',
+        //                 confirmButtonText: 'Hoàn tất',
+        //                 width: '50rem',
+        //             });
+        //             window.location.reload();
+        //         }
 
-                )
-                .catch((error) => {
-                    setLoading(false);
-                    console.log(error);
-                    window.location.reload();
-                });
-                setLoading(false);
-        }
-        if(isLoading === false){
-            window.location.reload();
-        }
+        //         )
+        //         .catch((error) => {
+        //             setLoading(false);
+        //             console.log(error);
+        //             window.location.reload();
+        //         });
+        //         setLoading(false);
+        // }
     }
 
     const handleFeedBack = (item) => {

@@ -1,1 +1,0 @@
-Our members have fixed the use case specification: clarify the use case Manage orders. Add some use case specifications (View menu, Rating, Contact, Location)

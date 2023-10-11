@@ -165,6 +165,7 @@ const register = async (req, res) => {
       throw new BadRequestError("Please provide name,email, password and otp");
     } else {
       const OTP_verify = jwt.verify(otpVerify, process.env.JWT_SECRET);
+      console.log(OTP_verify);
       if (OTP_verify.OTP === otp) {
         const user = await User.create({ ...req.body });
         // const token = user.createJWT();
